@@ -27,7 +27,7 @@ const AppSidebar = () => {
 
   return (
     <CSidebar
-      className="border-end "
+      className="border-end"
       colorScheme="dark"
       position="fixed"
       unfoldable={unfoldable}
@@ -40,7 +40,7 @@ const AppSidebar = () => {
         <CImage
           align="center"
           src="src\assets\Diseño sin título-Photoroom.png"
-          height={200}
+          height={unfoldable ? 50 : 200} 
         />
         
         <CCloseButton

@@ -1,5 +1,5 @@
 .sidebar {
-  background-color: rgba(255, 166, 0, 0.692);
+  background-color: #ffa600b0;
 }
 
 .sidebar-nav .nav-link {
@@ -14,4 +14,14 @@
   flex-direction: column;
   min-height: 100%;
  
+}
+
+.container-fluid.border-bottom.px-4  {
+  background-color: #ffa600b0 ;
+  
+}
+
+.container-fluid.border-bottom.px-4 .nav-link {
+  color: black;
+  
 }

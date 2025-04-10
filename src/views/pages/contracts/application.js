@@ -8,6 +8,10 @@ import {
   CInputGroup,
   CInputGroupText,
   CFormSelect,
+  CRow,
+  CCol, 
+  CCardBody,
+  
 } from '@coreui/react'
 
 const Application = () => {
@@ -64,125 +68,118 @@ const Application = () => {
   return (
     <>
       <CForm onSubmit={handleSubmit}>
-        <CCard className="mb-4">
-          <CCardHeader>Agregar solicitud</CCardHeader>
-          <CInputGroup className="d-flex pb-2">
-            <CInputGroupText>Nro de solicitud</CInputGroupText>
-            <CFormInput
-              name="orderId"
-              value={order.orderId}
-              onChange={handleChange2}
-              type="number"
-              placeholder="Ej. 12345"
-            />
-            <CInputGroupText>Fecha</CInputGroupText>
-            <CFormInput
-              name="fecha"
-              value={order.fecha}
-              onChange={handleChange2}
-              type="date"
-            />
-          </CInputGroup>
-          <br />
+        <CCard>
+          <CCardHeader>
+          <h3 className="text-center" >  SOLUCITUDES PARA CONTRATOS </h3>
+          </CCardHeader>
+          <CCard className="mb-4" bordered hover style={{ border: '2px solid #ffa600b0' }}>
+            <CCardHeader>Agregar solicitud</CCardHeader>
+            <CInputGroup className="d-flex pb-2">
+              <CInputGroupText>Nro de solicitud</CInputGroupText>
+              <CFormInput
+                name="orderId"
+                value={order.orderId}
+                onChange={handleChange2}
+                type="number"
+                placeholder="Ej. 12345"
+              />
+              <CInputGroupText>Fecha</CInputGroupText>
+              <CFormInput
+                name="fecha"
+                value={order.fecha}
+                onChange={handleChange2}
+                type="date"
+              />
+            </CInputGroup>
+            <br />
+            
+          </CCard>
+
+          <CCard className="mb-4" bordered hover style={{ border: '2px solid #ffa600b0' }}>
+            <CCardHeader>Información del inquilino</CCardHeader>
+            <CInputGroup>
+              <CInputGroupText>N° Documento:</CInputGroupText>
+              <CFormInput
+                name="cedula"
+                value={patientData.cedula}
+                onChange={handleChange}
+                type="number"
+                placeholder="Ej. 12345678"
+              />
+            </CInputGroup>
+            <br />
+            <CInputGroup>
+              <CInputGroupText>Nombre:</CInputGroupText>
+              <CFormInput
+                name="nombres"
+                value={patientData.nombres}
+                onChange={handleChange}
+                type="text"
+                placeholder="Ej. Juan Pérez"
+                autoComplete="name"
+                disabled={disabled}
+              />
+              <CInputGroupText>Apellidos</CInputGroupText>
+              <CFormInput
+                name="apellidos"
+                value={patientData.nombres}
+                onChange={handleChange}
+                type="text"
+                placeholder="Ej. Juan Pérez"
+                autoComplete="name"
+                disabled={disabled}
+              />
+
+            </CInputGroup>
+            
+          </CCard>
+
+          <CCard className="mb-4" bordered hover style={{ border: '2px solid #ffa600b0' }}>
+            <CCardHeader>Actividad a realizar </CCardHeader>
           
+            <br />
+            <CInputGroup>
+              <CInputGroupText>tipo de actividad:</CInputGroupText>
+              <CFormInput
+                name="nombres"
+                value={patientData.nombres}
+                onChange={handleChange}
+                type="text"
+                placeholder="Marroquineria"
+                autoComplete="name"
+                disabled={disabled}
+              />
+              <CInputGroupText>descripcion </CInputGroupText>
+              <CFormInput
+                name="apellidos"
+                value={patientData.nombres}
+                onChange={handleChange}
+                type="text"
+                placeholder="Con arcilla y arenisca"
+                autoComplete="name"
+                disabled={disabled}
+              />
+
+            </CInputGroup>
+            
+          </CCard>
         </CCard>
 
-        <CCard className="mb-4">
-          <CCardHeader>Información del inquilino</CCardHeader>
-          <CInputGroup>
-            <CInputGroupText>N° Documento:</CInputGroupText>
-            <CFormInput
-              name="cedula"
-              value={patientData.cedula}
-              onChange={handleChange}
-              type="number"
-              placeholder="Ej. 12345678"
-            />
-          </CInputGroup>
-          <br />
-          <CInputGroup>
-            <CInputGroupText>Nombre:</CInputGroupText>
-            <CFormInput
-              name="nombres"
-              value={patientData.nombres}
-              onChange={handleChange}
-              type="text"
-              placeholder="Ej. Juan Pérez"
-              autoComplete="name"
-              disabled={disabled}
-            />
-             <CInputGroupText>Apellidos</CInputGroupText>
-            <CFormInput
-              name="apellidos"
-              value={patientData.nombres}
-              onChange={handleChange}
-              type="text"
-              placeholder="Ej. Juan Pérez"
-              autoComplete="name"
-              disabled={disabled}
-            />
-
-          </CInputGroup>
-          <br />
-          <CInputGroup>
-            <CInputGroupText>Edad:</CInputGroupText>
-            <CFormInput
-              name="edad"
-              value={patientData.edad}
-              onChange={handleChange}
-              type="number"
-              placeholder="Ej. 30"
-            />
-            <CInputGroupText>Género</CInputGroupText>
-            <CFormSelect
-              name="sexo"
-              value={patientData.sexo}
-              onChange={handleChange}
-              disabled={disabled}
-            >
-              <option value="">Seleccione el género</option>
-              <option value="F">Femenino</option>
-              <option value="M">Masculino</option>
-            </CFormSelect>
-          </CInputGroup>
-          <br />
-          <CInputGroup>
-            <CInputGroupText>Correo</CInputGroupText>
-            <CFormInput
-              name="correo"
-              value={patientData.correo}
-              onChange={handleChange}
-              type="email"
-              placeholder="ejemplo@gmail.com"
-              disabled={disabled}
-            />
-            <CInputGroupText>Teléfono</CInputGroupText>
-            <CFormInput
-              name="telf"
-              value={patientData.telf}
-              onChange={handleChange}
-              type="tel"
-              placeholder="Ej. 042612345678"
-              disabled={disabled}
-            />
-          </CInputGroup>
-          <br />
-          <CInputGroup>
-            <CInputGroupText>Dirección</CInputGroupText>
-            <CFormInput
-              name="direccion"
-              value={patientData.direccion}
-              onChange={handleChange}
-              type="text"
-              placeholder="Ej. Calle 123, Ciudad"
-              disabled={disabled}
-            />
-          </CInputGroup>
-        </CCard>
-
-        <CButton type="submit" color="primary">
-          Guardar
-        </CButton>
+                    <CRow className="d-flex justify-content-center mt-3">
+            <CCol xs="auto">
+              <CButton
+                type="submit"
+                style={{
+                  backgroundColor: '#ffa600b0',
+                  borderColor: '#ffa600b0',
+                  color: '#fff',
+                  marginTop: '20px',
+                }}
+              >
+                Guardar
+              </CButton>
+            </CCol>
+          </CRow>
       </CForm>
     </>
   )

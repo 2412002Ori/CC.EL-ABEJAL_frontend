@@ -84,22 +84,17 @@ function ContractsAceptedList() {
 
   return (
     <div className="informe-mensual">
-      <CCard>
+      <CCard bordered hover style={{ border: '2px solid #ffa600b0' }}>
         <CCardHeader>
           <CRow>
             <CCol>
               <h3>CONTRATOS ACTIVOS</h3>
             </CCol>
             <CCol style={{ marginBottom: '2px', marginTop: '10px' }}>
-              <CButton color="primary" className="float-end" style={{ padding: '10px', marginInline: '20px' }}>
+              <CButton color="primary" className="float-end" style={{ padding: '10px', marginInline: '20px', backgroundColor: '#ffa600b0', borderColor: '#ffa600b0' }}>
                 <CIcon icon={cilCloudDownload} />
               </CButton>
-              <CButton color="primary" className="float-end" style={{ padding: '10px', marginInline: '20px' }}>
-                <CIcon icon={cibWhatsapp} />
-              </CButton>
-              <CButton color="primary" className="float-end" style={{ padding: '10px', marginInline: '20px' }}>
-                <CIcon icon={cibGmail} />
-              </CButton>
+             
             </CCol>
           </CRow>
         </CCardHeader>

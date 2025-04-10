@@ -98,12 +98,12 @@ const _nav = [
       {
         component: CNavItem,
         name: ' REGISTRO DE PAGOS',
-        to: '/forms/form-control',
+        to: '/pages/RegisterPayment',
       },
       {
         component: CNavItem,
         name: ' listado de pagos',
-        to: '/forms/select',
+        to: '/pages/ListPayment',
       },
       {
         component: CNavItem,
