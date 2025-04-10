@@ -42,7 +42,7 @@ const _nav = [
       {
         component: CNavItem,
         name: ' SOLICITUD ',
-        to: '/forms/form-control',
+        to: '/pages/aplication',
       },
       {
         component: CNavItem,
@@ -52,12 +52,12 @@ const _nav = [
       {
         component: CNavItem,
         name: ' CONTRATOS ACTIVOS ',
-        to: '/forms/form-control',
+        to: '/pages/contractsAcepted',
       },
       {
         component: CNavItem,
         name: 'CONTRATOS VENCIDOS',
-        to: '/forms/form-control',
+        to: '/pages/ContractsDefeated',
       },
     
     ],

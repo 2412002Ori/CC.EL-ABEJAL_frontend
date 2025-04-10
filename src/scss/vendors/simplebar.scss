@@ -1,5 +1,17 @@
+.sidebar {
+  background-color: rgba(255, 166, 0, 0.692);
+}
+
+.sidebar-nav .nav-link {
+  color: black;
+}
+.sidebar-nav .nav-link.active {
+  background-color: rgb(255, 166, 0);
+  color: black;
+}
 .simplebar-content {
   display: flex;
   flex-direction: column;
   min-height: 100%;
+ 
 }
