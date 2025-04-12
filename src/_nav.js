@@ -22,10 +22,7 @@ const _nav = [
     name: 'Dashboard',
     to: '/dashboard',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
-    badge: {
-      color: 'info',
-      text: 'NEW',
-    },
+   
   },
   
 
@@ -47,18 +44,14 @@ const _nav = [
       {
         component: CNavItem,
         name: 'INGRESO',
-        to: '/forms/form-control',
+        to: '/pages/contracts/income',
       },
       {
         component: CNavItem,
-        name: ' CONTRATOS ACTIVOS ',
-        to: '/pages/contractsAcepted',
+        name: ' LISTA CONTRATOS ',
+        to: '/pages/contracts/menu',
       },
-      {
-        component: CNavItem,
-        name: 'CONTRATOS VENCIDOS',
-        to: '/pages/ContractsDefeated',
-      },
+      
     
     ],
   },

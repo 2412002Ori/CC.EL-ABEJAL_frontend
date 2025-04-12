@@ -91,9 +91,6 @@ function ContractsDefeated() {
               <h3>CONTRATOS VENCIDOS</h3>
             </CCol>
             <CCol style={{ marginBottom: '2px', marginTop: '10px' }}>
-              <CButton color="primary" className="float-end" style={{ padding: '10px', marginInline: '20px' ,backgroundColor: '#ffa600b0', borderColor: '#ffa600b0' }}>
-                <CIcon icon={cilCloudDownload} />
-              </CButton>
               
             </CCol>
           </CRow>
