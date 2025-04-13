@@ -51,6 +51,16 @@ const Toasts = React.lazy(() => import('./views/notifications/toasts/Toasts'))
 
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 
+// Pages
+const apliation = React.lazy(() => import('./views/pages/contracts/application'))   
+const ContractsAcepted =  React.lazy(() => import('./views/pages/contracts/contractsAcepted'))  
+const ContractsDefeated =  React.lazy(() => import('./views/pages/contracts/contractsDefeated'))
+const Cincome =  React.lazy(() => import('./views/pages/contracts/incomeContracts'))
+const ContractsMenu =  React.lazy(() => import('./views/pages/contracts/contractsMenu'))
+const RegisterPayment =  React.lazy(() => import('./views/pages/payments/registerPAYMEN'))
+const ListPayment =  React.lazy(() => import('./views/pages/payments/listpayment'))
+const Register =  React.lazy(() => import('./views/pages/register/Register'))
+
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
@@ -97,6 +107,19 @@ const routes = [
   { path: '/notifications/modals', name: 'Modals', element: Modals },
   { path: '/notifications/toasts', name: 'Toasts', element: Toasts },
   { path: '/widgets', name: 'Widgets', element: Widgets },
+
+  // Pages
+
+  {path: '/pages/aplication', name: 'aplication', element: apliation},
+  {path: '/pages/contracts/acepted', name: 'contractsAcepted', element: ContractsAcepted },
+  {path: '/pages/Contracts/defeated', name: 'contractsAcepted', element: ContractsDefeated },
+  {path: '/pages/RegisterPayment', name: ' RegisterPayment', element: RegisterPayment },
+  {path: '/pages/ListPayment', name: ' ListPayment ', element: ListPayment },
+  {path: '/pages/contracts/menu', name: 'contractsMenu', element: ContractsMenu },
+  {path: '/pages/contracts/income', name: 'incomeContracts', element: Cincome },
+  {path: '/pages/register/Register', name: 'register', element: Register },
+
+
 ]
 
 export default routes

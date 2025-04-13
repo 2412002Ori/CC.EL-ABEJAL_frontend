@@ -22,6 +22,7 @@ const _nav = [
     name: 'Dashboard',
     to: '/dashboard',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
+<<<<<<< Updated upstream
     badge: {
       color: 'info',
       text: 'NEW',
@@ -42,6 +43,8 @@ const _nav = [
     name: 'Typography',
     to: '/theme/typography',
     icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
+=======
+>>>>>>> Stashed changes
   },
   {
     component: CNavTitle,
@@ -379,8 +382,13 @@ const _nav = [
     items: [
       {
         component: CNavItem,
+<<<<<<< Updated upstream
         name: 'Alerts',
         to: '/notifications/alerts',
+=======
+        name: 'REGISTRO',
+        to: '/pages/register/Register',
+>>>>>>> Stashed changes
       },
       {
         component: CNavItem,
@@ -399,6 +407,7 @@ const _nav = [
       },
     ],
   },
+<<<<<<< Updated upstream
   {
     component: CNavItem,
     name: 'Widgets',
@@ -446,6 +455,10 @@ const _nav = [
     href: 'https://coreui.io/react/docs/templates/installation/',
     icon: <CIcon icon={cilDescription} customClassName="nav-icon" />,
   },
+=======
+
+  
+>>>>>>> Stashed changes
 ]
 
 export default _nav

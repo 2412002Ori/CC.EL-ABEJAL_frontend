@@ -26,10 +26,11 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import centroArtesanal from '../../../assets/images/centroArtesanal.jpeg' 
 
+
 export const ModalStaticBackdropExample = () => {
   const [visible, setVisible] = useState(false)
   return (
-    <>
+    <>      
     <CButton color="dark" onClick={() => setVisible(!visible)}>
       Recuperar Contraseña
     </CButton>
@@ -55,7 +56,7 @@ export const ModalStaticBackdropExample = () => {
         <CButton color="secondary" onClick={() => setVisible(false)}>
           Cerrar
         </CButton>
-        <CButton color="dark">Guardar cambios</CButton>
+        <CButton color="dark">Enviar</CButton>
       </CModalFooter>
     </CModal>
   </>
@@ -63,7 +64,6 @@ export const ModalStaticBackdropExample = () => {
 }
 
 const Login = () => {
-
   //Estados
   const [username, setUsername] = useState(''); 
   const [password, setPassword] = useState('');
@@ -93,18 +93,17 @@ const Login = () => {
 
   return (
     <div className="bg-body-tertiary min-vh-100 d-flex flex-row align-items-center" 
-    style={{
-    backgroundImage: `url(${centroArtesanal})`, //usando mi imagen importada
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat'
-    }}
-    > 
+      style={{
+      backgroundImage: `url(${centroArtesanal})`, //usando mi imagen importada
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat'
+    }}> 
 
       {/* Estructura de la Página */}
       <CContainer>
         <CRow className="justify-content-center">
-          <CCol md={8}>
+          <CCol md={6}>
             <CCardGroup>
 
               {/* Tarjeta de Login */}
@@ -157,19 +156,19 @@ const Login = () => {
                         </CButton>
                       </CCol>
 
-                      <CCol xs={6} className="text-right">
+                      <CCol xs={6} className="text-right" >
                         <div style={{ }}>
                           <ModalStaticBackdropExample />
                         </div>
                       </CCol>
-                      
                     </CRow>
+
                   </CForm>
                 </CCardBody>
               </CCard>
 
-              {/* Tarjeta de Registro (Lateral) */}
-              <CCard className="text-white bg-secondary py-5" style={{ width: '45%' }}>
+             {/* Tarjeta de Registro (Lateral) */}
+              {/* <CCard className="text-white bg-secondary py-5" style={{ width: '45%' }}>
                 <CCardBody className="text-center">
                   <div>
                     <h2>Sign up</h2>
@@ -183,7 +182,7 @@ const Login = () => {
                     </Link>
                   </div>
                 </CCardBody>
-              </CCard>
+              </CCard> */}
               
             </CCardGroup>
           </CCol>
