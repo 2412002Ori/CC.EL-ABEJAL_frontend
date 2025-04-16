@@ -1,5 +1,27 @@
+.sidebar {
+  background-color: #0aa3add5;
+}
+
+.sidebar-nav .nav-link {
+  color: black;
+}
+.sidebar-nav .nav-link.active {
+  background-color: #0aa3add5;
+  color: black;
+}
 .simplebar-content {
   display: flex;
   flex-direction: column;
   min-height: 100%;
+ 
+}
+
+.container-fluid.border-bottom.px-4  {
+  background-color: #0097b2 ;
+  
+}
+
+.container-fluid.border-bottom.px-4 .nav-link {
+  color: black;
+  
 }
