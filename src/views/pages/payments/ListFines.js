@@ -47,7 +47,7 @@ const ListPayment = () => {
   return (
     <CCard bordered hover style={{ border: '2px solid #ffa600b0' }} >
       <CCardHeader>
-        <h3 className="text-center" > Listado de Pagos Registrados</h3>
+        <h3 className="text-center" > Listado de pago de multas</h3>
       </CCardHeader>
       <CCardBody>
         <CRow className="mb-3">

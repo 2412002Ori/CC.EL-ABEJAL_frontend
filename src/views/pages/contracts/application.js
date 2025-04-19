@@ -1,186 +1,205 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import {
   CCard,
-  CCardHeader,
-  CForm,
-  CButton,
-  CFormInput,
-  CInputGroup,
-  CInputGroupText,
-  CFormSelect,
-  CRow,
-  CCol, 
   CCardBody,
-  
+  CCardHeader,
+  CFormInput,
+  CRow,
+  CCol,
+  CForm,
+  CFormSelect,
+  CButton,
 } from '@coreui/react'
 
 const Application = () => {
-  const [options1, setOptions] = useState([])
-  const [orders, setOrders] = useState([])
-  const [order, setOrder] = useState({
-    orderId: '',
-    fecha: '',
-  })
+  const contracts = {
+    '001': { tenantName: 'Juan Pérez', tenantId: '12345678', amountDue: 500 },
+    '002': { tenantName: 'María López', tenantId: '87654321', amountDue: 700 },
+    '003': { tenantName: 'Carlos García', tenantId: '11223344', amountDue: 600 },
+    '004': { tenantName: 'Ana Torres', tenantId: '55667788', amountDue: 800 },
+    '005': { tenantName: 'Luis Fernández', tenantId: '99887766', amountDue: 550 },
+  }
 
-  const [disabled, setDisabled] = useState(false)
-  const [patientData, setPatientData] = useState({
-    tipoE: '',
-    cedula: '',
-    nombres: '',
-    sexo: '',
-    edad: '',
-    telf: '',
-    correo: '',
-    direccion: '',
-  })
+  const currentUser = 'Admin Usuario'
 
-  useEffect(() => {
-    // Simulación de obtener opciones (puedes reemplazar con tu API)
-    setOptions([
-      { value: 'opcion1', label: 'Opción 1' },
-      { value: 'opcion2', label: 'Opción 2' },
-    ])
-  }, [])
+  const [paymentData, setPaymentData] = useState({
+    contractRequestNumber: '',
+    tenantId: '',
+    tenantName: '',
+    amountDue: '',
+    amount: '',
+    date: '',
+    paymentMethod: '',
+    activity: '',
+    type: '',
+    registeredBy: currentUser,
+  })
 
   const handleChange = (e) => {
     const { name, value } = e.target
-    setPatientData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }))
-  }
 
-  const handleChange2 = (e) => {
-    const { name, value } = e.target
-    setOrder((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }))
+    if (name === 'contractRequestNumber') {
+      const contract = contracts[value] || { tenantName: '', tenantId: '', amountDue: '' }
+      setPaymentData((prevState) => ({
+        ...prevState,
+        contractRequestNumber: value,
+        tenantName: contract.tenantName,
+        tenantId: contract.tenantId,
+        amountDue: contract.amountDue,
+      }))
+    } else {
+      setPaymentData((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }))
+    }
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log('Patient Data:', patientData)
-    console.log('Order:', order)
-    console.log('Orders:', orders)
+    console.log('Payment Data:', paymentData)
+    alert(`Contrato registrado con éxito por: ${paymentData.registeredBy}`)
+    setPaymentData({
+      contractRequestNumber: '',
+      tenantId: '',
+      tenantName: '',
+      amountDue: '',
+      amount: '',
+      date: '',
+      paymentMethod: '',
+      activity: '',
+      type: '',
+      registeredBy: currentUser,
+    })
   }
 
   return (
     <>
-      <CForm onSubmit={handleSubmit}>
-        <CCard>
-          <CCardHeader>
-          <h3 className="text-center" >  SOLUCITUDES PARA CONTRATOS </h3>
-          </CCardHeader>
-          <CCard className="mb-4" bordered hover style={{ border: '2px solid #ffa600b0' }}>
-            <CCardHeader>Agregar solicitud</CCardHeader>
-            <CInputGroup className="d-flex pb-2">
-              <CInputGroupText>Nro de solicitud</CInputGroupText>
+       <h3 className="text-center">SOLICITUD </h3>
+     
+      <CCardBody>
+        <CForm onSubmit={handleSubmit}>
+             <CRow className="justify-content-center">
+        {/* Columna izquierda: Información de la solicitud */}
+        <CCol md={4}>
+          <CCard className="mt-3 mb-3">
+            <CCardHeader>
+              <h5 className="text-center">Información de la Solicitud</h5>
+            </CCardHeader>
+            <CCardBody>
               <CFormInput
-                name="orderId"
-                value={order.orderId}
-                onChange={handleChange2}
-                type="number"
-                placeholder="Ej. 12345"
-              />
-              <CInputGroupText>Fecha</CInputGroupText>
-              <CFormInput
-                name="fecha"
-                value={order.fecha}
-                onChange={handleChange2}
-                type="date"
-              />
-            </CInputGroup>
-            <br />
-            
-          </CCard>
-
-          <CCard className="mb-4" bordered hover style={{ border: '2px solid #ffa600b0' }}>
-            <CCardHeader>Información del inquilino</CCardHeader>
-            <CInputGroup>
-              <CInputGroupText>N° Documento:</CInputGroupText>
-              <CFormInput
-                name="cedula"
-                value={patientData.cedula}
-                onChange={handleChange}
-                type="number"
-                placeholder="Ej. 12345678"
-              />
-            </CInputGroup>
-            <br />
-            <CInputGroup>
-              <CInputGroupText>Nombre:</CInputGroupText>
-              <CFormInput
-                name="nombres"
-                value={patientData.nombres}
-                onChange={handleChange}
                 type="text"
-                placeholder="Ej. Juan Pérez"
-                autoComplete="name"
-                disabled={disabled}
-              />
-              <CInputGroupText>Apellidos</CInputGroupText>
-              <CFormInput
-                name="apellidos"
-                value={patientData.nombres}
+                name="contractRequestNumber"
+                value={paymentData.contractRequestNumber}
                 onChange={handleChange}
-                type="text"
-                placeholder="Ej. Juan Pérez"
-                autoComplete="name"
-                disabled={disabled}
+                placeholder="Número de Solicitud de Contrato"
+                label="Número de Solicitud de Contrato"
+                required
+                className="mb-3"
               />
-
-            </CInputGroup>
-            
-          </CCard>
-
-          <CCard className="mb-4" bordered hover style={{ border: '2px solid #ffa600b0' }}>
-            <CCardHeader>Actividad a realizar </CCardHeader>
-          
-            <br />
-            <CInputGroup>
-              <CInputGroupText>tipo de actividad:</CInputGroupText>
-              <CFormInput
-                name="nombres"
-                value={patientData.nombres}
+              <CFormSelect
+                name="paymentMethod"
+                value={paymentData.paymentMethod}
                 onChange={handleChange}
-                type="text"
-                placeholder="Marroquineria"
-                autoComplete="name"
-                disabled={disabled}
-              />
-              <CInputGroupText>descripcion </CInputGroupText>
-              <CFormInput
-                name="apellidos"
-                value={patientData.nombres}
-                onChange={handleChange}
-                type="text"
-                placeholder="Con arcilla y arenisca"
-                autoComplete="name"
-                disabled={disabled}
-              />
-
-            </CInputGroup>
-            
-          </CCard>
-        </CCard>
-
-                    <CRow className="d-flex justify-content-center mt-3">
-            <CCol xs="auto">
-              <CButton
-                type="submit"
-                style={{
-                  backgroundColor: '#ffa600b0',
-                  borderColor: '#ffa600b0',
-                  color: '#fff',
-                  marginTop: '20px',
-                }}
+                label="Tipo de Actividad"
+                required
+                className="mb-3"
               >
-                Guardar
-              </CButton>
-            </CCol>
-          </CRow>
-      </CForm>
+                <option value="">Seleccione</option>
+                <option value="Pintura">Pintura</option>
+                <option value="Tejidos">Tejidos</option>
+                <option value="Carpintería">Carpintería</option>
+              </CFormSelect>
+              <CFormInput
+                type="text"
+                name="activity"
+                value={paymentData.activity}
+                onChange={handleChange}
+                placeholder="Descripción de la actividad"
+                label="Descripción"
+                required
+                className="mb-3"
+              />
+            </CCardBody>
+          </CCard>
+        </CCol>
+      
+        {/* Columna derecha: Información del inquilino */}
+        <CCol md={4}>
+          <CCard className="mt-3 mb-3">
+            <CCardHeader>
+              <h5 className="text-center">Información del Inquilino</h5>
+            </CCardHeader>
+            <CCardBody>
+              <CFormInput
+                type="text"
+                name="tenantId"
+                value={paymentData.tenantId}
+                placeholder="Cédula del Inquilino"
+                label="Cédula del Inquilino"
+                disabled
+                className="mb-3"
+              />
+              <CFormInput
+                type="text"
+                name="tenantName"
+                value={paymentData.tenantName}
+                placeholder="Nombre del Inquilino"
+                label="Nombre del Inquilino"
+                disabled
+                className="mb-3"
+              />
+            </CCardBody>
+          </CCard>
+        </CCol>
+      
+        {/* Columna adicional: Fecha de recepción */}
+        <CCol md={4}>
+          <CCard className="mt-3 mb-3">
+            <CCardHeader>
+              INFORMACION ADICIONAL
+            </CCardHeader>
+            <CCardBody>
+              <CFormInput
+                type="date"
+                name="dateReceived"
+                value={paymentData.dateReceived}
+                onChange={handleChange}
+                label="Fecha de Recepción"
+                required
+                className="mb-3"
+              />
+            </CCardBody>
+          </CCard>
+        </CCol>
+      </CRow>      
+      <CRow className="mb-3">
+
+        <CRow className="d-flex justify-content-center mt-3">
+            <CCol xs="auto">
+               <CButton type="submit" color="primary">
+                Generar Solicitud
+               </CButton>
+           </CCol>
+         </CRow>
+
+
+     <CCol md={6} className="offset-md-3">
+      <CFormInput
+        type="text"
+        name="registeredBy"
+       value={paymentData.registeredBy}
+       placeholder="Usuario que registra"
+       label="Registrado por"
+        disabled
+       className="mb-3"
+      />
+    </CCol>
+ </CRow>
+
+      
+     </CForm>
+      </CCardBody>
     </>
   )
 }
