@@ -65,7 +65,7 @@ const _nav = [
       {
         component: CNavItem,
         name: 'INCRIPCIÓN',
-        to: '/forms',
+        to: '/pages/tenants/register',
       },
       {
         component: CNavItem,
@@ -95,14 +95,10 @@ const _nav = [
       },
       {
         component: CNavItem,
-        name: ' listado de pagos',
-        to: '/pages/ListPayment',
+        name: ' listados',
+        to: '/pages/Payments/menu',
       },
-      {
-        component: CNavItem,
-        name: ' listado DE MULTAS',
-        to: '/forms/select',
-      },
+      
     ],
   },
   {
