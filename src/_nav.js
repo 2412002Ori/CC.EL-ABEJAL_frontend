@@ -62,21 +62,17 @@ const _nav = [
     icon: <CIcon icon={cilNotes} customClassName="nav-icon" />,
     items: [
       
+    
       {
         component: CNavItem,
-        name: 'INCRIPCIÓN',
-        to: '/pages/tenants/register',
-      },
-      {
-        component: CNavItem,
-        name: 'listado ',
-        to: '/forms',
+        name: 'REGISTRO',
+        to: '/pages/tenants/list',
       },
 
       {
         component: CNavItem,
         name: 'REHUBICACIONES',
-        to: '/forms',
+        to: '/pages/tenants/relocation',
       },
 
       

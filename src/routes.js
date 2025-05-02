@@ -61,8 +61,8 @@ const RegisterPayment =  React.lazy(() => import('./views/pages/payments/registe
 const ListPayment =  React.lazy(() => import('./views/pages/payments/listpayment'))
 const Paymentsmenu =  React.lazy(() => import('./views/pages/payments/PaymentsMenu'))
 const RegisterTenant = React.lazy(() => import('./views/pages/tenants/register'))
-// const ListTenants = React.lazy(() => import('./views/pages/tenants/list'))
-
+const ListTenants = React.lazy(() => import('./views/pages/tenants/tenantslist'))
+const RelocationList = React.lazy(() => import('./views/pages/tenants/relocationlist'))
 
 
 const routes = [
@@ -123,7 +123,8 @@ const routes = [
   {path: '/pages/contracts/income', name: 'incomeContracts', element: Cincome },
   {path: '/pages/payments/menu', name: 'PaymentsMenu', element: Paymentsmenu },
   {path: '/pages/tenants/register', name: 'RegisterTenant', element: RegisterTenant },
-  
+  {path: '/pages/tenants/list', name: 'ListTenants', element: ListTenants },
+  {path: '/pages/tenants/relocation', name: 'Relocation', element: RelocationList },
 
 
 ]
