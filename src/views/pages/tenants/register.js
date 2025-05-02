@@ -161,7 +161,7 @@ const RegistrerTenant = () => {
                 required
               />
             </CCol>
-            <CCol md={5}>
+            <CCol md={7}>
               <label className="form-label">Días de Trabajo</label>
               <div className="text-center">
                 {['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'].map(
