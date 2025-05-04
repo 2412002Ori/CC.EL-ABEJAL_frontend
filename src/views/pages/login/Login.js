@@ -24,7 +24,7 @@ import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons' 
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import centroArtesanal from '../../../assets/images/centroArtesanal.jpeg' 
+import centroArtesanal from '../../../assets/images/centroArtesanal.jpg' 
 
 export const ModalStaticBackdropExample = () => {
   const [visible, setVisible] = useState(false)
@@ -72,7 +72,7 @@ const Login = () => {
 
   const Credentials = [
     { username: 'cesaradmin', password: 'cesaradmin41'},
-    { username: 'orianaadmin', password: 'orianaadmin41'},
+    { username: 'orianaadmin', password: '1234'},
     { username: 'gabyveadmin', password: 'gabyveadmin41'}
   ]
 
@@ -111,7 +111,7 @@ const Login = () => {
 
       {/* Estructura de la Página */}
       <CContainer>
-        <CRow className="justify-content-center">
+        <CRow className="justify-content-end">
           <CCol md={6}>
             <CCardGroup>
 
