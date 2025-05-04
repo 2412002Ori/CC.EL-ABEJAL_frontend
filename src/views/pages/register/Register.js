@@ -107,7 +107,7 @@ export const ModalScrollingLongContent2Example = () => {
   )
 }
 
-const Register = () => {
+const Registeruser = () => {
   return (
     <CCard>
       <CHeader>
@@ -158,4 +158,4 @@ const Register = () => {
   )
 }
 
-export default Register
+export default Registeruser

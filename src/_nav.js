@@ -139,7 +139,7 @@ const _nav = [
       {
         component: CNavItem,
         name: 'REGISTRO',
-        to: '/pages/register/Register',
+        to: '/pages/register/user',
       },
       {
         component: CNavItem,

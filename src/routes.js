@@ -64,6 +64,9 @@ const RegisterTenant = React.lazy(() => import('./views/pages/tenants/register')
 const ListTenants = React.lazy(() => import('./views/pages/tenants/tenantslist'))
 const RelocationList = React.lazy(() => import('./views/pages/tenants/relocationlist'))
 
+//oters
+const Registeruser = React.lazy(() => import('./views/pages/register/Register'))
+
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -125,7 +128,8 @@ const routes = [
   {path: '/pages/tenants/register', name: 'RegisterTenant', element: RegisterTenant },
   {path: '/pages/tenants/list', name: 'ListTenants', element: ListTenants },
   {path: '/pages/tenants/relocation', name: 'Relocation', element: RelocationList },
-
+ // oters 
+ {path: '/pages/register/user', name: 'Register', element: Registeruser },
 
 ]
 
