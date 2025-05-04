@@ -22,23 +22,12 @@ import CIcon from '@coreui/icons-react'
 import { cilUserPlus } from '@coreui/icons'
 import Register from './register'
 
+import { cilTrash, cilPencil } from '@coreui/icons'
+
 function TenantsList() {
   const [modalVisible, setModalVisible] = useState(false)
   const [searchCedula, setSearchCedula] = useState('') // Estado para el filtro de búsqueda
-
-  const headers = [
-    'CEDULA',
-    'RIF',
-    'NOMBRE Y APELLIDO',
-    'DIRECCION',
-    'TELEFONO',
-    'CORREO',
-    'HORARIO ENTRADA',
-    'HORARIO SALIDA',
-    'DIAS DE TRABAJO',
-  ]
-
-  const [rows] = useState([
+  const [rows, setRows] = useState([
     {
       cedula: '12345678',
       rif: 'J-12345678-9',
@@ -74,10 +63,35 @@ function TenantsList() {
     },
   ])
 
-  // Filtrar las filas según el valor de búsqueda
+  // Definición de los encabezados de la tabla
+  const headers = [
+    'Cédula',
+    'RIF',
+    'Nombre y Apellido',
+    'Dirección',
+    'Teléfono',
+    'Correo',
+    'Horario Entrada',
+    'Horario Salida',
+    'Días de Trabajo',
+    'Acciones', // Nueva columna para los botones de editar y eliminar
+  ]
+
   const filteredRows = rows.filter((row) =>
     row.cedula.toLowerCase().includes(searchCedula.toLowerCase())
   )
+
+  const handleEdit = (row) => {
+    console.log('Editar:', row)
+   
+  }
+
+  // Función para manejar la eliminación
+  const handleDelete = (cedula) => {
+   
+    setRows((prevRows) => prevRows.filter((row) => row.cedula !== cedula))
+    
+  }
 
   return (
     <div className="informe-mensual">
@@ -96,28 +110,26 @@ function TenantsList() {
         </CModalFooter>
       </CModal>
 
-         <CRow className="mb-3 align-items-center">
-      <CCol md="auto">
-        <CButton
-          className="rounded-circle"
-          color="primary"
-          style={{ width: '60px', height: '60px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-          onClick={() => setModalVisible(true)}
-        >
-          <CIcon icon={cilUserPlus} size="lg" />
-        </CButton>
-      </CCol>
-      <CCol md={4}>
-        <CFormInput
-          type="text"
-          placeholder="Buscar por cédula"
-          value={searchCedula}
-          onChange={(e) => setSearchCedula(e.target.value)}
-          
-        />
-      </CCol>
-    </CRow>
-  
+      <CRow className="mb-3 align-items-center">
+        <CCol md="auto">
+          <CButton
+            className="rounded-circle"
+            color="primary"
+            style={{ width: '60px', height: '60px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+            onClick={() => setModalVisible(true)}
+          >
+            <CIcon icon={cilUserPlus} size="lg" />
+          </CButton>
+        </CCol>
+        <CCol md={4}>
+          <CFormInput
+            type="text"
+            placeholder="Buscar por cédula"
+            value={searchCedula}
+            onChange={(e) => setSearchCedula(e.target.value)}
+          />
+        </CCol>
+      </CRow>
 
       {/* Tabla de inquilinos */}
       <CCard bordered hover style={{ border: '2px solid #ffa600b0' }}>
@@ -151,6 +163,24 @@ function TenantsList() {
                   <CTableDataCell className="text-center">{row.horarioEntrada}</CTableDataCell>
                   <CTableDataCell className="text-center">{row.horarioSalida}</CTableDataCell>
                   <CTableDataCell className="text-center">{row.diasTrabajo}</CTableDataCell>
+                                    <CTableDataCell className="text-center">
+                    <div style={{ display: 'flex', justifyContent: 'center', gap: '0.5rem' }}>
+                      <CButton
+                        color="warning"
+                        size="sm"
+                        onClick={() => handleEdit(row)}
+                      >
+                        <CIcon icon={cilPencil} /> {/* Ícono para editar */}
+                      </CButton>
+                      <CButton
+                        color="danger"
+                        size="sm"
+                        onClick={() => handleDelete(row.cedula)}
+                      >
+                        <CIcon icon={cilTrash} /> {/* Ícono para eliminar */}
+                      </CButton>
+                    </div>
+                  </CTableDataCell>
                 </CTableRow>
               ))}
             </CTableBody>

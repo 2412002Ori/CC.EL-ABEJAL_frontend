@@ -15,7 +15,7 @@ import {
 } from '@coreui/react'
 
 const ListPayment = () => {
-  // Datos simulados de pagos registrados
+ 
   const payments = [
     { id: 1, tenantName: 'Juan Pérez', localNumber: 'A-101', amount: 500, date: '2023-04-01', method: 'Efectivo' },
     { id: 2, tenantName: 'María López', localNumber: 'B-202', amount: 700, date: '2023-04-02', method: 'Transferencia' },
@@ -29,7 +29,7 @@ const ListPayment = () => {
     localNumber: '',
   })
 
-  // Filtrar pagos según los términos de búsqueda
+
   const filteredPayments = payments.filter(
     (payment) =>
       payment.tenantName.toLowerCase().includes(searchTerm.tenantName.toLowerCase()) &&
@@ -45,6 +45,7 @@ const ListPayment = () => {
   }
 
   return (
+    <>
     <CCard bordered hover style={{ border: '2px solid #ffa600b0' }} >
       <CCardHeader>
         <h3 className="text-center" > Listado de pago de multas</h3>
@@ -103,6 +104,7 @@ const ListPayment = () => {
         )}
       </CCardBody>
     </CCard>
+    </>
   )
 }
 

@@ -52,7 +52,7 @@ const Toasts = React.lazy(() => import('./views/notifications/toasts/Toasts'))
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 
 // Pages
-const apliation = React.lazy(() => import('./views/pages/contracts/application'))   
+const Applicationlist = React.lazy(() => import('./views/pages/contracts/applicationList'))   
 const ContractsAcepted =  React.lazy(() => import('./views/pages/contracts/contractsAcepted'))  
 const ContractsDefeated =  React.lazy(() => import('./views/pages/contracts/contractsDefeated'))
 const Cincome =  React.lazy(() => import('./views/pages/contracts/incomeContracts'))
@@ -114,7 +114,7 @@ const routes = [
 
   // Pages
 
-  {path: '/pages/aplication', name: 'aplication', element: apliation},
+  {path: '/pages/aplication/list', name: 'aplication', element: Applicationlist},
   {path: '/pages/contracts/acepted', name: 'contractsAcepted', element: ContractsAcepted },
   {path: '/pages/Contracts/defeated', name: 'contractsAcepted', element: ContractsDefeated },
   {path: '/pages/RegisterPayment', name: ' RegisterPayment', element: RegisterPayment },

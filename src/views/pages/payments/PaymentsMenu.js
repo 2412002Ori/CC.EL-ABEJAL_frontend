@@ -19,13 +19,12 @@ function Paymentsmenu() {
           <div>
           <LPayments />
           </div>
-          <CButton color='primary' onClick={() => toPDF()}>Download PDF</CButton>
+          
         </CTabPanel>
         <CTabPanel itemKey={2}>
           <div>
          <Lfines/>
          </div>
-         <CButton color='primary' onClick={() => toPDF()}>Download PDF</CButton>
         </CTabPanel>
 
       </CTabContent>
