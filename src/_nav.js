@@ -39,7 +39,7 @@ const _nav = [
       {
         component: CNavItem,
         name: ' SOLICITUD ',
-        to: '/pages/aplication',
+        to: 'pages/aplication/list',
       },
       {
         component: CNavItem,

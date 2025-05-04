@@ -122,6 +122,7 @@ function ContractsAceptedList() {
               ))}
             </CTableBody>
           </CTable>
+          <CButton color='primary' onClick={() => toPDF()}>Download PDF</CButton>
         </CCardBody>
       </CCard>
     </div>
