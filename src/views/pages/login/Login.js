@@ -22,15 +22,15 @@ import {
 
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons' 
-import React, { useState } from 'react'; 
-import { useNavigate } from 'react-router-dom'; 
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import centroArtesanal from '../../../assets/images/centroArtesanal.jpeg' 
 
 export const ModalStaticBackdropExample = () => {
   const [visible, setVisible] = useState(false)
   return (
-    <>
-    <CButton color="dark" onClick={() => setVisible(!visible)}>
+    <>      
+    <CButton color="success" onClick={() => setVisible(!visible)}>
       Recuperar Contraseña
     </CButton>
 
@@ -55,7 +55,7 @@ export const ModalStaticBackdropExample = () => {
         <CButton color="secondary" onClick={() => setVisible(false)}>
           Cerrar
         </CButton>
-        <CButton color="dark">Guardar cambios</CButton>
+        <CButton color="success">Enviar</CButton>
       </CModalFooter>
     </CModal>
   </>
@@ -63,52 +63,64 @@ export const ModalStaticBackdropExample = () => {
 }
 
 const Login = () => {
-
   //Estados
   const [username, setUsername] = useState(''); 
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate(); //inicializamos el hook usesNavigate y lo asignamos a la variable llamada navigate
+  const navigate = useNavigate(); 
 
-  const validCredentials = { username: 'cesaradmin', password: 'cesaradmin41'}
-  
+  const Credentials = [
+    { username: 'cesaradmin', password: 'cesaradmin41'},
+    { username: 'orianaadmin', password: 'orianaadmin41'},
+    { username: 'gabyveadmin', password: 'gabyveadmin41'}
+  ]
+
   const handleLogin = (e) => {
-      e.preventDefault(); 
-      setLoading(true);   
-      setError('');  //Limpia cualquier error previo
+    e.preventDefault(); 
+    setLoading(true);   
+    setError('');  //Limpia el error
     
-  // Simulamos una petición HTTP con setTimeout
   setTimeout(() => {
-    if (username === validCredentials.username && password === validCredentials.password) {
-      localStorage.setItem('isAuthenticated', 'true'); 
-      localStorage.setItem('user', username);
-      navigate('/dashboard'); // Redirigimos al dashboard
+
+    const founduser = Credentials.find (
+      user => user.username === username && user.password === password
+    )
+
+    if (founduser) {
+      localStorage.setItem ('isAuthenticated', 'true')
+      localStorage.setItem ('user', JSON.stringify({
+        username: founduser.username
+      }))
+      navigate ('/dashboard')
     } else {
-      setError('Datos incorrectos');
+      setError ('Crontraseña Incorrecta')
     }
-    setLoading(false);
-    }, 1500); 
+    setLoading (false)
+    }, 1600 )
   };
 
   return (
     <div className="bg-body-tertiary min-vh-100 d-flex flex-row align-items-center" 
-    style={{
-    backgroundImage: `url(${centroArtesanal})`, //usando mi imagen importada
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat'
-    }}
-    > 
+      style={{
+      backgroundImage: `url(${centroArtesanal})`, //usando mi imagen importada
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat'
+    }}> 
 
       {/* Estructura de la Página */}
       <CContainer>
         <CRow className="justify-content-center">
-          <CCol md={8}>
+          <CCol md={6}>
             <CCardGroup>
 
               {/* Tarjeta de Login */}
-              <CCard className="p-4"> 
+              <CCard className="p-4" style={{ 
+                border: '1px solid',
+                borderRadius: '1rem', 
+                boxShadow: '1rem 1rem 1rem rgba(0, 0, 0, 0.75)' 
+              }}>
                 <CCardBody>
                   <CForm onSubmit={handleLogin}>
                     <h1>Login</h1>
@@ -152,39 +164,22 @@ const Login = () => {
                     {/* Botones de Acción */}
                     <CRow>
                       <CCol xs={6}>
-                        <CButton color="dark" className="px-4" type="submit" disabled={loading}>
+                        <CButton color="success" className="px-4" type="submit" disabled={loading}>
                           {loading ? 'Loading...' : 'Login'}
                         </CButton>
                       </CCol>
 
-                      <CCol xs={6} className="text-right">
+                      <CCol xs={6} className="text-right" >
                         <div style={{ }}>
                           <ModalStaticBackdropExample />
                         </div>
                       </CCol>
-                      
                     </CRow>
+
                   </CForm>
                 </CCardBody>
               </CCard>
 
-              {/* Tarjeta de Registro (Lateral) */}
-              <CCard className="text-white bg-secondary py-5" style={{ width: '45%' }}>
-                <CCardBody className="text-center">
-                  <div>
-                    <h2>Sign up</h2>
-                    <p>
-                      Create your account to start using our services.
-                    </p>
-                    <Link to="/register">
-                      <CButton color="dark" className="mt-3" active tabIndex={-1}>
-                        Register Now!
-                      </CButton>
-                    </Link>
-                  </div>
-                </CCardBody>
-              </CCard>
-              
             </CCardGroup>
           </CCol>
         </CRow>
@@ -193,6 +188,4 @@ const Login = () => {
   )
 }
 
-// Exportación del Componente
-// Permite que este componente se use en otras partes de la aplicación
 export default Login
