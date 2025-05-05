@@ -21,7 +21,7 @@ import {
   CModalBody,
   CModalFooter,
   CModalHeader,
-  CModalTitle
+  CModalTitle,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
@@ -46,6 +46,7 @@ export const ModalScrollingLongContent2Example = () => {
         </CModalHeader>
 
           <CModalBody>
+
           <CRow className="justify-content-center">
             <CCol>
               <CForm>
@@ -94,6 +95,7 @@ export const ModalScrollingLongContent2Example = () => {
               </CForm>
             </CCol>
           </CRow>
+
           </CModalBody>
 
         <CModalFooter>
@@ -103,6 +105,47 @@ export const ModalScrollingLongContent2Example = () => {
           <CButton color="primary">Save changes</CButton>
         </CModalFooter>
       </CModal>
+    </>
+  )
+}
+
+export const Modal = () => {
+  const [visible, setVisible] = useState(false)
+  return (
+    <>
+      <CButton color="success" variant="ghost" className="ms-3" onClick={() => setVisible(!visible)}>Actualizar</CButton>
+
+      <CModal
+        alignment="center"
+        scrollable
+        visible={visible}
+        onClose={() => setVisible(false)}
+        aria-labelledby="VerticallyCenteredScrollableExample2"
+      >
+        <CModalHeader>
+          <CModalTitle id="VerticallyCenteredScrollableExample2">Actualizar Usuario</CModalTitle>
+        </CModalHeader>
+
+          <CModalBody>
+
+
+          </CModalBody>
+
+        <CModalFooter>
+          <CButton color="secondary" onClick={() => setVisible(false)}>
+            Close
+          </CButton>
+          <CButton color="primary">Save changes</CButton>
+        </CModalFooter>
+      </CModal>
+    </>
+  )
+}
+
+export const ButtonGhost = () => {
+  return (
+    <>
+    <CButton color="danger" variant="ghost" className="ms-2" >Eliminar</CButton>
     </>
   )
 }
@@ -129,27 +172,65 @@ const Register = () => {
           <CTableRow>
             <CTableDataCell>Juan</CTableDataCell>
             <CTableDataCell>Perez</CTableDataCell>
-            <CTableDataCell>juan.perez@gmail.com</CTableDataCell>
+            <CTableDataCell>juan.perez@gmail.com </CTableDataCell>
+            <CTableDataCell><Modal/></CTableDataCell>
+            <CTableDataCell><ButtonGhost/></CTableDataCell>
           </CTableRow>
           <CTableRow>
             <CTableDataCell>Gabriela</CTableDataCell>
             <CTableDataCell>Rosales</CTableDataCell>
-            <CTableDataCell>gabyve05@gmail.com</CTableDataCell>
+            <CTableDataCell>gabyve05@gmail.com </CTableDataCell>
+            <CTableDataCell><Modal/></CTableDataCell>
+            <CTableDataCell><ButtonGhost/></CTableDataCell>
           </CTableRow>
           <CTableRow>
             <CTableDataCell>Cesar</CTableDataCell>
             <CTableDataCell>Rosales</CTableDataCell>
             <CTableDataCell>cesardaniel@gmail.com</CTableDataCell>
+            <CTableDataCell><Modal/></CTableDataCell>
+            <CTableDataCell><ButtonGhost/></CTableDataCell>
           </CTableRow>
           <CTableRow>
             <CTableDataCell>Oriana</CTableDataCell>
             <CTableDataCell>Duran</CTableDataCell>
             <CTableDataCell>ori.duran0304@gmail.com</CTableDataCell>
+            <CTableDataCell><Modal/></CTableDataCell>
+            <CTableDataCell><ButtonGhost/></CTableDataCell>
           </CTableRow>
           <CTableRow>
             <CTableDataCell>Jenny</CTableDataCell>
             <CTableDataCell>Elizabeth</CTableDataCell>
             <CTableDataCell>elizabeth3@gmail.com</CTableDataCell>
+            <CTableDataCell><Modal/></CTableDataCell>
+            <CTableDataCell><ButtonGhost/></CTableDataCell>
+          </CTableRow>
+          <CTableRow>
+            <CTableDataCell>William</CTableDataCell>
+            <CTableDataCell>Chaparro</CTableDataCell>
+            <CTableDataCell>ChaparroLobo@gmail.com</CTableDataCell>
+            <CTableDataCell><Modal/></CTableDataCell>
+            <CTableDataCell><ButtonGhost/></CTableDataCell>
+          </CTableRow>
+          <CTableRow>
+            <CTableDataCell>Daniela</CTableDataCell>
+            <CTableDataCell>Colmenares</CTableDataCell>
+            <CTableDataCell>Nala15@gmail.com</CTableDataCell>
+            <CTableDataCell><Modal/></CTableDataCell>
+            <CTableDataCell><ButtonGhost/></CTableDataCell>
+          </CTableRow>
+          <CTableRow>
+            <CTableDataCell>Kevin</CTableDataCell>
+            <CTableDataCell>Zanabria</CTableDataCell>
+            <CTableDataCell>zanabria$@gmail.com</CTableDataCell>
+            <CTableDataCell><Modal/></CTableDataCell>
+            <CTableDataCell><ButtonGhost/></CTableDataCell>
+          </CTableRow>
+          <CTableRow>
+            <CTableDataCell>Jesus</CTableDataCell>
+            <CTableDataCell>Lozada</CTableDataCell>
+            <CTableDataCell>luismiguel@gmail.com</CTableDataCell>
+            <CTableDataCell><Modal/></CTableDataCell>
+            <CTableDataCell><ButtonGhost/></CTableDataCell>
           </CTableRow>
         </CTableBody>
       </CTable>
