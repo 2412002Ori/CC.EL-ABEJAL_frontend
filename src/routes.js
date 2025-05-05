@@ -52,14 +52,21 @@ const Toasts = React.lazy(() => import('./views/notifications/toasts/Toasts'))
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 
 // Pages
-const apliation = React.lazy(() => import('./views/pages/contracts/application'))   
+const Applicationlist = React.lazy(() => import('./views/pages/contracts/applicationList'))   
 const ContractsAcepted =  React.lazy(() => import('./views/pages/contracts/contractsAcepted'))  
 const ContractsDefeated =  React.lazy(() => import('./views/pages/contracts/contractsDefeated'))
 const Cincome =  React.lazy(() => import('./views/pages/contracts/incomeContracts'))
 const ContractsMenu =  React.lazy(() => import('./views/pages/contracts/contractsMenu'))
-const RegisterPayment =  React.lazy(() => import('./views/pages/payments/registerPAYMEN'))
+const RegisterPayment =  React.lazy(() => import('./views/pages/payments/registerPayment'))
 const ListPayment =  React.lazy(() => import('./views/pages/payments/listpayment'))
-const Register =  React.lazy(() => import('./views/pages/register/Register'))
+const Paymentsmenu =  React.lazy(() => import('./views/pages/payments/PaymentsMenu'))
+const RegisterTenant = React.lazy(() => import('./views/pages/tenants/register'))
+const ListTenants = React.lazy(() => import('./views/pages/tenants/tenantslist'))
+const RelocationList = React.lazy(() => import('./views/pages/tenants/relocationlist'))
+
+//oters
+const Registeruser = React.lazy(() => import('./views/pages/register/Register'))
+
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -110,15 +117,19 @@ const routes = [
 
   // Pages
 
-  {path: '/pages/aplication', name: 'aplication', element: apliation},
+  {path: '/pages/aplication/list', name: 'aplication', element: Applicationlist},
   {path: '/pages/contracts/acepted', name: 'contractsAcepted', element: ContractsAcepted },
   {path: '/pages/Contracts/defeated', name: 'contractsAcepted', element: ContractsDefeated },
   {path: '/pages/RegisterPayment', name: ' RegisterPayment', element: RegisterPayment },
   {path: '/pages/ListPayment', name: ' ListPayment ', element: ListPayment },
   {path: '/pages/contracts/menu', name: 'contractsMenu', element: ContractsMenu },
   {path: '/pages/contracts/income', name: 'incomeContracts', element: Cincome },
-  {path: '/pages/register/Register', name: 'register', element: Register },
-
+  {path: '/pages/payments/menu', name: 'PaymentsMenu', element: Paymentsmenu },
+  {path: '/pages/tenants/register', name: 'RegisterTenant', element: RegisterTenant },
+  {path: '/pages/tenants/list', name: 'ListTenants', element: ListTenants },
+  {path: '/pages/tenants/relocation', name: 'Relocation', element: RelocationList },
+ // oters 
+ {path: '/pages/register/user', name: 'Register', element: Registeruser },
 
 ]
 

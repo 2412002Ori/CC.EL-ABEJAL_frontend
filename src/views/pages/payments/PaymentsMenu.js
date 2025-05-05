@@ -1,9 +1,9 @@
 import React from 'react';
-import CAcepted from './contractsAcepted';
-import CDefeated from './contractsDefeated';
+import Lfines from './ListFines';
+import LPayments from './ListPayment';
 import { CTab,CTabs, CTabContent, CTabList, CTabPanel, CButton } from '@coreui/react';
 
-function Contractsmenu() {
+function Paymentsmenu() {
 
   
 
@@ -11,21 +11,20 @@ function Contractsmenu() {
     <>
     <CTabs activeItemKey={1}>
       <CTabList variant="tabs" layout='justified'>
-        <CTab itemKey={1}>CONTRATOS ACEPTADOS</CTab>
-        <CTab itemKey={2}>CONTRATOS VENCIDOS</CTab>
+        <CTab itemKey={1}>PAGOS</CTab>
+        <CTab itemKey={2}>MULTAS</CTab>
       </CTabList>
       <CTabContent>
         <CTabPanel itemKey={1}>
           <div>
-          <CAcepted />
+          <LPayments />
           </div>
           
         </CTabPanel>
         <CTabPanel itemKey={2}>
           <div>
-         <CDefeated />
+         <Lfines/>
          </div>
-         
         </CTabPanel>
 
       </CTabContent>
@@ -38,4 +37,4 @@ function Contractsmenu() {
   );
 }
 
-export default Contractsmenu;
+export default Paymentsmenu;

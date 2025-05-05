@@ -22,10 +22,7 @@ const _nav = [
     name: 'Dashboard',
     to: '/dashboard',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
-    badge: {
-      color: 'info',
-      text: 'NEW',
-    },
+   
   },
   {
     component: CNavTitle,
@@ -40,7 +37,7 @@ const _nav = [
       {
         component: CNavItem,
         name: ' SOLICITUD ',
-        to: '/pages/aplication',
+        to: 'pages/aplication/list',
       },
       {
         component: CNavItem,
@@ -63,21 +60,17 @@ const _nav = [
     icon: <CIcon icon={cilNotes} customClassName="nav-icon" />,
     items: [
       
+    
       {
         component: CNavItem,
-        name: 'INCRIPCIÓN',
-        to: '/forms',
-      },
-      {
-        component: CNavItem,
-        name: 'listado ',
-        to: '/forms',
+        name: 'REGISTRO',
+        to: '/pages/tenants/list',
       },
 
       {
         component: CNavItem,
         name: 'REHUBICACIONES',
-        to: '/forms',
+        to: '/pages/tenants/relocation',
       },
 
       
@@ -96,14 +89,10 @@ const _nav = [
       },
       {
         component: CNavItem,
-        name: ' listado de pagos',
-        to: '/pages/ListPayment',
+        name: ' listados',
+        to: '/pages/Payments/menu',
       },
-      {
-        component: CNavItem,
-        name: ' listado DE MULTAS',
-        to: '/forms/select',
-      },
+      
     ],
   },
   {
@@ -150,7 +139,7 @@ const _nav = [
       {
         component: CNavItem,
         name: 'REGISTRO',
-        to: '/pages/register/Register',
+        to: '/pages/register/user',
       },
       {
         component: CNavItem,

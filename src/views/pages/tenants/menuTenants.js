@@ -11,7 +11,7 @@ import {
   CButton,
 } from '@coreui/react'
 
-const Application = () => {
+const Relocation = () => {
   const contracts = {
     '001': { tenantName: 'Juan Pérez', tenantId: '12345678', amountDue: 500 },
     '002': { tenantName: 'María López', tenantId: '87654321', amountDue: 700 },
@@ -26,7 +26,10 @@ const Application = () => {
     contractRequestNumber: '',
     tenantId: '',
     tenantName: '',
+    amountDue: '',
+    amount: '',
     date: '',
+    paymentMethod: '',
     activity: '',
     type: '',
     registeredBy: currentUser,
@@ -60,6 +63,10 @@ const Application = () => {
       contractRequestNumber: '',
       tenantId: '',
       tenantName: '',
+      amountDue: '',
+      amount: '',
+      date: '',
+      paymentMethod: '',
       activity: '',
       type: '',
       registeredBy: currentUser,
@@ -197,4 +204,4 @@ const Application = () => {
   )
 }
 
-export default Application
+export default Relocation

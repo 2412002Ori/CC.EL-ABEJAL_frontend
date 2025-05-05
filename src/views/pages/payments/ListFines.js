@@ -12,12 +12,10 @@ import {
   CTableDataCell,
   CRow,
   CCol,
-  CButton,
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { cilFile } from '@coreui/icons'
 
 const ListPayment = () => {
+ 
   const payments = [
     { id: 1, tenantName: 'Juan Pérez', localNumber: 'A-101', amount: 500, date: '2023-04-01', method: 'Efectivo' },
     { id: 2, tenantName: 'María López', localNumber: 'B-202', amount: 700, date: '2023-04-02', method: 'Transferencia' },
@@ -30,6 +28,7 @@ const ListPayment = () => {
     tenantName: '',
     localNumber: '',
   })
+
 
   const filteredPayments = payments.filter(
     (payment) =>
@@ -45,20 +44,15 @@ const ListPayment = () => {
     }))
   }
 
-  const handleFileAction = (payment) => {
-    console.log('Archivo generado para:', payment)
-    alert(`Generar archivo para el pago de ${payment.tenantName}`)
-    // Aquí puedes implementar la lógica para generar o descargar un archivo
-  }
-
   return (
-    <CCard bordered hover style={{ border: '2px solid #ffa600b0' }}>
+    <>
+    <CCard bordered hover style={{ border: '2px solid #ffa600b0' }} >
       <CCardHeader>
-        <h3 className="text-center">Listado de Pagos Registrados</h3>
+        <h3 className="text-center" > Listado de pago de multas</h3>
       </CCardHeader>
       <CCardBody>
         <CRow className="mb-3">
-          <CCol md={1}>
+        <CCol md={1}>
             <CFormInput
               type="text"
               name="localNumber"
@@ -79,8 +73,9 @@ const ListPayment = () => {
               label="Nombre del Inquilino"
             />
           </CCol>
+          
         </CRow>
-        <CTable responsive>
+        <CTable responsive >
           <CTableHead>
             <CTableRow>
               <CTableHeaderCell className="text-center">N PAGO</CTableHeaderCell>
@@ -89,7 +84,6 @@ const ListPayment = () => {
               <CTableHeaderCell className="text-center">Monto</CTableHeaderCell>
               <CTableHeaderCell className="text-center">Fecha</CTableHeaderCell>
               <CTableHeaderCell className="text-center">Método de Pago</CTableHeaderCell>
-              <CTableHeaderCell className="text-center">Factura</CTableHeaderCell>
             </CTableRow>
           </CTableHead>
           <CTableBody>
@@ -101,15 +95,6 @@ const ListPayment = () => {
                 <CTableDataCell className="text-center">{`$${payment.amount}`}</CTableDataCell>
                 <CTableDataCell className="text-center">{payment.date}</CTableDataCell>
                 <CTableDataCell className="text-center">{payment.method}</CTableDataCell>
-                <CTableDataCell className="text-center">
-                  <CButton
-                    color="info"
-                    size="sm"
-                    onClick={() => handleFileAction(payment)}
-                  >
-                    <CIcon icon={cilFile} /> {/* Ícono para generar archivo */}
-                  </CButton>
-                </CTableDataCell>
               </CTableRow>
             ))}
           </CTableBody>
@@ -119,6 +104,7 @@ const ListPayment = () => {
         )}
       </CCardBody>
     </CCard>
+    </>
   )
 }
 
