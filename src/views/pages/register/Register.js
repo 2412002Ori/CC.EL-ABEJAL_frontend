@@ -24,7 +24,8 @@ import {
   CModalTitle,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilLockLocked, cilUser } from '@coreui/icons'
+import { useNavigate } from 'react-router-dom'
+import { cilLockLocked, cilUser, cilPencil, cilTrash, cilAddressBook, cilSearch } from '@coreui/icons'
 
 export const ModalScrollingLongContent2Example = () => {
   const [visible, setVisible] = useState(false)
@@ -50,7 +51,7 @@ export const ModalScrollingLongContent2Example = () => {
           <CRow className="justify-content-center">
             <CCol>
               <CForm>
-                <h2>Create your account</h2>
+                <h2>Crea tu nueva cuenta</h2>
               <CInputGroup className="mb-3">
                 <CInputGroupText>
                   <CIcon icon={cilUser} />
@@ -113,7 +114,7 @@ export const Modal = () => {
   const [visible, setVisible] = useState(false)
   return (
     <>
-      <CButton color="success" variant="ghost" className="ms-3" onClick={() => setVisible(!visible)}>Actualizar</CButton>
+      <CButton color="success" variant="ghost" className="ms-3" onClick={() => setVisible(!visible)}><CIcon icon={cilPencil} className="me-2" />Actualizar</CButton>
 
       <CModal
         alignment="center"
@@ -127,8 +128,25 @@ export const Modal = () => {
         </CModalHeader>
 
           <CModalBody>
+            <h2>Actualiza tus datos</h2>
+              <CInputGroup className="mb-3">
+                  <CInputGroupText>
+                      <CIcon icon={cilUser} />
+                    </CInputGroupText>
+                      <CFormInput placeholder="Name" autoComplete="name" />
+                  </CInputGroup>
 
+                  <CInputGroup className="mb-3">
+                    <CInputGroupText>
+                      <CIcon icon={cilUser} />
+                    </CInputGroupText>
+                      <CFormInput placeholder="Lastname" autoComplete="lastname" />
+                  </CInputGroup>
 
+                  <CInputGroup className="mb-3">
+                    <CInputGroupText>@</CInputGroupText>
+                    <CFormInput placeholder="Email" autoComplete="email" />
+                  </CInputGroup>
           </CModalBody>
 
         <CModalFooter>
@@ -142,10 +160,19 @@ export const Modal = () => {
   )
 }
 
-export const ButtonGhost = () => {
+export const EliminarUsuario = () => {
   return (
     <>
-    <CButton color="danger" variant="ghost" className="ms-2" >Eliminar</CButton>
+    <CButton color="danger" variant="ghost" className="ms-2" ><CIcon icon={cilTrash} className="me-2" />Eliminar</CButton>
+    </>
+  )
+}
+
+export const PermisosUsuario = () => {
+  const navigate = useNavigate();
+  return (
+    <>
+    <CButton color="info" variant="ghost" className="ms-2" onClick={() => navigate('/pages/register/Permissions') }><CIcon icon={cilAddressBook} className="me-2" />Permisos</CButton>
     </>
   )
 }
@@ -165,6 +192,7 @@ const Registeruser = () => {
             <CTableHeaderCell>Nombre</CTableHeaderCell>  
             <CTableHeaderCell>Apellido</CTableHeaderCell> 
             <CTableHeaderCell>Email</CTableHeaderCell>  
+            <CTableHeaderCell className="text-center">Acciones</CTableHeaderCell>  
           </CTableRow>
         </CTableHead>
 
@@ -173,64 +201,73 @@ const Registeruser = () => {
             <CTableDataCell>Juan</CTableDataCell>
             <CTableDataCell>Perez</CTableDataCell>
             <CTableDataCell>juan.perez@gmail.com </CTableDataCell>
+            <CTableDataCell><PermisosUsuario/></CTableDataCell>
             <CTableDataCell><Modal/></CTableDataCell>
-            <CTableDataCell><ButtonGhost/></CTableDataCell>
+            <CTableDataCell><EliminarUsuario/></CTableDataCell>
           </CTableRow>
           <CTableRow>
             <CTableDataCell>Gabriela</CTableDataCell>
             <CTableDataCell>Rosales</CTableDataCell>
             <CTableDataCell>gabyve05@gmail.com </CTableDataCell>
+            <CTableDataCell><PermisosUsuario/></CTableDataCell>
             <CTableDataCell><Modal/></CTableDataCell>
-            <CTableDataCell><ButtonGhost/></CTableDataCell>
+            <CTableDataCell><EliminarUsuario/></CTableDataCell>
           </CTableRow>
           <CTableRow>
             <CTableDataCell>Cesar</CTableDataCell>
             <CTableDataCell>Rosales</CTableDataCell>
             <CTableDataCell>cesardaniel@gmail.com</CTableDataCell>
+            <CTableDataCell><PermisosUsuario/></CTableDataCell>
             <CTableDataCell><Modal/></CTableDataCell>
-            <CTableDataCell><ButtonGhost/></CTableDataCell>
+            <CTableDataCell><EliminarUsuario/></CTableDataCell>
           </CTableRow>
           <CTableRow>
             <CTableDataCell>Oriana</CTableDataCell>
             <CTableDataCell>Duran</CTableDataCell>
             <CTableDataCell>ori.duran0304@gmail.com</CTableDataCell>
+            <CTableDataCell><PermisosUsuario/></CTableDataCell>
             <CTableDataCell><Modal/></CTableDataCell>
-            <CTableDataCell><ButtonGhost/></CTableDataCell>
+            <CTableDataCell><EliminarUsuario/></CTableDataCell>
           </CTableRow>
           <CTableRow>
             <CTableDataCell>Jenny</CTableDataCell>
             <CTableDataCell>Elizabeth</CTableDataCell>
             <CTableDataCell>elizabeth3@gmail.com</CTableDataCell>
+            <CTableDataCell><PermisosUsuario/></CTableDataCell>
             <CTableDataCell><Modal/></CTableDataCell>
-            <CTableDataCell><ButtonGhost/></CTableDataCell>
+            <CTableDataCell><EliminarUsuario/></CTableDataCell>
           </CTableRow>
           <CTableRow>
             <CTableDataCell>William</CTableDataCell>
             <CTableDataCell>Chaparro</CTableDataCell>
             <CTableDataCell>ChaparroLobo@gmail.com</CTableDataCell>
+            <CTableDataCell><PermisosUsuario/></CTableDataCell>
             <CTableDataCell><Modal/></CTableDataCell>
-            <CTableDataCell><ButtonGhost/></CTableDataCell>
+            <CTableDataCell><EliminarUsuario/></CTableDataCell>
           </CTableRow>
           <CTableRow>
             <CTableDataCell>Daniela</CTableDataCell>
             <CTableDataCell>Colmenares</CTableDataCell>
             <CTableDataCell>Nala15@gmail.com</CTableDataCell>
+            <CTableDataCell><PermisosUsuario/></CTableDataCell>
             <CTableDataCell><Modal/></CTableDataCell>
-            <CTableDataCell><ButtonGhost/></CTableDataCell>
+            <CTableDataCell><EliminarUsuario/></CTableDataCell>
           </CTableRow>
           <CTableRow>
             <CTableDataCell>Kevin</CTableDataCell>
             <CTableDataCell>Zanabria</CTableDataCell>
             <CTableDataCell>zanabria$@gmail.com</CTableDataCell>
+            <CTableDataCell><PermisosUsuario/></CTableDataCell>
             <CTableDataCell><Modal/></CTableDataCell>
-            <CTableDataCell><ButtonGhost/></CTableDataCell>
+            <CTableDataCell><EliminarUsuario/></CTableDataCell>
           </CTableRow>
           <CTableRow>
             <CTableDataCell>Jesus</CTableDataCell>
             <CTableDataCell>Lozada</CTableDataCell>
             <CTableDataCell>luismiguel@gmail.com</CTableDataCell>
+            <CTableDataCell><PermisosUsuario/></CTableDataCell>
             <CTableDataCell><Modal/></CTableDataCell>
-            <CTableDataCell><ButtonGhost/></CTableDataCell>
+            <CTableDataCell><EliminarUsuario/></CTableDataCell>
           </CTableRow>
         </CTableBody>
       </CTable>

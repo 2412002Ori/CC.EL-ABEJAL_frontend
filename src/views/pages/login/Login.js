@@ -1,5 +1,4 @@
 // Importaciones necesarias para el componente de inicio de sesión 
-import { Link } from 'react-router-dom' // Para navegación entre páginas, Permite usar <Link> para navegar a otras páginas.
 import {
   CAlert,
   CButton,
@@ -17,7 +16,8 @@ import {
   CModalBody,
   CModalFooter,
   CModalHeader,
-  CModalTitle
+  CModalTitle,
+  CSpinner
 } from '@coreui/react' 
 
 import CIcon from '@coreui/icons-react'
@@ -62,6 +62,10 @@ export const ModalStaticBackdropExample = () => {
   )
 }
 
+export const SpinnerGrowExample = () => {
+  return <CSpinner as="span" className="me-2" size="sm" variant="grow" aria-hidden="true" />
+}
+
 const Login = () => {
   //Estados
   const [username, setUsername] = useState(''); 
@@ -97,7 +101,7 @@ const Login = () => {
       setError ('Crontraseña Incorrecta')
     }
     setLoading (false)
-    }, 1600 )
+    }, 1800 )
   };
 
   return (
@@ -165,12 +169,13 @@ const Login = () => {
                     <CRow>
                       <CCol xs={6}>
                         <CButton color="success" className="px-4" type="submit" disabled={loading}>
+                          {loading ? <SpinnerGrowExample /> : null}
                           {loading ? 'Loading...' : 'Login'}
                         </CButton>
                       </CCol>
 
                       <CCol xs={6} className="text-right" >
-                        <div style={{ }}>
+                        <div>
                           <ModalStaticBackdropExample />
                         </div>
                       </CCol>
