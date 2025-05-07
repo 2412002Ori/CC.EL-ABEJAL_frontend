@@ -138,14 +138,9 @@ const _nav = [
     items: [
       {
         component: CNavItem,
-        name: 'REGISTRO',
+        name: 'LISTA USUARIOS',
         to: '/pages/register/user',
-      },
-      {
-        component: CNavItem,
-        name: 'PERFILES',
-        to: '/forms/select',
-      },  
+      }, 
     ],
   },
 ]

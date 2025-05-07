@@ -67,6 +67,7 @@ const RelocationList = React.lazy(() => import('./views/pages/tenants/relocation
 //other routes
 const Registeruser = React.lazy(() => import('./views/pages/register/Register'))
 const PermisosUsuario = React.lazy(() => import('./views/pages/register/Permissions'))
+const PerfilUsuario = React.lazy(() => import('./views/pages/profile/Profile'))
 
 
 const routes = [
@@ -133,6 +134,7 @@ const routes = [
  //other routes 
   {path: '/pages/register/user', name: 'Register', element: Registeruser },
   {path: '/pages/register/Permissions', name: 'Permisos', element: PermisosUsuario },
+  {path: '/pages/profile/Profile', name: 'Profile', element: PerfilUsuario },
 ]
 
 export default routes

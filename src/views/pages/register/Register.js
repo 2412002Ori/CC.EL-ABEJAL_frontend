@@ -25,7 +25,7 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { useNavigate } from 'react-router-dom'
-import { cilLockLocked, cilUser, cilPencil, cilTrash, cilAddressBook, cilSearch } from '@coreui/icons'
+import { cilLockLocked, cilUser, cilPencil, cilTrash, cilAddressBook } from '@coreui/icons'
 
 export const ModalScrollingLongContent2Example = () => {
   const [visible, setVisible] = useState(false)
@@ -47,7 +47,6 @@ export const ModalScrollingLongContent2Example = () => {
         </CModalHeader>
 
           <CModalBody>
-
           <CRow className="justify-content-center">
             <CCol>
               <CForm>
@@ -96,57 +95,6 @@ export const ModalScrollingLongContent2Example = () => {
               </CForm>
             </CCol>
           </CRow>
-
-          </CModalBody>
-
-        <CModalFooter>
-          <CButton color="secondary" onClick={() => setVisible(false)}>
-            Close
-          </CButton>
-          <CButton color="primary">Save changes</CButton>
-        </CModalFooter>
-      </CModal>
-    </>
-  )
-}
-
-export const Modal = () => {
-  const [visible, setVisible] = useState(false)
-  return (
-    <>
-      <CButton color="success" variant="ghost" className="ms-3" onClick={() => setVisible(!visible)}><CIcon icon={cilPencil} className="me-2" />Actualizar</CButton>
-
-      <CModal
-        alignment="center"
-        scrollable
-        visible={visible}
-        onClose={() => setVisible(false)}
-        aria-labelledby="VerticallyCenteredScrollableExample2"
-      >
-        <CModalHeader>
-          <CModalTitle id="VerticallyCenteredScrollableExample2">Actualizar Usuario</CModalTitle>
-        </CModalHeader>
-
-          <CModalBody>
-            <h2>Actualiza tus datos</h2>
-              <CInputGroup className="mb-3">
-                  <CInputGroupText>
-                      <CIcon icon={cilUser} />
-                    </CInputGroupText>
-                      <CFormInput placeholder="Name" autoComplete="name" />
-                  </CInputGroup>
-
-                  <CInputGroup className="mb-3">
-                    <CInputGroupText>
-                      <CIcon icon={cilUser} />
-                    </CInputGroupText>
-                      <CFormInput placeholder="Lastname" autoComplete="lastname" />
-                  </CInputGroup>
-
-                  <CInputGroup className="mb-3">
-                    <CInputGroupText>@</CInputGroupText>
-                    <CFormInput placeholder="Email" autoComplete="email" />
-                  </CInputGroup>
           </CModalBody>
 
         <CModalFooter>
@@ -202,7 +150,6 @@ const Registeruser = () => {
             <CTableDataCell>Perez</CTableDataCell>
             <CTableDataCell>juan.perez@gmail.com </CTableDataCell>
             <CTableDataCell><PermisosUsuario/></CTableDataCell>
-            <CTableDataCell><Modal/></CTableDataCell>
             <CTableDataCell><EliminarUsuario/></CTableDataCell>
           </CTableRow>
           <CTableRow>
@@ -210,7 +157,6 @@ const Registeruser = () => {
             <CTableDataCell>Rosales</CTableDataCell>
             <CTableDataCell>gabyve05@gmail.com </CTableDataCell>
             <CTableDataCell><PermisosUsuario/></CTableDataCell>
-            <CTableDataCell><Modal/></CTableDataCell>
             <CTableDataCell><EliminarUsuario/></CTableDataCell>
           </CTableRow>
           <CTableRow>
@@ -218,7 +164,6 @@ const Registeruser = () => {
             <CTableDataCell>Rosales</CTableDataCell>
             <CTableDataCell>cesardaniel@gmail.com</CTableDataCell>
             <CTableDataCell><PermisosUsuario/></CTableDataCell>
-            <CTableDataCell><Modal/></CTableDataCell>
             <CTableDataCell><EliminarUsuario/></CTableDataCell>
           </CTableRow>
           <CTableRow>
@@ -226,7 +171,6 @@ const Registeruser = () => {
             <CTableDataCell>Duran</CTableDataCell>
             <CTableDataCell>ori.duran0304@gmail.com</CTableDataCell>
             <CTableDataCell><PermisosUsuario/></CTableDataCell>
-            <CTableDataCell><Modal/></CTableDataCell>
             <CTableDataCell><EliminarUsuario/></CTableDataCell>
           </CTableRow>
           <CTableRow>
@@ -234,7 +178,6 @@ const Registeruser = () => {
             <CTableDataCell>Elizabeth</CTableDataCell>
             <CTableDataCell>elizabeth3@gmail.com</CTableDataCell>
             <CTableDataCell><PermisosUsuario/></CTableDataCell>
-            <CTableDataCell><Modal/></CTableDataCell>
             <CTableDataCell><EliminarUsuario/></CTableDataCell>
           </CTableRow>
           <CTableRow>
@@ -242,7 +185,6 @@ const Registeruser = () => {
             <CTableDataCell>Chaparro</CTableDataCell>
             <CTableDataCell>ChaparroLobo@gmail.com</CTableDataCell>
             <CTableDataCell><PermisosUsuario/></CTableDataCell>
-            <CTableDataCell><Modal/></CTableDataCell>
             <CTableDataCell><EliminarUsuario/></CTableDataCell>
           </CTableRow>
           <CTableRow>
@@ -250,7 +192,6 @@ const Registeruser = () => {
             <CTableDataCell>Colmenares</CTableDataCell>
             <CTableDataCell>Nala15@gmail.com</CTableDataCell>
             <CTableDataCell><PermisosUsuario/></CTableDataCell>
-            <CTableDataCell><Modal/></CTableDataCell>
             <CTableDataCell><EliminarUsuario/></CTableDataCell>
           </CTableRow>
           <CTableRow>
@@ -258,7 +199,6 @@ const Registeruser = () => {
             <CTableDataCell>Zanabria</CTableDataCell>
             <CTableDataCell>zanabria$@gmail.com</CTableDataCell>
             <CTableDataCell><PermisosUsuario/></CTableDataCell>
-            <CTableDataCell><Modal/></CTableDataCell>
             <CTableDataCell><EliminarUsuario/></CTableDataCell>
           </CTableRow>
           <CTableRow>
@@ -266,7 +206,6 @@ const Registeruser = () => {
             <CTableDataCell>Lozada</CTableDataCell>
             <CTableDataCell>luismiguel@gmail.com</CTableDataCell>
             <CTableDataCell><PermisosUsuario/></CTableDataCell>
-            <CTableDataCell><Modal/></CTableDataCell>
             <CTableDataCell><EliminarUsuario/></CTableDataCell>
           </CTableRow>
         </CTableBody>

@@ -1,4 +1,4 @@
-// Importaciones necesarias para el componente de inicio de sesión 
+// Importaciones que necesito para el componente de inicio de sesión 
 import {
   CAlert,
   CButton,
@@ -25,6 +25,14 @@ import { cilLockLocked, cilUser } from '@coreui/icons'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import centroArtesanal from '../../../assets/images/centroArtesanal.jpg' 
+
+export const Alert = () => {
+  return (
+    <>
+      <CAlert color="primary">¡Contraseña Incorrecta!</CAlert>
+    </>
+  )
+}
 
 export const ModalStaticBackdropExample = () => {
   const [visible, setVisible] = useState(false)
@@ -67,7 +75,6 @@ export const SpinnerGrowExample = () => {
 }
 
 const Login = () => {
-  //Estados
   const [username, setUsername] = useState(''); 
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -83,7 +90,7 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault(); 
     setLoading(true);   
-    setError('');  //Limpia el error
+    setError(''); 
     
   setTimeout(() => {
 
@@ -107,19 +114,16 @@ const Login = () => {
   return (
     <div className="bg-body-tertiary min-vh-100 d-flex flex-row align-items-center" 
       style={{
-      backgroundImage: `url(${centroArtesanal})`, //usando mi imagen importada
+      backgroundImage: `url(${centroArtesanal})`, 
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat'
     }}> 
 
-      {/* Estructura de la Página */}
       <CContainer>
         <CRow className="justify-content-end">
           <CCol md={6}>
             <CCardGroup>
-
-              {/* Tarjeta de Login */}
               <CCard className="p-4" style={{ 
                 border: '1px solid',
                 borderRadius: '1rem', 
@@ -129,8 +133,7 @@ const Login = () => {
                   <CForm onSubmit={handleLogin}>
                     <h1>Login</h1>
                     <p className="text-body-secondary">Sign In to your account</p>
-
-                    {/* Campo de Usuario */}
+                    
                     <CInputGroup className="mb-3">
                       <CInputGroupText>
                         <CIcon icon={cilUser} />
@@ -144,7 +147,6 @@ const Login = () => {
                       />
                     </CInputGroup>
 
-                    {/* Campo de Contraseña */}
                     <CInputGroup className="mb-4">
                       <CInputGroupText>
                         <CIcon icon={cilLockLocked} />
@@ -159,13 +161,8 @@ const Login = () => {
                       />
                     </CInputGroup>
 
-                    {/* Mensaje de error */}
-                    { error && ( <div className='mb-3'>
-                      <CAlert color="danger">{error}</CAlert>
-                    </div>
-                    )}
+                    { error && (<Alert/>) }
                     
-                    {/* Botones de Acción */}
                     <CRow>
                       <CCol xs={6}>
                         <CButton color="success" className="px-4" type="submit" disabled={loading}>
@@ -180,11 +177,9 @@ const Login = () => {
                         </div>
                       </CCol>
                     </CRow>
-
                   </CForm>
                 </CCardBody>
               </CCard>
-
             </CCardGroup>
           </CCol>
         </CRow>
