@@ -25,14 +25,7 @@ import { cilLockLocked, cilUser } from '@coreui/icons'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import centroArtesanal from '../../../assets/images/centroArtesanal.jpg' 
-
-export const Alert = () => {
-  return (
-    <>
-      <CAlert color="primary">¡Contraseña Incorrecta!</CAlert>
-    </>
-  )
-}
+import AlertMessage from './Alerta'
 
 export const ModalStaticBackdropExample = () => {
   const [visible, setVisible] = useState(false)
@@ -161,7 +154,7 @@ const Login = () => {
                       />
                     </CInputGroup>
 
-                    { error && (<Alert/>) }
+                    { error && (<AlertMessage/>) }
                     
                     <CRow>
                       <CCol xs={6}>

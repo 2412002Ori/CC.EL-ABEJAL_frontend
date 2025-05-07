@@ -26,6 +26,7 @@ import {
 import CIcon from '@coreui/icons-react'
 import { useNavigate } from 'react-router-dom'
 import { cilLockLocked, cilUser, cilPencil, cilTrash, cilAddressBook } from '@coreui/icons'
+import AlertMessage from './../login/Alerta'
 
 export const ModalScrollingLongContent2Example = () => {
   const [visible, setVisible] = useState(false)
