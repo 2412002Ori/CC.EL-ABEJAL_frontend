@@ -5,9 +5,7 @@ import {
     CCardBody,
     CCol,
     CContainer,
-    CForm,
     CFormInput,
-    CHeader,
     CInputGroup,
     CInputGroupText,
     CRow,
@@ -18,13 +16,12 @@ import {
     CModalTitle,
     CCardHeader,
     CAvatar,
-    CCardGroup
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { useNavigate } from 'react-router-dom'
 import { cilUser, cilPencil } from '@coreui/icons'
 import avatar8 from './../../../assets/images/avatars/8.jpg'
-// import { Alert } from './pages/login/Login'
+import AlertMessage from './../login/Alerta'
 
 export const Modal = () => {
 const [visible, setVisible] = useState(false)
@@ -83,9 +80,13 @@ return (
 
 const Registeruser = () => {
     return (
-    
-    <CContainer>
-        <CRow className="justify-content-center">
+    <CContainer style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '60vh'
+    }}>
+        <CRow className="w-100 justify-content-center">
             <CCol md={7}>
                 <CCard>
                     <CCardHeader>

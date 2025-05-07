@@ -4,7 +4,6 @@ import {
   CCard,
   CCardBody,
   CCol,
-  CContainer,
   CForm,
   CFormInput,
   CHeader,
@@ -25,7 +24,7 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { useNavigate } from 'react-router-dom'
-import { cilLockLocked, cilUser, cilPencil, cilTrash, cilAddressBook } from '@coreui/icons'
+import { cilLockLocked, cilUser, cilTrash, cilAddressBook, cilSearch } from '@coreui/icons'
 import AlertMessage from './../login/Alerta'
 
 export const ModalScrollingLongContent2Example = () => {
@@ -127,10 +126,42 @@ export const PermisosUsuario = () => {
 }
 
 const Registeruser = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [users] = useState([
+    { id: 1, name: 'Juan', lastname: 'Perez', email: 'juan.perez@gmail.com' },
+    { id: 2, name: 'Gabriela', lastname: 'Rosales', email: 'gabyve05@gmail.com' },
+    { id: 3, name: 'Cesar', lastname: 'Rosales', email: 'cesardaniel@gmail.com' },
+    { id: 4, name: 'Oriana', lastname: 'Duran', email: 'ori.duran0304@gmail.com' },
+    { id: 5, name: 'Jenny', lastname: 'Elizabeth', email: 'elizabeth3@gmail.com' },
+    { id: 6, name: 'William', lastname: 'Chaparro', email: 'ChaparroLobo@gmail.com' },
+    { id: 7, name: 'Daniela', lastname: 'Colmenares', email: 'Nala15@gmail.com' },
+    { id: 8, name: 'Kevin', lastname: 'Zanabria', email: 'zanabria$@gmail.com' },
+    { id: 9, name: 'Jesus', lastname: 'Lozada', email: 'luismiguel@gmail.com' },
+  ]);
+
+  const filteredUsers = users.filter(user => {
+    const searchText = searchTerm.toLowerCase();
+    return (
+    user.name.toLowerCase().includes(searchText) || 
+    user.lastname.toLowerCase().includes(searchText) || 
+    user.email.toLowerCase().includes(searchText)
+  )}
+)
+
   return (
-    <CCard>
+  <CCard className="mb-3">
       <CHeader>
         <h2>Usuarios</h2>
+          <CInputGroup style={{ width: '600px' }}>
+            <CInputGroupText>
+              <CIcon icon={cilSearch} /> 
+            </CInputGroupText>
+            <CFormInput
+              placeholder="Buscar usuarios..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </CInputGroup>
         <ModalScrollingLongContent2Example />
       </CHeader>
 
@@ -146,73 +177,20 @@ const Registeruser = () => {
         </CTableHead>
 
         <CTableBody>
-          <CTableRow>
-            <CTableDataCell>Juan</CTableDataCell>
-            <CTableDataCell>Perez</CTableDataCell>
-            <CTableDataCell>juan.perez@gmail.com </CTableDataCell>
+        {filteredUsers.map(user => (
+          <CTableRow key={user.id}>
+            <CTableDataCell>{user.name}</CTableDataCell>
+            <CTableDataCell>{user.lastname}</CTableDataCell>
+            <CTableDataCell>{user.email}</CTableDataCell>
             <CTableDataCell><PermisosUsuario/></CTableDataCell>
             <CTableDataCell><EliminarUsuario/></CTableDataCell>
           </CTableRow>
-          <CTableRow>
-            <CTableDataCell>Gabriela</CTableDataCell>
-            <CTableDataCell>Rosales</CTableDataCell>
-            <CTableDataCell>gabyve05@gmail.com </CTableDataCell>
-            <CTableDataCell><PermisosUsuario/></CTableDataCell>
-            <CTableDataCell><EliminarUsuario/></CTableDataCell>
-          </CTableRow>
-          <CTableRow>
-            <CTableDataCell>Cesar</CTableDataCell>
-            <CTableDataCell>Rosales</CTableDataCell>
-            <CTableDataCell>cesardaniel@gmail.com</CTableDataCell>
-            <CTableDataCell><PermisosUsuario/></CTableDataCell>
-            <CTableDataCell><EliminarUsuario/></CTableDataCell>
-          </CTableRow>
-          <CTableRow>
-            <CTableDataCell>Oriana</CTableDataCell>
-            <CTableDataCell>Duran</CTableDataCell>
-            <CTableDataCell>ori.duran0304@gmail.com</CTableDataCell>
-            <CTableDataCell><PermisosUsuario/></CTableDataCell>
-            <CTableDataCell><EliminarUsuario/></CTableDataCell>
-          </CTableRow>
-          <CTableRow>
-            <CTableDataCell>Jenny</CTableDataCell>
-            <CTableDataCell>Elizabeth</CTableDataCell>
-            <CTableDataCell>elizabeth3@gmail.com</CTableDataCell>
-            <CTableDataCell><PermisosUsuario/></CTableDataCell>
-            <CTableDataCell><EliminarUsuario/></CTableDataCell>
-          </CTableRow>
-          <CTableRow>
-            <CTableDataCell>William</CTableDataCell>
-            <CTableDataCell>Chaparro</CTableDataCell>
-            <CTableDataCell>ChaparroLobo@gmail.com</CTableDataCell>
-            <CTableDataCell><PermisosUsuario/></CTableDataCell>
-            <CTableDataCell><EliminarUsuario/></CTableDataCell>
-          </CTableRow>
-          <CTableRow>
-            <CTableDataCell>Daniela</CTableDataCell>
-            <CTableDataCell>Colmenares</CTableDataCell>
-            <CTableDataCell>Nala15@gmail.com</CTableDataCell>
-            <CTableDataCell><PermisosUsuario/></CTableDataCell>
-            <CTableDataCell><EliminarUsuario/></CTableDataCell>
-          </CTableRow>
-          <CTableRow>
-            <CTableDataCell>Kevin</CTableDataCell>
-            <CTableDataCell>Zanabria</CTableDataCell>
-            <CTableDataCell>zanabria$@gmail.com</CTableDataCell>
-            <CTableDataCell><PermisosUsuario/></CTableDataCell>
-            <CTableDataCell><EliminarUsuario/></CTableDataCell>
-          </CTableRow>
-          <CTableRow>
-            <CTableDataCell>Jesus</CTableDataCell>
-            <CTableDataCell>Lozada</CTableDataCell>
-            <CTableDataCell>luismiguel@gmail.com</CTableDataCell>
-            <CTableDataCell><PermisosUsuario/></CTableDataCell>
-            <CTableDataCell><EliminarUsuario/></CTableDataCell>
-          </CTableRow>
+          ))}
         </CTableBody>
       </CTable>
     </CCardBody>
-    </CCard>
+  </CCard>
+
   )
 }
 
