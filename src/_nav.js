@@ -121,8 +121,10 @@ const _nav = [
       {
         component: CNavItem,
         name: 'PAGOS X LOCAL',
-        to: '/forms/form-control',
+        to: '/page/statistics',
       },
+  
+
       {
         component: CNavItem,
         name: 'INGRESOS',
