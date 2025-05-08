@@ -4,7 +4,6 @@
   "description": "CoreUI Free React Admin Template",
   "homepage": ".",
   "bugs": {
-    
     "url": "https://github.com/coreui/coreui-free-react-admin-template/issues"
   },
   "repository": {
@@ -17,7 +16,8 @@
     "build": "vite build",
     "lint": "eslint \"src/**/*.js\"",
     "serve": "vite preview",
-    "start": "vite"
+    "start": "vite",
+    "json-server": "json-server --watch db.json --port 5000"
   },
   "dependencies": {
     "@coreui/chartjs": "^4.0.0",
@@ -26,7 +26,7 @@
     "@coreui/icons-react": "^2.3.0",
     "@coreui/react": "^5.4.1",
     "@coreui/react-chartjs": "^3.0.0",
-    "@coreui/utils": "^2.0.2", 
+    "@coreui/utils": "^2.0.2",
     "@popperjs/core": "^2.11.8",
     "chart.js": "^4.4.6",
     "classnames": "^2.5.1",
@@ -47,9 +47,10 @@
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react": "^7.37.2",
     "eslint-plugin-react-hooks": "^4.6.2",
+    "json-server": "^1.0.0-beta.3",
     "postcss": "^8.4.49",
     "prettier": "3.3.3",
     "sass": "^1.81.0",
-    "vite": "^5.4.11"
+    "vite": "^6.3.5"
   }
 }
