@@ -135,7 +135,6 @@ const routes = [
 
 
  //other routes 
-  {path: '/pages/register/user', name: 'Register', element: Registeruser },
   {path: '/pages/register/Permissions', name: 'Permisos', element: PermisosUsuario },
   {path: '/pages/profile/Profile', name: 'Profile', element: PerfilUsuario },
 ]

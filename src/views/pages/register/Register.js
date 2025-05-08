@@ -1,11 +1,10 @@
-import React, { useState } from 'react'; 
+import React from 'react'; 
 import {
   CButton,
   CCard,
   CCardBody,
   CCol,
   CForm,
-  CFormInput,
   CHeader,
   CInputGroup,
   CInputGroupText,
@@ -125,7 +124,7 @@ export const PermisosUsuario = () => {
   )
 }
 
-const Registeruser = () => {
+const Registruser = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [users] = useState([
     { id: 1, name: 'Juan', lastname: 'Perez', email: 'juan.perez@gmail.com' },

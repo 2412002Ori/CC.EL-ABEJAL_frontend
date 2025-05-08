@@ -543,13 +543,6 @@
   ],
   "contract_requests": [
     {
-      "id": "2",
-      "id_number": "5674544",
-      "full_name": "María García",
-      "request_date": "2023-01-02",
-      "activity": "Actividad comercial B"
-    },
-    {
       "id": "3",
       "id_number": "21416797",
       "full_name": "Carlos López",
@@ -576,13 +569,6 @@
       "full_name": "Sofía Hernández",
       "request_date": "2023-01-06",
       "activity": "Actividad comercial F"
-    },
-    {
-      "id": "7",
-      "id_number": "ID007",
-      "full_name": "Pedro Sánchez",
-      "request_date": "2023-01-07",
-      "activity": "Actividad comercial G"
     }
   ],
   "contracts": [
@@ -702,6 +688,28 @@
       "user_registered": "Admin Usuario",
       "numero_de_solicitud": "4",
       "tenantName": "Ana Martínez"
+    },
+    {
+      "id": "3d68",
+      "contract_number": "2026",
+      "tenant_id": "ID006",
+      "location_id": "11",
+      "rent_amount": "2000",
+      "activity": "Actividad comercial F",
+      "duration_description": "",
+      "init_date": "2025-05-08",
+      "end_date": "2026-05-08",
+      "business_name": "hola pruebz",
+      "entry_time": "13:07",
+      "exit_time": "17:11",
+      "diasTrabajo": [
+        "Lunes",
+        "Miércoles",
+        "Viernes"
+      ],
+      "user_registered": "Admin Usuario",
+      "numero_de_solicitud": "6",
+      "tenantName": "Sofía Hernández"
     }
   ],
   "transfers": [
