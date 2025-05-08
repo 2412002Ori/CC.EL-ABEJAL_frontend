@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   CCard,
   CCardBody,
@@ -22,37 +22,16 @@ import CIcon from '@coreui/icons-react'
 import { cilUserPlus } from '@coreui/icons'
 import { cilTrash, cilPencil } from '@coreui/icons'
 import Application from './application'
+import Application_edit from './application'
+
 
 
 function Applicationlist() {
-  const [modalVisible, setModalVisible] = useState(false)
-  const [searchCedula, setSearchCedula] = useState('') // Estado para el filtro de búsqueda
-  const [rows, setRows] = useState([
-    {
-      contractRequestNumber: '001',
-      tenantId: '12345678',
-      tenantName: 'Juan Pérez',
-      date: '2023-05-01',
-      activity: 'Pintura',
-      type: 'Comercial',
-    },
-    {
-      contractRequestNumber: '002',
-      tenantId: '87654321',
-      tenantName: 'María López',
-      date: '2023-05-02',
-      activity: 'Tejidos',
-      type: 'Residencial',
-    },
-    {
-      contractRequestNumber: '003',
-      tenantId: '11223344',
-      tenantName: 'Carlos García',
-      date: '2023-05-03',
-      activity: 'Carpintería',
-      type: 'Industrial',
-    },
-  ])
+  const [modalVisible, setModalVisible] = useState(false) // Modal para crear
+  const [modal1Visible, setModal1Visible] = useState(false) // Modal para editar
+  const [searchCedula, setSearchCedula] = useState('')
+  const [rows, setRows] = useState([]) 
+  const [selectedRow, setSelectedRow] = useState(null) 
 
   const headers = [
     'Número de Solicitud',
@@ -64,38 +43,121 @@ function Applicationlist() {
     '', 
   ] 
 
+  useEffect(() => {
+    console.log('Cargando datos desde JSON Server...')
+    fetch('http://localhost:3001/contract_requests')
+      .then((response) => {
+        console.log('Respuesta del servidor:', response)
+        if (!response.ok) {
+          throw new Error('Error al cargar los datos')
+        }
+        return response.json()
+      })
+      .then((data) => {
+        console.log('Datos cargados:', data)
+        setRows(data)
+      })
+      .catch((error) => console.error('Error al cargar los datos:', error))
+  }, [])
+
   const filteredRows = rows.filter((row) =>
-    row.tenantId.toLowerCase().includes(searchCedula.toLowerCase())
+    row.id_number?.toString().toLowerCase().includes(searchCedula.toLowerCase())
   )
 
-
- 
   const handleEdit = (row) => {
     console.log('Editar:', row)
-   
+    setSelectedRow(row) 
+    setModal1Visible(true) 
   }
 
+  const handleSave = (updatedRow) => {
+    console.log('Datos enviados para actualizar:', updatedRow) // Depuración
+    fetch(`http://localhost:3001/contract_requests/${updatedRow.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedRow), // Enviar los datos actualizados
+    })
+      .then((response) => {
+        console.log('Respuesta del servidor:', response) // Depuración
+        if (!response.ok) {
+          return response.text().then((text) => {
+            throw new Error(`Error al actualizar la solicitud: ${text}`)
+          })
+        }
+        return response.json()
+      })
+      .then((data) => {
+        console.log('Datos actualizados en el servidor:', data) // Depuración
+        setRows((prevRows) =>
+          prevRows.map((row) => (row.id === updatedRow.id ? updatedRow : row))
+        )
+        setModal1Visible(false) // Cerrar el modal de edición
+      })
+      .catch((error) => console.error('Error al actualizar la solicitud:', error))
+  }
 
-  const handleDelete = (contractRequestNumber) => {
-    setRows((prevRows) => prevRows.filter((row) => row.contractRequestNumber !== contractRequestNumber))
-    
+  const handleCreate = (newRow) => {
+    console.log('Datos enviados para crear:', newRow) // Depuración
+    fetch('http://localhost:3001/contract_requests', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newRow), // Enviar los datos nuevos
+    })
+      .then((response) => {
+        console.log('Respuesta del servidor:', response) // Depuración
+        if (!response.ok) {
+          return response.text().then((text) => {
+            throw new Error(`Error al crear la solicitud: ${text}`)
+          })
+        }
+        return response.json()
+      })
+      .then((data) => {
+        console.log('Datos creados en el servidor:', data) // Depuración
+        setRows((prevRows) => [...prevRows, data])
+        setModalVisible(false) // Cerrar el modal de creación
+      })
+      .catch((error) => console.error('Error al crear la solicitud:', error))
+  }
+
+  const handleDelete = (id) => {
+    fetch(`http://localhost:3001/contract_requests/${id}`, { 
+      method: 'DELETE',
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Error al eliminar la solicitud')
+        }
+        setRows((prevRows) => prevRows.filter((row) => row.id !== id))
+      })
+      .catch((error) => console.error('Error al eliminar la solicitud:', error))
   }
 
   return (
     <div className="informe-mensual">
-      {/* Modal */}
-      <CModal visible={modalVisible} onClose={() => setModalVisible(false)} size="xl">
-        <CModalHeader closeButton>
-          <h5>Registrar nueva solicitud</h5>
-        </CModalHeader>
+      {/* Modal para crear */}
+      <CModal visible={modalVisible} onClose={() => setModalVisible(false)} size="lg">
         <CModalBody>
-          <Application />
+          <Application
+            onSave={handleCreate} 
+            isEdit={false} 
+          />
         </CModalBody>
-        <CModalFooter>
-          <CButton color="secondary" onClick={() => setModalVisible(false)}>
-            Cerrar
-          </CButton>
-        </CModalFooter>
+      </CModal>
+
+      {/* Modal para editar */}
+      <CModal visible={modal1Visible} onClose={() => setModal1Visible(false)} size="lg">
+        <CModalBody>
+          <Application
+            data={selectedRow} 
+            onSave={handleSave} 
+            isEdit={true} 
+          />
+        </CModalBody>
       </CModal>
 
       <CRow className="mb-3 align-items-center">
@@ -142,10 +204,10 @@ function Applicationlist() {
             <CTableBody>
               {filteredRows.map((row, index) => (
                 <CTableRow key={index}>
-                  <CTableDataCell className="text-center">{row.contractRequestNumber}</CTableDataCell>
-                  <CTableDataCell className="text-center">{row.tenantId}</CTableDataCell>
-                  <CTableDataCell className="text-center">{row.tenantName}</CTableDataCell>
-                  <CTableDataCell className="text-center">{row.date}</CTableDataCell>
+                  <CTableDataCell className="text-center">{row.id}</CTableDataCell>
+                  <CTableDataCell className="text-center">{row.id_number}</CTableDataCell>
+                  <CTableDataCell className="text-center">{row.full_name}</CTableDataCell>
+                  <CTableDataCell className="text-center">{row.request_date}</CTableDataCell>
                   <CTableDataCell className="text-center">{row.activity}</CTableDataCell>
                   <CTableDataCell className="text-center">{row.type}</CTableDataCell>
                   <CTableDataCell className="text-center">
@@ -155,14 +217,14 @@ function Applicationlist() {
                       className="me-2"
                       onClick={() => handleEdit(row)}
                     >
-                      <CIcon icon={cilPencil} /> {/* Ícono para editar */}
+                      <CIcon icon={cilPencil} /> 
                     </CButton>
                     <CButton
                       color="danger"
                       size="sm"
-                      onClick={() => handleDelete(row.contractRequestNumber)}
+                      onClick={() => handleDelete(row.id)}
                     >
-                      <CIcon icon={cilTrash} /> {/* Ícono para eliminar */}
+                      <CIcon icon={cilTrash} /> 
                     </CButton>
                   </CTableDataCell>
                 </CTableRow>

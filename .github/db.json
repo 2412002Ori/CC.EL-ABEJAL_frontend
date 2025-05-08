@@ -131,7 +131,6 @@
       { "id": 71, "area_id": 8, "description": "Local 8 del Área 8" },
       { "id": 72, "area_id": 8, "description": "Local 9 del Área 8" }
     ],
-    
     "users":  [
       {
         "id": 1,
@@ -329,70 +328,70 @@
     "contract_requests": [
       {
         "id": 1,
-        "id_number": "ID001",
+        "id_number": "5674544",
         "full_name": "Juan Pérez",
         "request_date": "2023-01-01",
         "activity": "Actividad comercial A"
       },
       {
         "id": 2,
-        "id_number": "ID002",
+        "id_number": "12345678",
         "full_name": "María García",
         "request_date": "2023-01-02",
         "activity": "Actividad comercial B"
       },
       {
         "id": 3,
-        "id_number": "ID003",
+        "id_number": "109865",
         "full_name": "Carlos López",
         "request_date": "2023-01-03",
         "activity": "Actividad comercial C"
       },
       {
         "id": 4,
-        "id_number": "ID004",
+        "id_number": "3418558",
         "full_name": "Ana Martínez",
         "request_date": "2023-01-04",
         "activity": "Actividad comercial D"
       },
       {
         "id": 5,
-        "id_number": "ID005",
+        "id_number": "101222",
         "full_name": "Luis Rodríguez",
         "request_date": "2023-01-05",
         "activity": "Actividad comercial E"
       },
       {
         "id": 6,
-        "id_number": "ID006",
+        "id_number": "4568956",
         "full_name": "Sofía Hernández",
         "request_date": "2023-01-06",
         "activity": "Actividad comercial F"
       },
       {
         "id": 7,
-        "id_number": "ID007",
+        "id_number": "1245789",
         "full_name": "Pedro Sánchez",
         "request_date": "2023-01-07",
         "activity": "Actividad comercial G"
       },
       {
         "id": 8,
-        "id_number": "ID008",
+        "id_number": "28457689",
         "full_name": "Laura Díaz",
         "request_date": "2023-01-08",
         "activity": "Actividad comercial H"
       },
       {
         "id": 9,
-        "id_number": "ID009",
+        "id_number": "232542",
         "full_name": "Jorge Ruiz",
         "request_date": "2023-01-09",
         "activity": "Actividad comercial I"
       },
       {
         "id": 10,
-        "id_number": "ID010",
+        "id_number": "1245456",
         "full_name": "Mónica Castro",
         "request_date": "2023-01-10",
         "activity": "Actividad comercial J"
