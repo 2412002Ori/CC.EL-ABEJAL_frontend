@@ -1,5 +1,4 @@
-// Importaciones necesarias para el componente de inicio de sesión 
-import { Link } from 'react-router-dom' // Para navegación entre páginas, Permite usar <Link> para navegar a otras páginas.
+// Importaciones que necesito para el componente de inicio de sesión 
 import {
   CAlert,
   CButton,
@@ -17,7 +16,8 @@ import {
   CModalBody,
   CModalFooter,
   CModalHeader,
-  CModalTitle
+  CModalTitle,
+  CSpinner
 } from '@coreui/react' 
 
 import CIcon from '@coreui/icons-react'
@@ -25,6 +25,7 @@ import { cilLockLocked, cilUser } from '@coreui/icons'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import centroArtesanal from '../../../assets/images/centroArtesanal.jpg' 
+import AlertMessage from './Alerta'
 
 export const ModalStaticBackdropExample = () => {
   const [visible, setVisible] = useState(false)
@@ -62,8 +63,11 @@ export const ModalStaticBackdropExample = () => {
   )
 }
 
+export const SpinnerGrowExample = () => {
+  return <CSpinner as="span" className="me-2" size="sm" variant="grow" aria-hidden="true" />
+}
+
 const Login = () => {
-  //Estados
   const [username, setUsername] = useState(''); 
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -79,7 +83,7 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault(); 
     setLoading(true);   
-    setError('');  //Limpia el error
+    setError(''); 
     
   setTimeout(() => {
 
@@ -97,25 +101,22 @@ const Login = () => {
       setError ('Crontraseña Incorrecta')
     }
     setLoading (false)
-    }, 1600 )
+    }, 1800 )
   };
 
   return (
     <div className="bg-body-tertiary min-vh-100 d-flex flex-row align-items-center" 
       style={{
-      backgroundImage: `url(${centroArtesanal})`, //usando mi imagen importada
+      backgroundImage: `url(${centroArtesanal})`, 
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat'
     }}> 
 
-      {/* Estructura de la Página */}
       <CContainer>
         <CRow className="justify-content-end">
           <CCol md={6}>
             <CCardGroup>
-
-              {/* Tarjeta de Login */}
               <CCard className="p-4" style={{ 
                 border: '1px solid',
                 borderRadius: '1rem', 
@@ -125,8 +126,7 @@ const Login = () => {
                   <CForm onSubmit={handleLogin}>
                     <h1>Login</h1>
                     <p className="text-body-secondary">Sign In to your account</p>
-
-                    {/* Campo de Usuario */}
+                    
                     <CInputGroup className="mb-3">
                       <CInputGroupText>
                         <CIcon icon={cilUser} />
@@ -140,7 +140,6 @@ const Login = () => {
                       />
                     </CInputGroup>
 
-                    {/* Campo de Contraseña */}
                     <CInputGroup className="mb-4">
                       <CInputGroupText>
                         <CIcon icon={cilLockLocked} />
@@ -155,31 +154,25 @@ const Login = () => {
                       />
                     </CInputGroup>
 
-                    {/* Mensaje de error */}
-                    { error && ( <div className='mb-3'>
-                      <CAlert color="danger">{error}</CAlert>
-                    </div>
-                    )}
+                    { error && (<AlertMessage/>) }
                     
-                    {/* Botones de Acción */}
                     <CRow>
                       <CCol xs={6}>
                         <CButton color="success" className="px-4" type="submit" disabled={loading}>
+                          {loading ? <SpinnerGrowExample /> : null}
                           {loading ? 'Loading...' : 'Login'}
                         </CButton>
                       </CCol>
 
                       <CCol xs={6} className="text-right" >
-                        <div style={{ }}>
+                        <div>
                           <ModalStaticBackdropExample />
                         </div>
                       </CCol>
                     </CRow>
-
                   </CForm>
                 </CCardBody>
               </CCard>
-
             </CCardGroup>
           </CCol>
         </CRow>

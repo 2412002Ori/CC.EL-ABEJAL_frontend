@@ -4,7 +4,6 @@ import {
   CCard,
   CCardBody,
   CCol,
-  CContainer,
   CForm,
   CFormInput,
   CHeader,
@@ -21,10 +20,12 @@ import {
   CModalBody,
   CModalFooter,
   CModalHeader,
-  CModalTitle
+  CModalTitle,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilLockLocked, cilUser } from '@coreui/icons'
+import { useNavigate } from 'react-router-dom'
+import { cilLockLocked, cilUser, cilTrash, cilAddressBook, cilSearch } from '@coreui/icons'
+import AlertMessage from './../login/Alerta'
 
 export const ModalScrollingLongContent2Example = () => {
   const [visible, setVisible] = useState(false)
@@ -49,7 +50,7 @@ export const ModalScrollingLongContent2Example = () => {
           <CRow className="justify-content-center">
             <CCol>
               <CForm>
-                <h2>Create your account</h2>
+                <h2>Crea tu nueva cuenta</h2>
               <CInputGroup className="mb-3">
                 <CInputGroupText>
                   <CIcon icon={cilUser} />
@@ -107,11 +108,60 @@ export const ModalScrollingLongContent2Example = () => {
   )
 }
 
-const Registeruser = () => {
+export const EliminarUsuario = () => {
   return (
-    <CCard>
+    <>
+    <CButton color="danger" variant="ghost" className="ms-2" ><CIcon icon={cilTrash} className="me-2" />Eliminar</CButton>
+    </>
+  )
+}
+
+export const PermisosUsuario = () => {
+  const navigate = useNavigate();
+  return (
+    <>
+    <CButton color="info" variant="ghost" className="ms-2" onClick={() => navigate('/pages/register/Permissions') }><CIcon icon={cilAddressBook} className="me-2" />Permisos</CButton>
+    </>
+  )
+}
+
+const Registeruser = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [users] = useState([
+    { id: 1, name: 'Juan', lastname: 'Perez', email: 'juan.perez@gmail.com' },
+    { id: 2, name: 'Gabriela', lastname: 'Rosales', email: 'gabyve05@gmail.com' },
+    { id: 3, name: 'Cesar', lastname: 'Rosales', email: 'cesardaniel@gmail.com' },
+    { id: 4, name: 'Oriana', lastname: 'Duran', email: 'ori.duran0304@gmail.com' },
+    { id: 5, name: 'Jenny', lastname: 'Elizabeth', email: 'elizabeth3@gmail.com' },
+    { id: 6, name: 'William', lastname: 'Chaparro', email: 'ChaparroLobo@gmail.com' },
+    { id: 7, name: 'Daniela', lastname: 'Colmenares', email: 'Nala15@gmail.com' },
+    { id: 8, name: 'Kevin', lastname: 'Zanabria', email: 'zanabria$@gmail.com' },
+    { id: 9, name: 'Jesus', lastname: 'Lozada', email: 'luismiguel@gmail.com' },
+  ]);
+
+  const filteredUsers = users.filter(user => {
+    const searchText = searchTerm.toLowerCase();
+    return (
+    user.name.toLowerCase().includes(searchText) || 
+    user.lastname.toLowerCase().includes(searchText) || 
+    user.email.toLowerCase().includes(searchText)
+  )}
+)
+
+  return (
+  <CCard className="mb-3">
       <CHeader>
         <h2>Usuarios</h2>
+          <CInputGroup style={{ width: '600px' }}>
+            <CInputGroupText>
+              <CIcon icon={cilSearch} /> 
+            </CInputGroupText>
+            <CFormInput
+              placeholder="Buscar usuarios..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </CInputGroup>
         <ModalScrollingLongContent2Example />
       </CHeader>
 
@@ -122,39 +172,25 @@ const Registeruser = () => {
             <CTableHeaderCell>Nombre</CTableHeaderCell>  
             <CTableHeaderCell>Apellido</CTableHeaderCell> 
             <CTableHeaderCell>Email</CTableHeaderCell>  
+            <CTableHeaderCell className="text-center">Acciones</CTableHeaderCell>  
           </CTableRow>
         </CTableHead>
 
         <CTableBody>
-          <CTableRow>
-            <CTableDataCell>Juan</CTableDataCell>
-            <CTableDataCell>Perez</CTableDataCell>
-            <CTableDataCell>juan.perez@gmail.com</CTableDataCell>
+        {filteredUsers.map(user => (
+          <CTableRow key={user.id}>
+            <CTableDataCell>{user.name}</CTableDataCell>
+            <CTableDataCell>{user.lastname}</CTableDataCell>
+            <CTableDataCell>{user.email}</CTableDataCell>
+            <CTableDataCell><PermisosUsuario/></CTableDataCell>
+            <CTableDataCell><EliminarUsuario/></CTableDataCell>
           </CTableRow>
-          <CTableRow>
-            <CTableDataCell>Gabriela</CTableDataCell>
-            <CTableDataCell>Rosales</CTableDataCell>
-            <CTableDataCell>gabyve05@gmail.com</CTableDataCell>
-          </CTableRow>
-          <CTableRow>
-            <CTableDataCell>Cesar</CTableDataCell>
-            <CTableDataCell>Rosales</CTableDataCell>
-            <CTableDataCell>cesardaniel@gmail.com</CTableDataCell>
-          </CTableRow>
-          <CTableRow>
-            <CTableDataCell>Oriana</CTableDataCell>
-            <CTableDataCell>Duran</CTableDataCell>
-            <CTableDataCell>ori.duran0304@gmail.com</CTableDataCell>
-          </CTableRow>
-          <CTableRow>
-            <CTableDataCell>Jenny</CTableDataCell>
-            <CTableDataCell>Elizabeth</CTableDataCell>
-            <CTableDataCell>elizabeth3@gmail.com</CTableDataCell>
-          </CTableRow>
+          ))}
         </CTableBody>
       </CTable>
     </CCardBody>
-    </CCard>
+  </CCard>
+
   )
 }
 

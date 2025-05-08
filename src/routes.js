@@ -65,8 +65,10 @@ const ListTenants = React.lazy(() => import('./views/pages/tenants/tenantslist')
 const RelocationList = React.lazy(() => import('./views/pages/tenants/relocationlist'))
 const CondoBarChart = React.lazy(() => import('./views/pages/statistics/statistics'))
 
-//oters
+//other routes
 const Registeruser = React.lazy(() => import('./views/pages/register/Register'))
+const PermisosUsuario = React.lazy(() => import('./views/pages/register/Permissions'))
+const PerfilUsuario = React.lazy(() => import('./views/pages/profile/Profile'))
 
 
 const routes = [
@@ -131,9 +133,11 @@ const routes = [
   {path: '/pages/tenants/relocation', name: 'Relocation', element: RelocationList },
   { path: '/page/statistics', name: 'statistics', element: CondoBarChart },
 
- // oters 
- {path: '/pages/register/user', name: 'Register', element: Registeruser },
 
+ //other routes 
+  {path: '/pages/register/user', name: 'Register', element: Registeruser },
+  {path: '/pages/register/Permissions', name: 'Permisos', element: PermisosUsuario },
+  {path: '/pages/profile/Profile', name: 'Profile', element: PerfilUsuario },
 ]
 
 export default routes

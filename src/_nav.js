@@ -22,7 +22,7 @@ const _nav = [
     name: 'Dashboard',
     to: '/dashboard',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
-   
+  
   },
   {
     component: CNavTitle,
@@ -140,20 +140,9 @@ const _nav = [
     items: [
       {
         component: CNavItem,
-        name: 'REGISTRO',
+        name: 'LISTA USUARIOS',
         to: '/pages/register/user',
-      },
-      {
-        component: CNavItem,
-        name: 'PERFILES',
-        to: '/forms/select',
-      },  
-      {
-        component: CNavItem,
-        name: 'PERMISOS',
-        to: '/forms/select',
-      },
-      
+      }, 
     ],
   },
 ]
