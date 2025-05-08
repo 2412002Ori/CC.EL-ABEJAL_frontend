@@ -22,7 +22,7 @@ const Application = ({ data = {}, onSave, isEdit = false }) => {
 
   useEffect(() => {
     if (isEdit && data) {
-      setFormData(data) // Cargar datos iniciales si es modo edición
+      setFormData(data) 
     }
   }, [isEdit, data])
 
@@ -36,7 +36,7 @@ const Application = ({ data = {}, onSave, isEdit = false }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    onSave(formData) // Llamar a la función de guardar con los datos del formulario
+    onSave(formData) 
   }
 
   return (

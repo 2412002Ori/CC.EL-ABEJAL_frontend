@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react';
 import {
   CCard,
   CCardBody,
@@ -8,59 +8,37 @@ import {
   CCol,
   CForm,
   CButton,
-  CFormCheck,
-} from '@coreui/react'
+} from '@coreui/react';
 
-const RegistrerTenant = () => {
+const RegistrerTenant = ({ data, onSave, isEdit }) => {
   const [formData, setFormData] = useState({
-    cedula: '',
+    id_number: '',
     rif: '',
-    nombreApellido: '',
-    direccion: '',
-    telefono: '',
-    correo: '',
-    horarioEntrada: '',
-    horarioSalida: '',
-    diasTrabajo: [],
-  })
+    full_name: '',
+    date_birth: '',
+    phone: '',
+    email: '',
+    address: '',
+  });
+
+  useEffect(() => {
+    if (isEdit && data) {
+      setFormData(data); // Inicializa los campos con los datos del usuario seleccionado
+    }
+  }, [isEdit, data]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }))
-  }
-
-  const handleCheckboxChange = (e) => {
-    const { value, checked } = e.target
-    setFormData((prevState) => {
-      const diasTrabajo = checked
-        ? [...prevState.diasTrabajo, value]
-        : prevState.diasTrabajo.filter((dia) => dia !== value)
-      return { ...prevState, diasTrabajo }
-    })
-  }
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log('Form Data:', formData)
-    alert('Formulario enviado con éxito')
-    setFormData({
-      cedula: '',
-      rif: '',
-      nombreApellido: '',
-      direccion: '',
-      telefono: '',
-      correo: '',
-      horarioEntrada: '',
-      horarioSalida: '',
-      diasTrabajo: [],
-    })
-  }
+    e.preventDefault(); // Evita el comportamiento por defecto del formulario
+    onSave(formData); // Envía los datos actualizados al guardar
+  };
 
   return (
-         <CCard bordered hover style={{ border: '2px solid #ffa600b0' }}>
+    <CCard bordered hover style={{ border: '2px solid #ffa600b0' }}>
       <CCardHeader>
         <h3 className="text-center">Registro de Inquilino</h3>
       </CCardHeader>
@@ -69,22 +47,26 @@ const RegistrerTenant = () => {
           <CRow className="justify-content-center mb-3">
             <CCol md={2}>
               <CFormInput
-                type="text"
-                name="cedula"
-                value={formData.cedula}
+                type="integer"
+                min="0"
+                max="99999999"
+                name="id_number"
+                value={formData.id_number}
                 onChange={handleChange}
-                placeholder="Número de Cédula"
+                placeholder="12345678"
                 label="Cédula"
                 required
               />
             </CCol>
             <CCol md={2}>
               <CFormInput
-                type="text"
+                type="integer"
+                min="0"
+                max="99999999"
                 name="rif"
                 value={formData.rif}
                 onChange={handleChange}
-                placeholder="RIF"
+                placeholder="j-12345678-9"
                 label="RIF"
                 required
               />
@@ -92,8 +74,8 @@ const RegistrerTenant = () => {
             <CCol md={5}>
               <CFormInput
                 type="text"
-                name="nombreApellido"
-                value={formData.nombreApellido}
+                name="full_name"
+                value={formData.full_name}
                 onChange={handleChange}
                 placeholder="Nombre y Apellido"
                 label="Nombre y Apellido"
@@ -101,35 +83,35 @@ const RegistrerTenant = () => {
               />
             </CCol>
           </CRow>
-    
+
           <CRow className="justify-content-center mb-3">
             <CCol md={2}>
               <CFormInput
-                type="text"
-                name="telefono"
-                value={formData.telefono}
+                type="integer"
+                name="phone"
+                value={formData.phone}
                 onChange={handleChange}
-                placeholder="Teléfono"
+                placeholder="04123456789"
                 label="Teléfono"
                 required
               />
             </CCol>
-            <CCol md={2}>
+            <CCol md={3}>
               <CFormInput
                 type="email"
-                name="correo"
-                value={formData.correo}
+                name="email"
+                value={formData.email}
                 onChange={handleChange}
-                placeholder="Correo Electrónico"
+                placeholder="ejemplo@gmail.com"
                 label="Correo Electrónico"
                 required
               />
             </CCol>
-            <CCol md={5}>
+            <CCol md={4}>
               <CFormInput
                 type="text"
-                name="direccion"
-                value={formData.direccion}
+                name="address"
+                value={formData.address}
                 onChange={handleChange}
                 placeholder="Dirección"
                 label="Dirección"
@@ -137,49 +119,7 @@ const RegistrerTenant = () => {
               />
             </CCol>
           </CRow>
-    
-          <CRow className="justify-content-center mb-3">
-            <CCol md={2}>
-              <CFormInput
-                type="time"
-                name="horarioEntrada"
-                value={formData.horarioEntrada}
-                onChange={handleChange}
-                placeholder="Horario de Entrada"
-                label="Hora de Entrada"
-                required
-              />
-            </CCol>
-            <CCol md={2}>
-              <CFormInput
-                type="time"
-                name="horarioSalida"
-                value={formData.horarioSalida}
-                onChange={handleChange}
-                placeholder="Horario de Salida"
-                label="Hora de Salida"
-                required
-              />
-            </CCol>
-            <CCol md={7}>
-              <label className="form-label">Días de Trabajo</label>
-              <div className="text-center">
-                {['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'].map(
-                  (dia) => (
-                    <CFormCheck
-                      key={dia}
-                      inline
-                      label={dia}
-                      value={dia}
-                      onChange={handleCheckboxChange}
-                      checked={formData.diasTrabajo.includes(dia)}
-                    />
-                  ),
-                )}
-              </div>
-            </CCol>
-          </CRow>
-    
+
           <CRow className="justify-content-center">
             <CCol xs="auto">
               <CButton type="submit" color="primary">
@@ -190,7 +130,7 @@ const RegistrerTenant = () => {
         </CForm>
       </CCardBody>
     </CCard>
-  )
-}
+  );
+};
 
-export default RegistrerTenant
+export default RegistrerTenant;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   CCard,
   CCardBody,
@@ -8,69 +8,82 @@ import {
   CCol,
   CForm,
   CButton,
-  CAlert,
 } from '@coreui/react'
-import { CModal, CModalHeader, CModalBody, CModalFooter } from '@coreui/react'  
-
 
 const Relocation = () => {
-  const contracts = {
-    '12345678': { tenantName: 'Juan Pérez', tenantId: '12345678', currentLocal: 'A-101', currentLocalName: 'Tienda de Ropa', hasDebt: true },
-    '87654321': { tenantName: 'María López', tenantId: '87654321', currentLocal: 'B-202', currentLocalName: 'Cafetería', hasDebt: false },
-    '11223344': { tenantName: 'Carlos García', tenantId: '11223344', currentLocal: 'C-303', currentLocalName: 'Electrónica', hasDebt: true },
-    '55667788': { tenantName: 'Ana Torres', tenantId: '55667788', currentLocal: 'D-404', currentLocalName: 'Joyería', hasDebt: false },
-    '99887766': { tenantName: 'Luis Fernández', tenantId: '99887766', currentLocal: 'E-505', currentLocalName: 'Zapatería', hasDebt: false },
-  }
-
   const [relocationData, setRelocationData] = useState({
-    tenantId: '',
-    tenantName: '',
-    currentLocal: '',
-    currentLocalName: '',
-    newLocal: '',
-    newLocalName: '',
-    hasDebt: false,
+    tenant_id: '',
+    old_contract_id: '',
+    new_contract_id: '',
+    reason: '',
+    transfer_date: '',
+    number_local_new: '',
+    number_local_old: '',
   })
+
+  const [locations, setLocations] = useState([]) // Estado para almacenar los locales
 
   const handleChange = (e) => {
     const { name, value } = e.target
+    setRelocationData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }))
+  }
 
-    if (name === 'tenantId') {
-      const contract = contracts[value] || { tenantName: '', tenantId: '', currentLocal: '', currentLocalName: '', hasDebt: false }
-      setRelocationData((prevState) => ({
-        ...prevState,
-        tenantId: value,
-        tenantName: contract.tenantName,
-        currentLocal: contract.currentLocal,
-        currentLocalName: contract.currentLocalName,
-        hasDebt: contract.hasDebt,
-      }))
-    } else {
-      setRelocationData((prevState) => ({
-        ...prevState,
-        [name]: value,
-      }))
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    console.log('Relocation Data:', relocationData)
+
+    try {
+      const response = await fetch('http://localhost:3001/transfers', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(relocationData),
+      })
+
+      if (!response.ok) {
+        throw new Error('Error al registrar el traslado')
+      }
+
+      alert('Traslado registrado con éxito')
+      setRelocationData({
+        tenant_id: '',
+        old_contract_id: '',
+        new_contract_id: '',
+        reason: '',
+        transfer_date: '',
+        number_local_new: '',
+        number_local_old: '',
+      })
+    } catch (error) {
+      console.error('Error al registrar el traslado:', error)
+      alert('Hubo un error al registrar el traslado')
     }
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log('Relocation Data:', relocationData)
-    alert(`Traslado registrado con éxito para el inquilino: ${relocationData.tenantName}`)
-    setRelocationData({
-      tenantId: '',
-      tenantName: '',
-      currentLocal: '',
-      currentLocalName: '',
-      newLocal: '',
-      newLocalName: '',
-      hasDebt: false,
-    })
-  }
+  useEffect(() => {
+    const fetchLocations = async () => {
+      try {
+        const response = await fetch('http://localhost:3001/locations')
+        if (response.ok) {
+          const data = await response.json()
+          setLocations(data) // Guardar los locales en el estado
+        } else {
+          console.error('Error al obtener los locales:', response.statusText)
+        }
+      } catch (error) {
+        console.error('Error en la solicitud:', error)
+      }
+    }
+
+    fetchLocations()
+  }, [])
 
   return (
     <>
-       
       <h3 className="text-center">TRASLADO DE INQUILINO</h3>
 
       <CCardBody>
@@ -85,34 +98,24 @@ const Relocation = () => {
                 <CCardBody>
                   <CFormInput
                     type="text"
-                    name="tenantId"
-                    value={relocationData.tenantId}
+                    name="tenant_id"
+                    value={relocationData.tenant_id}
                     onChange={handleChange}
-                    placeholder="Cédula del Inquilino"
-                    label="Cédula del Inquilino"
+                    placeholder="ID del Inquilino"
+                    label="ID del Inquilino"
                     required
                     className="mb-3"
                   />
                   <CFormInput
                     type="text"
-                    name="tenantName"
-                    value={relocationData.tenantName}
-                    placeholder="Nombre del Inquilino"
-                    label="Nombre del Inquilino"
-                    disabled
+                    name="reason"
+                    value={relocationData.reason}
+                    onChange={handleChange}
+                    placeholder="Razón del Traslado"
+                    label="Razón del Traslado"
+                    required
                     className="mb-3"
                   />
-                 {relocationData.tenantId && (
-                  relocationData.hasDebt ? (
-                    <CAlert color="danger" className="text-center">
-                      El inquilino tiene deudas activas
-                    </CAlert>
-                  ) : (
-                    <CAlert color="success" className="text-center">
-                      El inquilino no tiene deudas activas
-                    </CAlert>
-                  )
-                )}
                 </CCardBody>
               </CCard>
             </CCol>
@@ -124,41 +127,83 @@ const Relocation = () => {
                   <h5 className="text-center">Información del Local</h5>
                 </CCardHeader>
                 <CCardBody>
-                  <CFormInput
-                    type="text"
-                    name="currentLocal"
-                    value={relocationData.currentLocal}
-                    placeholder="Local Actual"
-                    label="Local Actual"
-                    disabled
-                    className="mb-3"
-                  />
-                  <CFormInput
-                    type="text"
-                    name="currentLocalName"
-                    value={relocationData.currentLocalName}
-                    placeholder="Nombre del Local Actual"
-                    label="Nombre del Local Actual"
-                    disabled
-                    className="mb-3"
-                  />
-                  <CFormInput
-                    type="text"
-                    name="newLocal"
-                    value={relocationData.newLocal}
+                  <label htmlFor="number_local_old" className="form-label">
+                    Local Actual
+                  </label>
+                  <select
+                    id="number_local_old"
+                    name="number_local_old"
+                    value={relocationData.number_local_old}
                     onChange={handleChange}
-                    placeholder="Nuevo Local"
-                    label="Nuevo Local"
+                    className="form-select mb-3"
+                    required
+                  >
+                    <option value="">Seleccione un local</option>
+                    {locations.map((location) => (
+                      <option key={location.id} value={location.id}>
+                        {location.id} - {location.description}
+                      </option>
+                    ))}
+                  </select>
+
+                  <label htmlFor="number_local_new" className="form-label">
+                    Nuevo Local
+                  </label>
+                  <select
+                    id="number_local_new"
+                    name="number_local_new"
+                    value={relocationData.number_local_new}
+                    onChange={handleChange}
+                    className="form-select mb-3"
+                    required
+                  >
+                    <option value="">Seleccione un local</option>
+                    {locations.map((location) => (
+                      <option key={location.id} value={location.id}>
+                        {location.id} - {location.description}
+                      </option>
+                    ))}
+                  </select>
+
+                  <CFormInput
+                    type="date"
+                    name="transfer_date"
+                    value={relocationData.transfer_date}
+                    onChange={handleChange}
+                    placeholder="Fecha del Traslado"
+                    label="Fecha del Traslado"
+                    required
+                    className="mb-3"
+                  />
+                </CCardBody>
+              </CCard>
+            </CCol>
+
+            {/* Información de los contratos */}
+            <CCol md={4}>
+              <CCard className="mt-3 mb-3">
+                <CCardHeader>
+                  <h5 className="text-center">Información de los Contratos</h5>
+                </CCardHeader>
+                <CCardBody>
+                  <CFormInput
+                    type="text"
+                    name="old_contract_id"
+                    value={relocationData.old_contract_id}
+                    onChange={handleChange}
+                    placeholder="ID del Contrato Anterior"
+                    label="ID del Contrato Anterior"
                     required
                     className="mb-3"
                   />
                   <CFormInput
                     type="text"
-                    name="newLocalName"
-                    value={relocationData.newLocalName}
+                    name="new_contract_id"
+                    value={relocationData.new_contract_id}
                     onChange={handleChange}
-                    placeholder="Nombre del Nuevo Local"
-                    label="Nombre del Nuevo Local"
+                    placeholder="ID del Nuevo Contrato"
+                    label="ID del Nuevo Contrato"
+                    required
                     className="mb-3"
                   />
                 </CCardBody>

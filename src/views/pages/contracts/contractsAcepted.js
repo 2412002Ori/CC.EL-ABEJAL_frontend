@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   CCard,
   CCardBody,
@@ -13,74 +13,41 @@ import {
   CCol,
   CRow,
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { cilCloudDownload, cibWhatsapp, cibGmail } from '@coreui/icons'
 
 function ContractsAceptedList() {
   const headers = [
-    'N° CONTRATO',
-    'N° LOCAL',
-    'CI',
-    'NOMBRE Y APELLIDO',
-    'ACTIVIDAD',
-    'MONTO RENTA',
-    'FECHA INICIO',
-    'FECHA FIN',
+    'N° Contrato',
+    'CI Inquilino',
+    'N° Local',
+    'Renta',
+    'Expedición',
+    'Vencimiento',
+    'Nombre Local',
+    'Hora Entrada',
+    'Hora Salida',
+    'Días de Trabajo',
+    'Usuario',
   ]
 
-  // Información de muestra para la tabla
-  const [rows] = useState([
-    {
-      nContrato: '001',
-      nLocal: 'A-101',
-      ci: '12345678',
-      nombre: 'Juan Pérez',
-      actividad: 'Venta de Ropa',
-      monto: '$500',
-      fechai: '2023-01-01',
-      fechaf: '2023-12-31',
-    },
-    {
-      nContrato: '002',
-      nLocal: 'B-202',
-      ci: '87654321',
-      nombre: 'María López',
-      actividad: 'Comida Rápida',
-      monto: '$700',
-      fechai: '2023-02-01',
-      fechaf: '2023-11-30',
-    },
-    {
-      nContrato: '003',
-      nLocal: 'C-303',
-      ci: '11223344',
-      nombre: 'Carlos García',
-      actividad: 'Electrónica',
-      monto: '$600',
-      fechai: '2023-03-01',
-      fechaf: '2023-10-31',
-    },
-    {
-      nContrato: '004',
-      nLocal: 'D-404',
-      ci: '55667788',
-      nombre: 'Ana Torres',
-      actividad: 'Joyería',
-      monto: '$800',
-      fechai: '2023-04-01',
-      fechaf: '2023-09-30',
-    },
-    {
-      nContrato: '005',
-      nLocal: 'E-505',
-      ci: '99887766',
-      nombre: 'Luis Fernández',
-      actividad: 'Zapatería',
-      monto: '$550',
-      fechai: '2023-05-01',
-      fechaf: '2023-08-31',
-    },
-  ])
+  const [contracts, setContracts] = useState([])
+
+  useEffect(() => {
+    const fetchContractData = async () => {
+      try {
+        const response = await fetch('http://localhost:3001/contracts')
+        if (response.ok) {
+          const data = await response.json()
+          setContracts(data)
+        } else {
+          console.error('Error al obtener los contratos:', response.statusText)
+        }
+      } catch (error) {
+        console.error('Error en la solicitud:', error)
+      }
+    }
+
+    fetchContractData()
+  }, [])
 
   return (
     <div className="informe-mensual">
@@ -89,10 +56,6 @@ function ContractsAceptedList() {
           <CRow>
             <CCol>
               <h3>CONTRATOS ACTIVOS</h3>
-            </CCol>
-            <CCol style={{ marginBottom: '2px', marginTop: '10px' }}>
-
-             
             </CCol>
           </CRow>
         </CCardHeader>
@@ -108,21 +71,28 @@ function ContractsAceptedList() {
               </CTableRow>
             </CTableHead>
             <CTableBody>
-              {rows.map((row, index) => (
+              {contracts.map((contract, index) => (
                 <CTableRow key={index}>
-                  <CTableDataCell className="text-center">{row.nContrato}</CTableDataCell>
-                  <CTableDataCell className="text-center">{row.nLocal}</CTableDataCell>
-                  <CTableDataCell className="text-center">{row.ci}</CTableDataCell>
-                  <CTableDataCell className="text-center">{row.nombre}</CTableDataCell>
-                  <CTableDataCell className="text-center">{row.actividad}</CTableDataCell>
-                  <CTableDataCell className="text-center">{row.monto}</CTableDataCell>
-                  <CTableDataCell className="text-center">{row.fechai}</CTableDataCell>
-                  <CTableDataCell className="text-center">{row.fechaf}</CTableDataCell>
+                  <CTableDataCell className="text-center">{contract.contract_number}</CTableDataCell>
+                  <CTableDataCell className="text-center">{contract.tenant_id}</CTableDataCell>
+                  <CTableDataCell className="text-center">{contract.location_id}</CTableDataCell>
+                  <CTableDataCell className="text-center">{contract.rent_amount}</CTableDataCell>
+                  <CTableDataCell className="text-center">{contract.init_date}</CTableDataCell>
+                  <CTableDataCell className="text-center">{contract.end_date}</CTableDataCell>
+                  <CTableDataCell className="text-center">{contract.business_name}</CTableDataCell>
+                  <CTableDataCell className="text-center">{contract.entry_time}</CTableDataCell>
+                  <CTableDataCell className="text-center">{contract.exit_time}</CTableDataCell>
+                  <CTableDataCell className="text-center">
+                    {contract.diasTrabajo.join(', ')}
+                  </CTableDataCell>
+                  <CTableDataCell className="text-center">{contract.user_registered}</CTableDataCell>
                 </CTableRow>
               ))}
             </CTableBody>
           </CTable>
-          <CButton color='primary' onClick={() => toPDF()}>Download PDF</CButton>
+          <CButton color="primary" onClick={() => toPDF()}>
+            Descargar PDF
+          </CButton>
         </CCardBody>
       </CCard>
     </div>
