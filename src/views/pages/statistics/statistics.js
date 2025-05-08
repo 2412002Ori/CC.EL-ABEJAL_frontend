@@ -1,47 +1,59 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CCard, CCardBody, CCardHeader, CTable, CTableHead, CTableBody, CButton } from '@coreui/react';
-import CIcon from '@coreui/icons-react'; // Importar CIcon
-import { cilDescription } from '@coreui/icons'; // Importar el ícono cilDescription
+import CIcon from '@coreui/icons-react';
+import { cilDescription } from '@coreui/icons';
 
 function Formato1() {
   const [year, setYear] = useState(2023);
   const [search, setSearch] = useState("");
+  const [data, setData] = useState([]);
+  const meses = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
 
-  const meses = [
-    "Ene",
-    "Feb",
-    "Mar",
-    "Abr",
-    "May",
-    "Jun",
-    "Jul",
-    "Ago",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dic",
-  ];
+  // Fetch data from APIs
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [locationsRes, tenantsRes, contractsRes] = await Promise.all([
+          fetch('http://localhost:3001/locations'),
+          fetch('http://localhost:3001/tenants'),
+          fetch('http://localhost:3001/contracts'),
+        ]);
 
-  const data = [
-  { local: "A-1", inquilino: "Juan Pérez", pagos: generatePagos() },
-  { local: "A-2", inquilino: "María López", pagos: generatePagos() },
-  { local: "A-3", inquilino: "Carlos García", pagos: generatePagos() },
-  { local: "A-4", inquilino: "Ana Martínez", pagos: generatePagos() },
-  { local: "A-5", inquilino: "Luis Fernández", pagos: generatePagos() },
-  { local: "A-6", inquilino: "Sofía Rodríguez", pagos: generatePagos() },
-  { local: "A-7", inquilino: "Miguel Torres", pagos: generatePagos() },
-  { local: "A-8", inquilino: "Laura Gómez", pagos: generatePagos() },
-  { local: "A-9", inquilino: "Jorge Ramírez", pagos: generatePagos() },
-  { local: "A-10", inquilino: "Isabel Sánchez", pagos: generatePagos() },
-];
+        const [locations, tenants, contracts] = await Promise.all([
+          locationsRes.json(),
+          tenantsRes.json(),
+          contractsRes.json(),
+        ]);
 
-function generatePagos() {
-  const estados = ["Pagado", "No Pagado", ""];
-  return meses.reduce((acc, mes) => {
-    acc[mes] = estados[Math.floor(Math.random() * estados.length)];
-    return acc;
-  }, {});
-}
+          const combinedData = locations.map((location) => {
+          
+          const contract = contracts.find((c) => c.location_id === location.id);
+        
+          const tenant = tenants.find((t) => t.id.toString() === contract?.tenant_id.toString());
+        
+          return {
+            local: location.id || "Sin nombre", 
+            inquilino: tenant ? tenant.name : "Sin asignar", 
+            pagos: generatePagos(), 
+          };
+        });
+
+        setData(combinedData);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  function generatePagos() {
+    const estados = ["Pagado", "No Pagado", ""];
+    return meses.reduce((acc, mes) => {
+      acc[mes] = estados[Math.floor(Math.random() * estados.length)];
+      return acc;
+    }, {});
+  }
 
   const handleYearChange = (e) => {
     setYear(e.target.value);
@@ -56,7 +68,7 @@ function generatePagos() {
   };
 
   const filteredData = data.filter((row) =>
-    row.local.toLowerCase().includes(search.toLowerCase())
+    row.local?.toLowerCase().includes(search.toLowerCase()) // Valida que row.local no sea undefined
   );
 
   return (
@@ -133,14 +145,11 @@ function generatePagos() {
               }}
               onClick={handleDownloadPDF}
             >
-              <CIcon icon={cilDescription} size="xl" /> {/* Tamaño del ícono ajustado */}
-              
+              <CIcon icon={cilDescription} size="xl" />
             </CButton>
-
           </div>
         </CCardHeader>
         <CCardBody>
-          {/* Tabla combinada */}
           <div
             style={{
               border: "2px  #ddd",

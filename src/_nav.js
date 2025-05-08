@@ -97,7 +97,7 @@ const _nav = [
       
     ],
   },
-  {
+  /*{
     component: CNavGroup,
     name: 'INVENTARIO',
     icon: <CIcon icon={cilNotes} customClassName="nav-icon" />,
@@ -113,7 +113,7 @@ const _nav = [
         to: '/forms/select',
       },
     ],
-  },
+  },*/
 
   {
     component: CNavGroup,
@@ -122,16 +122,11 @@ const _nav = [
     items: [
       {
         component: CNavItem,
-        name: 'PAGOS X LOCAL',
+        name: 'registros de pagos ',
         to: '/page/statistics',
       },
   
 
-      {
-        component: CNavItem,
-        name: 'INGRESOS',
-        to: '/forms/form-control',
-      },
       
     ],
   },

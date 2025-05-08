@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   CCard,
   CCardBody,
@@ -13,57 +13,20 @@ import {
   CCol,
   CRow,
   CModal,
-  CModalHeader,
   CModalBody,
-  CModalFooter,
   CFormInput,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilUserPlus } from '@coreui/icons'
+import { cilUserPlus, cilTrash, cilPencil } from '@coreui/icons'
 import Register from './register'
 
-import { cilTrash, cilPencil } from '@coreui/icons'
-
 function TenantsList() {
-  const [modalVisible, setModalVisible] = useState(false)
-  const [searchCedula, setSearchCedula] = useState('') // Estado para el filtro de búsqueda
-  const [rows, setRows] = useState([
-    {
-      cedula: '12345678',
-      rif: 'J-12345678-9',
-      nombreApellido: 'Juan Pérez',
-      direccion: 'Calle 123, Caracas',
-      telefono: '0414-1234567',
-      correo: 'juan.perez@example.com',
-      horarioEntrada: '08:00 AM',
-      horarioSalida: '05:00 PM',
-      diasTrabajo: 'Lunes a Viernes',
-    },
-    {
-      cedula: '87654321',
-      rif: 'J-87654321-0',
-      nombreApellido: 'María López',
-      direccion: 'Av. Principal, Valencia',
-      telefono: '0416-7654321',
-      correo: 'maria.lopez@example.com',
-      horarioEntrada: '09:00 AM',
-      horarioSalida: '06:00 PM',
-      diasTrabajo: 'Lunes a Sábado',
-    },
-    {
-      cedula: '11223344',
-      rif: 'J-11223344-5',
-      nombreApellido: 'Carlos García',
-      direccion: 'Sector Centro, Maracaibo',
-      telefono: '0424-1122334',
-      correo: 'carlos.garcia@example.com',
-      horarioEntrada: '07:00 AM',
-      horarioSalida: '04:00 PM',
-      diasTrabajo: 'Lunes a Viernes',
-    },
-  ])
+  const [modalVisible, setModalVisible] = useState(false) // Modal para crear
+  const [modal1Visible, setModal1Visible] = useState(false) // Modal para editar
+  const [searchCedula, setSearchCedula] = useState('')
+  const [rows, setRows] = useState([]) // Lista de inquilinos
+  const [selectedRow, setSelectedRow] = useState(null) // Fila seleccionada para editar
 
-  // Definición de los encabezados de la tabla
   const headers = [
     'Cédula',
     'RIF',
@@ -71,43 +34,101 @@ function TenantsList() {
     'Dirección',
     'Teléfono',
     'Correo',
-    'Horario Entrada',
-    'Horario Salida',
-    'Días de Trabajo',
-    'Acciones', // Nueva columna para los botones de editar y eliminar
+    'Acciones',
   ]
 
+  useEffect(() => {
+    // Obtener la lista de inquilinos al cargar el componente
+    const fetchTenants = async () => {
+      try {
+        const response = await fetch('http://localhost:3001/tenants')
+        if (response.ok) {
+          const data = await response.json()
+          setRows(data)
+        } else {
+          console.error('Error al obtener los inquilinos:', response.statusText)
+        }
+      } catch (error) {
+        console.error('Error en la solicitud:', error)
+      }
+    }
+
+    fetchTenants()
+  }, [])
+
   const filteredRows = rows.filter((row) =>
-    row.cedula.toLowerCase().includes(searchCedula.toLowerCase())
+    row.id_number?.toString().toLowerCase().includes(searchCedula.toLowerCase())
   )
 
   const handleEdit = (row) => {
-    console.log('Editar:', row)
-   
+    setSelectedRow(row) 
+    setModal1Visible(true) 
   }
 
-  // Función para manejar la eliminación
-  const handleDelete = (cedula) => {
-   
-    setRows((prevRows) => prevRows.filter((row) => row.cedula !== cedula))
-    
+  const handleSave = (updatedRow) => {
+    fetch(`http://localhost:3001/tenants/${updatedRow.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedRow),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          return response.text().then((text) => {
+            throw new Error(`Error al actualizar la solicitud: ${text}`)
+          })
+        }
+        return response.json()
+      })
+      .then(() => {
+        setRows((prevRows) =>
+          prevRows.map((row) => (row.id === updatedRow.id ? updatedRow : row))
+        )
+        setModal1Visible(false) // Cerrar el modal de edición
+      })
+      .catch((error) => console.error('Error al actualizar la solicitud:', error))
   }
+
+    const handleDelete = (id) => {
+    console.log(`Intentando eliminar el inquilino con ID: ${id}`); // Debugging
+    fetch(`http://localhost:3001/tenants/${id}`, {
+      method: 'DELETE',
+    })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`Error al eliminar la solicitud: ${response.statusText}`);
+            }
+            console.log(`Inquilino con ID ${id} eliminado correctamente`); // Debugging
+            setRows((prevRows) => prevRows.filter((row) => row.id !== id));
+          })
+          .catch((error) => console.error('Error al eliminar la solicitud:', error));
+      };
 
   return (
     <div className="informe-mensual">
-      {/* Modal */}
-      <CModal visible={modalVisible} onClose={() => setModalVisible(false)} size="xl">
-        <CModalHeader closeButton>
-          <h5>Registrar nuevo inquilino</h5>
-        </CModalHeader>
+      {/* Modal para crear */}
+      <CModal visible={modalVisible} onClose={() => setModalVisible(false)} size="lg">
         <CModalBody>
-          <Register />
+          <Register
+            onSave={(newTenant) => {
+              setRows((prevRows) => [...prevRows, newTenant])
+              setModalVisible(false)
+            }}
+            isEdit={false}
+          />
         </CModalBody>
-        <CModalFooter>
-          <CButton color="secondary" onClick={() => setModalVisible(false)}>
-            Cerrar
-          </CButton>
-        </CModalFooter>
+      </CModal>
+
+      {/* Modal para editar */}
+            <CModal visible={modal1Visible} onClose={() => setModal1Visible(false)} size="lg">
+        <CModalBody>
+          <Register
+            data={selectedRow} // Pasa los datos del usuario seleccionado
+            onSave={handleSave}
+            isEdit={true}
+          />
+        </CModalBody>
       </CModal>
 
       <CRow className="mb-3 align-items-center">
@@ -115,7 +136,13 @@ function TenantsList() {
           <CButton
             className="rounded-circle"
             color="primary"
-            style={{ width: '60px', height: '60px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+            style={{
+              width: '60px',
+              height: '60px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
             onClick={() => setModalVisible(true)}
           >
             <CIcon icon={cilUserPlus} size="lg" />
@@ -154,30 +181,19 @@ function TenantsList() {
             <CTableBody>
               {filteredRows.map((row, index) => (
                 <CTableRow key={index}>
-                  <CTableDataCell className="text-center">{row.cedula}</CTableDataCell>
+                  <CTableDataCell className="text-center">{row.id_number}</CTableDataCell>
                   <CTableDataCell className="text-center">{row.rif}</CTableDataCell>
-                  <CTableDataCell className="text-center">{row.nombreApellido}</CTableDataCell>
-                  <CTableDataCell className="text-center">{row.direccion}</CTableDataCell>
-                  <CTableDataCell className="text-center">{row.telefono}</CTableDataCell>
-                  <CTableDataCell className="text-center">{row.correo}</CTableDataCell>
-                  <CTableDataCell className="text-center">{row.horarioEntrada}</CTableDataCell>
-                  <CTableDataCell className="text-center">{row.horarioSalida}</CTableDataCell>
-                  <CTableDataCell className="text-center">{row.diasTrabajo}</CTableDataCell>
-                                    <CTableDataCell className="text-center">
+                  <CTableDataCell className="text-center">{row.full_name}</CTableDataCell>
+                  <CTableDataCell className="text-center">{row.address}</CTableDataCell>
+                  <CTableDataCell className="text-center">{row.phone}</CTableDataCell>
+                  <CTableDataCell className="text-center">{row.email}</CTableDataCell>
+                  <CTableDataCell className="text-center">
                     <div style={{ display: 'flex', justifyContent: 'center', gap: '0.5rem' }}>
-                      <CButton
-                        color="warning"
-                        size="sm"
-                        onClick={() => handleEdit(row)}
-                      >
-                        <CIcon icon={cilPencil} /> {/* Ícono para editar */}
+                      <CButton color="warning" size="sm" onClick={() => handleEdit(row)}>
+                        <CIcon icon={cilPencil} />
                       </CButton>
-                      <CButton
-                        color="danger"
-                        size="sm"
-                        onClick={() => handleDelete(row.cedula)}
-                      >
-                        <CIcon icon={cilTrash} /> {/* Ícono para eliminar */}
+                      <CButton color="danger" size="sm" onClick={() => handleDelete(row.id)}>
+                        <CIcon icon={cilTrash} />
                       </CButton>
                     </div>
                   </CTableDataCell>

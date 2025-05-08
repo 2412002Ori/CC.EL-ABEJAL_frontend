@@ -521,94 +521,24 @@
   ],
   "tenants": [
     {
-      "id": "1",
-      "id_number": "ID001",
-      "full_name": "Juan Pérez",
-      "age": 25,
-      "phone": "555-1001",
-      "email": "juan@example.com",
-      "address": "Calle Falsa 123"
-    },
-    {
       "id": "2",
-      "id_number": "ID002",
+      "id_number": "2808551",
+      "rif": "J-12345678-9",
       "full_name": "María García",
-      "age": 30,
-      "phone": "555-1002",
+      "date_birth": "1990-01-01",
+      "phone": "0412-0679863",
       "email": "maria@example.com",
       "address": "Avenida Siempre Viva 456"
     },
     {
       "id": "3",
-      "id_number": "ID003",
+      "id_number": "19168148",
+      "rif": "J-12345678-9",
       "full_name": "Carlos López",
-      "age": 28,
-      "phone": "555-1003",
+      "date_birth": "1990-01-01",
+      "phone": "0412-0679863",
       "email": "carlos@example.com",
       "address": "Boulevard Los Olivos 789"
-    },
-    {
-      "id": "4",
-      "id_number": "ID004",
-      "full_name": "Ana Martínez",
-      "age": 35,
-      "phone": "555-1004",
-      "email": "ana@example.com",
-      "address": "Callejón Diagonal 012"
-    },
-    {
-      "id": "5",
-      "id_number": "ID005",
-      "full_name": "Luis Rodríguez",
-      "age": 22,
-      "phone": "555-1005",
-      "email": "luis@example.com",
-      "address": "Paseo de la Reforma 345"
-    },
-    {
-      "id": "6",
-      "id_number": "ID006",
-      "full_name": "Sofía Hernández",
-      "age": 40,
-      "phone": "555-1006",
-      "email": "sofia@example.com",
-      "address": "Avenida Revolución 678"
-    },
-    {
-      "id": "7",
-      "id_number": "ID007",
-      "full_name": "Pedro Sánchez",
-      "age": 29,
-      "phone": "555-1007",
-      "email": "pedro@example.com",
-      "address": "Calle Norte 901"
-    },
-    {
-      "id": "8",
-      "id_number": "ID008",
-      "full_name": "Laura Díaz",
-      "age": 31,
-      "phone": "555-1008",
-      "email": "laura@example.com",
-      "address": "Avenida Juárez 234"
-    },
-    {
-      "id": "9",
-      "id_number": "ID009",
-      "full_name": "Jorge Ruiz",
-      "age": 27,
-      "phone": "555-1009",
-      "email": "jorge@example.com",
-      "address": "Boulevard Universitario 567"
-    },
-    {
-      "id": "10",
-      "id_number": "ID010",
-      "full_name": "Mónica Castro",
-      "age": 33,
-      "phone": "555-1010",
-      "email": "monica@example.com",
-      "address": "Paseo de los Héroes 890"
     }
   ],
   "contract_requests": [
@@ -653,361 +583,203 @@
       "full_name": "Pedro Sánchez",
       "request_date": "2023-01-07",
       "activity": "Actividad comercial G"
-    },
-    {
-      "id": "8",
-      "id_number": "ID008",
-      "full_name": "Laura Díaz",
-      "request_date": "2023-01-08",
-      "activity": "Actividad comercial H"
-    },
-    {
-      "id": "1",
-      "id_number": "2412002",
-      "full_name": "oriana duran",
-      "request_date": "2025-05-07",
-      "activity": "Actividad comercial A"
     }
   ],
   "contracts": [
     {
-      "id": "1",
-      "registered_user": 2,
-      "contract_number": "CNT-001",
-      "tenant_id": 1,
-      "location_id": 1,
-      "rent_amount": 1500,
+      "id": 1,
+      "contract_number": "C001",
+      "tenant_id": "19168148",
+      "location_id": "10",
+      "rent_amount": "1500.00",
       "activity": "Venta de ropa",
-      "duration_description": "1 año",
+      "duration_description": "Contrato anual",
       "init_date": "2023-01-01",
-      "end_date": "2024-01-01",
-      "business_name": "Moda Express",
-      "entry_time": "08:00:00",
-      "exit_time": "20:00:00"
+      "end_date": "2023-12-31",
+      "business_name": "Boutique Elegante",
+      "entry_time": "09:00",
+      "exit_time": "18:00",
+      "diasTrabajo": [
+        "Lunes",
+        "Martes",
+        "Miércoles",
+        "Jueves",
+        "Viernes"
+      ],
+      "user_registered": "admin1",
+      "numero_de_solicitud": "1"
     },
     {
-      "id": "2",
-      "registered_user": 2,
-      "contract_number": "CNT-002",
-      "tenant_id": 2,
-      "location_id": 2,
-      "rent_amount": 2000,
-      "activity": "Cafetería",
-      "duration_description": "6 meses",
-      "init_date": "2023-02-01",
-      "end_date": "2023-08-01",
-      "business_name": "Café Aromas",
-      "entry_time": "07:30:00",
-      "exit_time": "19:30:00"
-    },
-    {
-      "id": "3",
-      "registered_user": 2,
-      "contract_number": "CNT-003",
-      "tenant_id": 3,
-      "location_id": 3,
-      "rent_amount": 1800.5,
-      "activity": "Tienda de electrónicos",
-      "duration_description": "2 años",
-      "init_date": "2023-03-01",
-      "end_date": "2025-03-01",
-      "business_name": "TechZone",
-      "entry_time": "09:00:00",
-      "exit_time": "21:00:00"
-    },
-    {
-      "id": "4",
-      "registered_user": 2,
-      "contract_number": "CNT-004",
-      "tenant_id": 4,
-      "location_id": 4,
-      "rent_amount": 2200.75,
-      "activity": "Peluquería",
-      "duration_description": "1 año",
-      "init_date": "2023-04-01",
-      "end_date": "2024-04-01",
-      "business_name": "Style Studio",
-      "entry_time": "10:00:00",
-      "exit_time": "20:00:00"
-    },
-    {
-      "id": "5",
-      "registered_user": 2,
-      "contract_number": "CNT-005",
-      "tenant_id": 5,
-      "location_id": 5,
-      "rent_amount": 1700,
-      "activity": "Farmacia",
-      "duration_description": "3 meses",
-      "init_date": "2023-05-01",
-      "end_date": "2023-08-01",
-      "business_name": "FarmaSalud",
-      "entry_time": "08:30:00",
-      "exit_time": "18:30:00"
-    },
-    {
-      "id": "6",
-      "registered_user": 2,
-      "contract_number": "CNT-006",
-      "tenant_id": 6,
-      "location_id": 6,
-      "rent_amount": 2500,
+      "id": 2,
+      "contract_number": "C002",
+      "tenant_id": "2808551",
+      "location_id": "15",
+      "rent_amount": "2000.00",
       "activity": "Restaurante",
-      "duration_description": "5 años",
-      "init_date": "2023-06-01",
-      "end_date": "2028-06-01",
-      "business_name": "La Parrilla Real",
-      "entry_time": "12:00:00",
-      "exit_time": "23:00:00"
+      "duration_description": "Contrato semestral",
+      "init_date": "2023-02-01",
+      "end_date": "2023-07-31",
+      "business_name": "Delicias Gourmet",
+      "entry_time": "10:00",
+      "exit_time": "22:00",
+      "diasTrabajo": [
+        "Lunes",
+        "Martes",
+        "Miércoles",
+        "Jueves",
+        "Viernes",
+        "Sábado"
+      ],
+      "user_registered": "finanzas1",
+      "numero_de_solicitud": "2"
     },
     {
-      "id": "7",
-      "registered_user": 2,
-      "contract_number": "CNT-007",
-      "tenant_id": 7,
-      "location_id": 7,
-      "rent_amount": 1900,
-      "activity": "Gimnasio",
-      "duration_description": "1 año",
-      "init_date": "2023-07-01",
-      "end_date": "2024-07-01",
-      "business_name": "FitLife Center",
-      "entry_time": "06:00:00",
-      "exit_time": "22:00:00"
+      "id": 4,
+      "contract_number": "C003",
+      "tenant_id": "31416797",
+      "location_id": "20",
+      "rent_amount": "1800.00",
+      "activity": "Tienda de tecnología",
+      "duration_description": "Contrato trimestral",
+      "init_date": "2023-03-01",
+      "end_date": "2023-05-31",
+      "business_name": "Tech World",
+      "entry_time": "08:00",
+      "exit_time": "20:00",
+      "diasTrabajo": [
+        "Lunes",
+        "Martes",
+        "Miércoles",
+        "Jueves",
+        "Viernes",
+        "Sábado",
+        "Domingo"
+      ],
+      "user_registered": "admin1",
+      "numero_de_solicitud": "3"
     },
     {
-      "id": "8",
-      "registered_user": 2,
-      "contract_number": "CNT-008",
-      "tenant_id": 8,
-      "location_id": 8,
-      "rent_amount": 2100,
-      "activity": "Librería",
-      "duration_description": "2 años",
-      "init_date": "2023-08-01",
-      "end_date": "2025-08-01",
-      "business_name": "Libros & Más",
-      "entry_time": "09:30:00",
-      "exit_time": "19:00:00"
+      "id": 5,
+      "contract_number": "C2025",
+      "tenant_id": "2412002",
+      "location_id": "35",
+      "rent_amount": "500",
+      "activity": "Actividad comercial A",
+      "duration_description": "",
+      "init_date": "2025-05-08",
+      "end_date": "2026-05-08",
+      "business_name": "amor con el arte ",
+      "entry_time": "08:53",
+      "exit_time": "17:54",
+      "diasTrabajo": [
+        "Lunes",
+        "Martes",
+        "Miércoles"
+      ],
+      "user_registered": "Admin Usuario",
+      "numero_de_solicitud": "1",
+      "tenantName": "oriana duran"
     },
     {
-      "id": "9",
-      "registered_user": 2,
-      "contract_number": "CNT-009",
-      "tenant_id": 9,
-      "location_id": 9,
-      "rent_amount": 2300,
-      "activity": "Tienda de mascotas",
-      "duration_description": "6 meses",
-      "init_date": "2023-09-01",
-      "end_date": "2024-03-01",
-      "business_name": "Pet Paradise",
-      "entry_time": "10:00:00",
-      "exit_time": "18:00:00"
-    },
-    {
-      "id": "10",
-      "registered_user": 2,
-      "contract_number": "CNT-010",
-      "tenant_id": 10,
-      "location_id": 10,
-      "rent_amount": 1950,
-      "activity": "Óptica",
-      "duration_description": "1 año",
-      "init_date": "2023-10-01",
-      "end_date": "2024-10-01",
-      "business_name": "Visión Clara",
-      "entry_time": "08:00:00",
-      "exit_time": "17:30:00"
-    },
-    {
-      "id": "01",
-      "tenantName": "daniela",
-      "tenantId": "12453",
-      "dateReceived": "2025-05-07",
-      "activity": "arte con amor ",
-      "type": "Pintura",
-      "registeredBy": "Admin Usuario"
-    },
-    {
-      "id": "20",
-      "tenantName": "oriana",
-      "tenantId": "10987654",
-      "dateReceived": "2025-05-07",
-      "activity": "arte con amor ",
-      "type": "Pintura",
-      "registeredBy": "Admin Usuario"
-    },
-    {
-      "id": "1",
-      "id_number": "2412002",
-      "full_name": "oriana duran",
-      "request_date": "2025-05-07",
-      "activity": "Actividad comercial A"
+      "id": 6,
+      "contract_number": "C2021",
+      "tenant_id": "21416797",
+      "location_id": "18",
+      "rent_amount": "250",
+      "activity": "Actividad comercial D",
+      "duration_description": "",
+      "init_date": "2025-05-08",
+      "end_date": "2026-05-08",
+      "business_name": "hola pruebz",
+      "entry_time": "06:29",
+      "exit_time": "18:29",
+      "diasTrabajo": [
+        "Lunes",
+        "Martes",
+        "Miércoles",
+        "Jueves"
+      ],
+      "user_registered": "Admin Usuario",
+      "numero_de_solicitud": "4",
+      "tenantName": "Ana Martínez"
     }
   ],
   "transfers": [
     {
       "id": "1",
-      "tenant_id": 1,
-      "old_contract_id": 1,
-      "new_contract_id": 2,
+      "tenant_id": "19168148",
+      "old_contract_id": "C050",
+      "new_contract_id": "C060",
       "reason": "Cambio de local",
-      "transfer_date": "2023-06-01"
+      "transfer_date": "2023-06-01",
+      "number_local_new": "20",
+      "number_local_old": "10"
     },
     {
-      "id": "2",
-      "tenant_id": 2,
-      "old_contract_id": 2,
-      "new_contract_id": 3,
-      "reason": "Ampliación de espacio",
-      "transfer_date": "2023-07-01"
+      "id": "1",
+      "tenant_id": "19168148",
+      "old_contract_id": "C001",
+      "new_contract_id": "C003",
+      "reason": "Cambio de local",
+      "transfer_date": "2023-06-01",
+      "number_local_new": "20",
+      "number_local_old": "10"
     },
     {
       "id": "3",
-      "tenant_id": 3,
-      "old_contract_id": 3,
-      "new_contract_id": 4,
-      "reason": "Renovación",
-      "transfer_date": "2023-08-01"
-    },
-    {
-      "id": "4",
-      "tenant_id": 4,
-      "old_contract_id": 4,
-      "new_contract_id": 5,
-      "reason": "Cambio de actividad",
-      "transfer_date": "2023-09-01"
-    },
-    {
-      "id": "5",
-      "tenant_id": 5,
-      "old_contract_id": 5,
-      "new_contract_id": 6,
-      "reason": "Mejora de condiciones",
-      "transfer_date": "2023-10-01"
-    },
-    {
-      "id": "6",
-      "tenant_id": 6,
-      "old_contract_id": 6,
-      "new_contract_id": 7,
-      "reason": "Problemas de mantenimiento",
-      "transfer_date": "2023-11-01"
-    },
-    {
-      "id": "7",
-      "tenant_id": 7,
-      "old_contract_id": 7,
-      "new_contract_id": 8,
-      "reason": "Traslado solicitado",
-      "transfer_date": "2023-12-01"
-    },
-    {
-      "id": "8",
-      "tenant_id": 8,
-      "old_contract_id": 8,
-      "new_contract_id": 9,
-      "reason": "Finalización anticipada",
-      "transfer_date": "2024-01-01"
-    },
-    {
-      "id": "9",
-      "tenant_id": 9,
-      "old_contract_id": 9,
-      "new_contract_id": 10,
-      "reason": "Cambio de dueño",
-      "transfer_date": "2024-02-01"
-    },
-    {
-      "id": "10",
-      "tenant_id": 10,
-      "old_contract_id": 10,
-      "new_contract_id": 1,
-      "reason": "Reestructuración",
-      "transfer_date": "2024-03-01"
+      "tenant_id": "28457689",
+      "old_contract_id": "C2021",
+      "new_contract_id": "C2025",
+      "reason": "x",
+      "transfer_date": "2025-05-08",
+      "number_local_new": "4",
+      "number_local_old": "1"
     }
   ],
   "payments": [
     {
-      "id": "1",
-      "contract_id": 1,
+      "id": "C004",
+      "contract_number": 1,
       "amount": 1500,
+      "rent_amount": 1500,
+      "type_page ": "alquiler",
+      "payment_method": "Transferencia",
       "payment_date": "2023-01-05",
       "created_at": "2023-01-01T00:00:00Z",
       "updated_at": "2023-01-01T00:00:00Z"
     },
     {
-      "id": "2",
-      "contract_id": 2,
-      "amount": 2000,
-      "payment_date": "2023-02-05",
-      "created_at": "2023-01-01T00:00:00Z",
-      "updated_at": "2023-01-01T00:00:00Z"
+      "id": "1f43",
+      "contract_number": "C003",
+      "amount": 1500,
+      "rent_amount": 1500,
+      "type_page ": "alquiler",
+      "payment_method": "Efectivo",
+      "payment_date": "2025-05-08",
+      "created_at": "2025-05-08T14:52:19.346Z",
+      "updated_at": "2025-05-08T14:52:19.346Z"
     },
     {
-      "id": "3",
-      "contract_id": 3,
-      "amount": 1800.5,
-      "payment_date": "2023-03-05",
-      "created_at": "2023-01-01T00:00:00Z",
-      "updated_at": "2023-01-01T00:00:00Z"
+      "id": "7315",
+      "contract_number": "C001",
+      "amount": 1500,
+      "rent_amount": 1500,
+      "type_page ": "alquiler",
+      "payment_method": "Efectivo",
+      "payment_date": "2025-05-08",
+      "created_at": "2025-05-08T14:54:52.361Z",
+      "updated_at": "2025-05-08T14:54:52.361Z"
     },
     {
-      "id": "4",
-      "contract_id": 4,
-      "amount": 2200.75,
-      "payment_date": "2023-04-05",
-      "created_at": "2023-01-01T00:00:00Z",
-      "updated_at": "2023-01-01T00:00:00Z"
-    },
-    {
-      "id": "5",
-      "contract_id": 5,
-      "amount": 1700,
-      "payment_date": "2023-05-05",
-      "created_at": "2023-01-01T00:00:00Z",
-      "updated_at": "2023-01-01T00:00:00Z"
-    },
-    {
-      "id": "6",
-      "contract_id": 6,
-      "amount": 2500,
-      "payment_date": "2023-06-05",
-      "created_at": "2023-01-01T00:00:00Z",
-      "updated_at": "2023-01-01T00:00:00Z"
-    },
-    {
-      "id": "7",
-      "contract_id": 7,
-      "amount": 1900,
-      "payment_date": "2023-07-05",
-      "created_at": "2023-01-01T00:00:00Z",
-      "updated_at": "2023-01-01T00:00:00Z"
-    },
-    {
-      "id": "8",
-      "contract_id": 8,
-      "amount": 2100,
-      "payment_date": "2023-08-05",
-      "created_at": "2023-01-01T00:00:00Z",
-      "updated_at": "2023-01-01T00:00:00Z"
-    },
-    {
-      "id": "9",
-      "contract_id": 9,
-      "amount": 2300,
-      "payment_date": "2023-09-05",
-      "created_at": "2023-01-01T00:00:00Z",
-      "updated_at": "2023-01-01T00:00:00Z"
-    },
-    {
-      "id": "10",
-      "contract_id": 10,
-      "amount": 1950,
-      "payment_date": "2023-10-05",
-      "created_at": "2023-01-01T00:00:00Z",
-      "updated_at": "2023-01-01T00:00:00Z"
+      "id": "8bda",
+      "contract_number": "C2025",
+      "amount": 500,
+      "rent_amount": 500,
+      "type page ": "servicio",
+      "payment_method": "Transferencia",
+      "payment_date": "2025-05-08",
+      "created_at": "2025-05-08T15:29:53.085Z",
+      "updated_at": "2025-05-08T15:29:53.085Z"
     }
   ],
   "fines": [

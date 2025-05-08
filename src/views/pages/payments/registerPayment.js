@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   CCard,
   CCardBody,
@@ -12,15 +12,7 @@ import {
 } from '@coreui/react'
 
 const RegisterPayment = () => {
-  // Base de datos local simulada
-  const contracts = {
-    '001': { tenantName: 'Juan Pérez', tenantId: '12345678', localNumber: 'A-101', amountDue: 500 },
-    '002': { tenantName: 'María López', tenantId: '87654321', localNumber: 'B-202', amountDue: 700 },
-    '003': { tenantName: 'Carlos García', tenantId: '11223344', localNumber: 'C-303', amountDue: 600 },
-    '004': { tenantName: 'Ana Torres', tenantId: '55667788', localNumber: 'D-404', amountDue: 800 },
-    '005': { tenantName: 'Luis Fernández', tenantId: '99887766', localNumber: 'E-505', amountDue: 550 },
-  }
-
+  const [contracts, setContracts] = useState({})
   const [paymentData, setPaymentData] = useState({
     contractNumber: '',
     tenantName: '',
@@ -30,14 +22,42 @@ const RegisterPayment = () => {
     amount: '',
     date: '',
     paymentMethod: '',
+    paymentType: '',
   })
+
+  // Fetch contracts from the API
+  useEffect(() => {
+    const fetchContracts = async () => {
+      try {
+        const response = await fetch('http://localhost:3001/contracts')
+        if (response.ok) {
+          const data = await response.json()
+          const formattedContracts = data.reduce((acc, contract) => {
+            acc[contract.contract_number] = {
+              tenantName: contract.tenantName || '',
+              tenantId: contract.tenant_id || '',
+              localNumber: contract.location_id || '',
+              amountDue: parseFloat(contract.rent_amount) || 0,
+            }
+            return acc
+          }, {})
+          setContracts(formattedContracts)
+        } else {
+          console.error('Error fetching contracts:', response.statusText)
+        }
+      } catch (error) {
+        console.error('Error fetching contracts:', error)
+      }
+    }
+
+    fetchContracts()
+  }, [])
 
   const handleChange = (e) => {
     const { name, value } = e.target
 
-    
     if (name === 'contractNumber') {
-      const contract = contracts[value] || { tenantName: '', tenantId: '', localNumber: '', amountDue: '' }
+      const contract = contracts[value] || { tenantId: '', localNumber: '', amountDue: '' }
       setPaymentData((prevState) => ({
         ...prevState,
         contractNumber: value,
@@ -54,25 +74,53 @@ const RegisterPayment = () => {
     }
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log('Payment Data:', paymentData)
-    alert('Pago registrado con éxito')
-    setPaymentData({
-      contractNumber: '',
-      tenantName: '',
-      tenantId: '',
-      localNumber: '',
-      amountDue: '',
-      amount: '',
-      date: '',
-      paymentMethod: '',
-    })
+ const handleSubmit = async (e) => {
+  e.preventDefault()
+
+  const payload = {
+    contract_number: paymentData.contractNumber, // Cambiado de contract_id a contract_number
+    amount: parseFloat(paymentData.amount),
+    rent_amount: parseFloat(paymentData.amountDue),
+    "type page ": paymentData.paymentType,
+    payment_method: paymentData.paymentMethod,
+    payment_date: paymentData.date,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
   }
 
+  try {
+    const response = await fetch('http://localhost:3001/payments', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+
+    if (response.ok) {
+      alert('Pago registrado con éxito')
+      setPaymentData({
+        contractNumber: '',
+        tenantName: '',
+        tenantId: '',
+        localNumber: '',
+        amountDue: '',
+        amount: '',
+        date: '',
+        paymentMethod: '',
+        paymentType: '',
+      })
+    } else {
+      alert('Error al registrar el pago')
+    }
+  } catch (error) {
+    console.error('Error:', error)
+    alert('Error al conectar con el servidor')
+  }
+}
 
   return (
-        <CCard bordered hover style={{ border: '2px solid #ffa600b0' }}>
+    <CCard bordered hover style={{ border: '2px solid #ffa600b0' }}>
       <CCardHeader>
         <h3 className="text-center">Registrar Pago</h3>
       </CCardHeader>
@@ -87,7 +135,7 @@ const RegisterPayment = () => {
                 </CCardHeader>
                 <CCardBody>
                   <CRow className="mb-3">
-                    <CCol md={12}>
+                    <CCol md={4}>
                       <CFormInput
                         type="text"
                         name="contractNumber"
@@ -98,46 +146,37 @@ const RegisterPayment = () => {
                         required
                       />
                     </CCol>
-                  </CRow>
-                  <CRow className="mb-3">
-                    <CCol md={6}>
-                      <CFormInput
-                        type="text"
-                        name="tenantName"
-                        value={paymentData.tenantName}
-                        onChange={handleChange}
-                        placeholder="Nombre del Inquilino"
-                        label="Nombre del Inquilino"
-                        disabled
-                      />
-                    </CCol>
-                    <CCol md={6}>
+                    <CCol md={4}>
                       <CFormInput
                         type="text"
                         name="tenantId"
                         value={paymentData.tenantId}
-                        onChange={handleChange}
                         placeholder="Cédula del Inquilino"
                         label="Cédula del Inquilino"
                         disabled
                       />
                     </CCol>
-                  </CRow>
-                  <CRow className="mb-3">
-                    <CCol md={12}>
+                    <CCol md={3}>
                       <CFormInput
                         type="text"
                         name="localNumber"
                         value={paymentData.localNumber}
-                        onChange={handleChange}
                         placeholder="Número del Local"
                         label="Número del Local"
                         disabled
                       />
                     </CCol>
-                  </CRow>
-                  <CRow className="mb-3">
-                    <CCol md={12}>
+                    <CCol md={4}>
+                      <CFormInput
+                        type="number"
+                        name="amountDue"
+                        value={paymentData.amountDue}
+                        placeholder="Monto que Debe"
+                        label="Monto que Debe"
+                        disabled
+                      />
+                    </CCol>
+                    <CCol md={6}>
                       <CFormSelect
                         name="paymentType"
                         value={paymentData.paymentType}
@@ -146,16 +185,19 @@ const RegisterPayment = () => {
                         required
                       >
                         <option value="">Seleccione el tipo de pago</option>
-                        <option value="Condominio">Condominio</option>
-                        <option value="Servicio">Servicio</option>
-                        <option value="Multas">Multas</option>
+                        <option value="alquiler">Alquiler</option>
+                        <option value="servicio">Servicio</option>
+                        <option value="multa">Multa</option>
                       </CFormSelect>
                     </CCol>
                   </CRow>
+                  
+                  
+                  
                 </CCardBody>
               </CCard>
             </CCol>
-    
+
             {/* Tarjeta para los datos del pago */}
             <CCol md={6}>
               <CCard className="mb-4">
@@ -163,19 +205,8 @@ const RegisterPayment = () => {
                   <h5 className="text-center">Datos del Pago</h5>
                 </CCardHeader>
                 <CCardBody>
-                  
                   <CRow className="mb-3">
-                    <CCol md={6}>
-                      <CFormInput
-                        type="number"
-                        name="amountDue"
-                        value={paymentData.amountDue}
-                        onChange={handleChange}
-                        placeholder="Monto que Debe"
-                        label="Monto que Debe"
-                        disabled
-                      />
-                    </CCol>
+                    
                     <CCol md={6}>
                       <CFormInput
                         type="number"
@@ -220,7 +251,7 @@ const RegisterPayment = () => {
               </CCard>
             </CCol>
           </CRow>
-    
+
           {/* Botón para registrar el pago */}
           <CRow className="d-flex justify-content-center">
             <CCol xs="auto">
