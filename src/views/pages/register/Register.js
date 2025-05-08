@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'; 
+import React, { useState } from 'react'; 
 import {
   CButton,
   CCard,
@@ -11,7 +11,6 @@ import {
   CInputGroupText,
   CRow,
   CTable,
-  CTableHead,
   CTableRow,
   CTableHeaderCell,
   CTableBody,
@@ -50,7 +49,7 @@ export const EliminarUsuario = ({ id, onDelete }) => {
   )
 }
 
-export const ModalRegisterUser = () => {
+export const ModalRegisterUse = () => {
   const [error, setError] = useState(null);
   const [visible, setVisible] = useState(false)
   const [formData, setFormData] = useState({
@@ -175,7 +174,7 @@ export const ModalRegisterUser = () => {
                 <div className="d-grid">
                   <CButton color="success" onClick={addUser}>Create Account</CButton>
                 </div>
-              </CForm>
+              </>
             </CCol>
           </CRow>
           </CModalBody>
@@ -220,7 +219,7 @@ const Registeruser = () => {
   );
 
   const deleteUser = (id) => {
-    fetch(`http://localhost:5000/users/${id}`, {
+    fetch(`http://localhost:500/users/${id}`, {
       method: 'DELETE',
     })
       .then(() => {
