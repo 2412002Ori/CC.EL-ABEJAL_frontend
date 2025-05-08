@@ -24,31 +24,31 @@
 // import AlertMessage from './../login/Alerta'
 
 // export const Modal = () => {
-//     const [visible, setVisible] = useState(false);
-//     const [formData, setFormData] = useState({
-//       name: user?.name || '',
-//       lastname: user?.lastname || '',
-//       email: user?.email || '',
-//       password: ''
+// const [visible, setVisible] = useState(false);
+// const [formData, setFormData] = useState({
+//     name: user?.name || '',
+//     lastname: user?.lastname || '',
+//     email: user?.email || '',
+//     password: ''
+// });
+
+// const handleInputChange = (e) => {
+//     const { name, value } = e.target;
+//     setFormData({ ...formData, [name]: value });
+// };
+
+// const handleUpdate = () => {
+//     fetch(`http://localhost:5000/users2/1/${user.id}`, {
+//     method: 'PUT',
+//     headers: { 'Content-Type': 'application/json' },
+//     body: JSON.stringify(formData)
+//     })
+//     .then(response => response.json())
+//     .then(updatedUser => {
+//         setUser(updatedUser);
+//         setVisible(false);
 //     });
-  
-//     const handleInputChange = (e) => {
-//       const { name, value } = e.target;
-//       setFormData({ ...formData, [name]: value });
-//     };
-  
-//     const handleUpdate = () => {
-//       fetch(`http://localhost:5000/users2/1/${user.id}`, {
-//         method: 'PUT',
-//         headers: { 'Content-Type': 'application/json' },
-//         body: JSON.stringify(formData)
-//       })
-//         .then(response => response.json())
-//         .then(updatedUser => {
-//           setUser(updatedUser);
-//           setVisible(false);
-//         });
-//     };
+// };
 
 // return (
 // <>
@@ -119,28 +119,28 @@
 // }
 
 // const Registeruser = () => {
-//     const [user, setUser] = useState(null);
-//   const [loading, setLoading] = useState(true);
+// const [user, setUser] = useState(null);
+// const [loading, setLoading] = useState(true);
 
-//   useEffect(() => {
-//     // Para obtener un usuario específico (ej. ID 1)
-//     fetch('http://localhost:5000/users2/1')
-//       .then(response => {
-//         if (!response.ok) throw new Error('Usuario no encontrado');
-//         return response.json();
-//       })
-//       .then(data => {
-//         setUser(data);
-//         setLoading(false);
-//       })
-//       .catch(error => {
-//         console.error('Error:', error);
-//         setLoading(false);
-//       });
-//   }, []);
+// useEffect(() => {
+// // Para obtener un usuario específico (ej. ID 1)
+// fetch('http://localhost:5000/users2/1')
+//     .then(response => {
+//     if (!response.ok) throw new Error('Usuario no encontrado');
+//     return response.json();
+//     })
+//     .then(data => {
+//     setUser(data);
+//     setLoading(false);
+//     })
+//     .catch(error => {
+//     console.error('Error:', error);
+//     setLoading(false);
+//     });
+// }, []);
 
-//   if (loading) return <div>Cargando...</div>;
-//   if (!user) return <div>No se encontró el usuario</div>;
+// if (loading) return <div>Cargando...</div>;
+// if (!user) return <div>No se encontró el usuario</div>;
 
 //     return (
 //     <CContainer style={{

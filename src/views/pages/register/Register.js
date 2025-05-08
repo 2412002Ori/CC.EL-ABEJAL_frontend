@@ -70,7 +70,7 @@ export const ModalRegisterUser = () => {
     if (formData.password !== formData.confirmPassword) {
         setError('Las contraseñas no coinciden');
       return;
-    }
+  }
 
     fetch('http://localhost:5000/users', {
       method: 'POST',
