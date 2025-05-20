@@ -132,6 +132,7 @@ const routes = [
   {path: '/pages/tenants/relocation', name: 'Relocation', element: RelocationList },
 
  //other routes 
+  {path: '/pages/register/Register', name: 'Register', element: Registeruser },
   {path: '/pages/register/Permissions', name: 'Permisos', element: PermisosUsuario },
   {path: '/pages/profile/Profile', name: 'Profile', element: PerfilUsuario },
 ]

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'; 
+import React, { useState, useEffect } from 'react'; 
 import {
   CButton,
   CCard,
@@ -12,6 +12,7 @@ import {
   CRow,
   CTable,
   CTableRow,
+  CTableHead,
   CTableHeaderCell,
   CTableBody,
   CTableDataCell,
@@ -19,7 +20,7 @@ import {
   CModalBody,
   CModalFooter,
   CModalHeader,
-  CModalTitle,
+  CModalTitle
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { useNavigate } from 'react-router-dom'
@@ -49,7 +50,7 @@ export const EliminarUsuario = ({ id, onDelete }) => {
   )
 }
 
-export const ModalRegisterUse = () => {
+export const ModalRegisterUser = () => {
   const [error, setError] = useState(null);
   const [visible, setVisible] = useState(false)
   const [formData, setFormData] = useState({
@@ -104,7 +105,7 @@ export const ModalRegisterUse = () => {
           <CRow className="justify-content-center">
             <CCol>
               {error && <AlertMessage message={error} type="danger" />}
-                <CForm>
+              <CForm>
                 <h2>Crea tu nueva cuenta</h2>
               <CInputGroup className="mb-3">
                 <CInputGroupText>
@@ -146,7 +147,7 @@ export const ModalRegisterUse = () => {
                 <CInputGroup className="mb-3">
                   <CInputGroupText>
                     <CIcon icon={cilLockLocked} />
-              </CInputGroupText>
+                  </CInputGroupText>
                 <CFormInput
                   type="password"
                   placeholder="password"
@@ -174,7 +175,7 @@ export const ModalRegisterUse = () => {
                 <div className="d-grid">
                   <CButton color="success" onClick={addUser}>Create Account</CButton>
                 </div>
-              </>
+              </CForm>
             </CCol>
           </CRow>
           </CModalBody>
@@ -219,7 +220,7 @@ const Registeruser = () => {
   );
 
   const deleteUser = (id) => {
-    fetch(`http://localhost:500/users/${id}`, {
+    fetch(`http://localhost:5000/users/${id}`, {
       method: 'DELETE',
     })
       .then(() => {
