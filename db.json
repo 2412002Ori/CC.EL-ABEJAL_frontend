@@ -558,7 +558,7 @@
     },
     {
       "id": "5",
-      "id_number": "ID005",
+      "id_number": "10",
       "full_name": "Luis Rodríguez",
       "request_date": "2023-01-05",
       "activity": "Actividad comercial E"
@@ -568,12 +568,12 @@
       "id_number": "ID006",
       "full_name": "Sofía Hernández",
       "request_date": "2023-01-06",
-      "activity": "Actividad comercial F"
+      "activity": "Actividad comercial 5"
     }
   ],
   "contracts": [
     {
-      "id": 1,
+      "id": "1",
       "contract_number": "C001",
       "tenant_id": "19168148",
       "location_id": "10",
@@ -596,7 +596,7 @@
       "numero_de_solicitud": "1"
     },
     {
-      "id": 2,
+      "id": "2",
       "contract_number": "C002",
       "tenant_id": "2808551",
       "location_id": "15",
@@ -620,7 +620,7 @@
       "numero_de_solicitud": "2"
     },
     {
-      "id": 4,
+      "id": "4",
       "contract_number": "C003",
       "tenant_id": "31416797",
       "location_id": "20",
@@ -645,7 +645,7 @@
       "numero_de_solicitud": "3"
     },
     {
-      "id": 5,
+      "id": "5",
       "contract_number": "C2025",
       "tenant_id": "2412002",
       "location_id": "35",
@@ -667,7 +667,7 @@
       "tenantName": "oriana duran"
     },
     {
-      "id": 6,
+      "id": "6",
       "contract_number": "C2021",
       "tenant_id": "21416797",
       "location_id": "18",
@@ -724,7 +724,7 @@
       "number_local_old": "10"
     },
     {
-      "id": "1",
+      "id": "2",
       "tenant_id": "19168148",
       "old_contract_id": "C001",
       "new_contract_id": "C003",

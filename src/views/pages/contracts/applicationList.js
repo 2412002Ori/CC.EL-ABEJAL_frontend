@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import {
   CCard,
   CCardBody,
@@ -13,24 +13,23 @@ import {
   CCol,
   CRow,
   CModal,
-  CModalHeader,
   CModalBody,
-  CModalFooter,
   CFormInput,
 } from '@coreui/react'
+
 import CIcon from '@coreui/icons-react'
 import { cilUserPlus } from '@coreui/icons'
 import { cilTrash, cilPencil } from '@coreui/icons'
 import Application from './application'
 
-
-
+import helpFetch from '../../../hooks/helpfetch'
 
 function Applicationlist() {
-  const [modalVisible, setModalVisible] = useState(false) // Modal para crear
-  const [modal1Visible, setModal1Visible] = useState(false) // Modal para editar
+  const [modalVisible, setModalVisible] = useState(false) 
+  const [modal1Visible, setModal1Visible] = useState(false) 
   const [searchCedula, setSearchCedula] = useState('')
   const [rows, setRows] = useState([]) 
+  const API = helpFetch()
   const [selectedRow, setSelectedRow] = useState(null) 
 
   const headers = [

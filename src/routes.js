@@ -53,7 +53,7 @@ const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 
 // Pages
 const Applicationlist = React.lazy(() => import('./views/pages/contracts/applicationList'))   
-const ContractsAcepted =  React.lazy(() => import('./views/pages/contracts/contractsAcepted'))  
+const ContractsAcepted = React.lazy(() => import('./views/pages/contracts/contractsAcepted'))  
 const ContractsDefeated =  React.lazy(() => import('./views/pages/contracts/contractsDefeated'))
 const Cincome =  React.lazy(() => import('./views/pages/contracts/incomeContracts'))
 const ContractsMenu =  React.lazy(() => import('./views/pages/contracts/contractsMenu'))
@@ -132,6 +132,7 @@ const routes = [
   {path: '/pages/tenants/list', name: 'ListTenants', element: ListTenants },
   {path: '/pages/tenants/relocation', name: 'Relocation', element: RelocationList },
   { path: '/page/statistics', name: 'statistics', element: CondoBarChart },
+   {path: '/pages/register/user', name: 'Register', element: Registeruser },
 
 
  //other routes 

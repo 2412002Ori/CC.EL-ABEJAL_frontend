@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import  { useState, useEffect } from 'react'
+
 import {
   CCard,
   CCardBody,
@@ -22,7 +23,7 @@ const Application = ({ data = {}, onSave, isEdit = false }) => {
 
   useEffect(() => {
     if (isEdit && data) {
-      setFormData(data) 
+      setFormData(prev => ({ ...prev, ...data }))
     }
   }, [isEdit, data])
 

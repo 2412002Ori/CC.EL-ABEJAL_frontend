@@ -80,31 +80,27 @@ const Cincome = () => {
       [name]: value,
     }))
 
-    
-    if (name === 'numero_de_solicitud') {
-      console.log('Número de solicitud ingresado:', value)
-      console.log('Solicitudes disponibles:', contractRequests)
-
-      const selectedRequest = contractRequests.find(
-        (request) => request.id === value 
-      )
-      if (selectedRequest) {
-        setContractData((prevState) => ({
+    const handleChange = (e) => {
+      const { name, value } = e.target
+  
+      if (name === 'contractRequestNumber') {
+        const contract = contracts[value] || { tenantName: '', tenantId: '', amountDue: '' }
+        setPaymentData((prevState) => ({
           ...prevState,
-          tenant_id: selectedRequest.id_number,
-          tenantName: selectedRequest.full_name, 
-          activity: selectedRequest.activity, 
+          contractRequestNumber: value,
+          tenantName: contract.tenantName,
+          tenantId: contract.tenantId,
+          amountDue: contract.amountDue,
         }))
       } else {
-        
-        setContractData((prevState) => ({
+        setPaymentData((prevState) => ({
           ...prevState,
-          tenant_id: '',
-          tenantName: '',
-          activity: '',
+          [name]: value,
         }))
       }
     }
+    
+  
   }
 
   const handleSubmit = async (e) => {
@@ -179,7 +175,7 @@ const Cincome = () => {
                   <CFormInput
                       type="text"
                       name="numero_de_solicitud"
-                      value={ContractData.numero_de_solicitud}
+                      value={ContractData.numero}
                       onChange={handleChange}
                       placeholder="Número de solicitud"
                       label="Número de solicitud"

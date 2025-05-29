@@ -1,4 +1,5 @@
-import React from 'react'; 
+import { useState } from 'react' 
+
 import {
   CButton,
   CCard,
@@ -124,7 +125,7 @@ export const PermisosUsuario = () => {
   )
 }
 
-const Registruser = () => {
+const Registeruser = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [users] = useState([
     { id: 1, name: 'Juan', lastname: 'Perez', email: 'juan.perez@gmail.com' },
