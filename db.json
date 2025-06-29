@@ -1096,6 +1096,87 @@
       "name": "Estructuras",
       "description": "Revisión de soportes estructurales",
       "maintenance_date": "2023-10-20"
+  "users": [
+    {
+      "id": "1",
+      "name": "Juan",
+      "lastname": "Perez",
+      "email": "juan.perez@gmail.com",
+      "password": "juan123",
+      "confirmPassword": "juan123"
+    },
+    {
+      "id": "2",
+      "name": "Gabriela",
+      "lastname": "Rosales",
+      "email": "gabyve05@gmail.com",
+      "password": "gaby123",
+      "confirmPassword": "gaby123"
+    },
+    {
+      "id": "3",
+      "name": "Cesar",
+      "lastname": "Rosales",
+      "email": "cesardaniel@gmail.com",
+      "password": "cesar123",
+      "confirmPassword": "cesar123"
+    },
+    {
+      "id": "4",
+      "name": "Oriana",
+      "lastname": "Duran",
+      "email": "ori.duran0304@gmail.com",
+      "password": "ori123",
+      "confirmPassword": "ori123"
+    },
+    {
+      "id": "5",
+      "name": "Jenny",
+      "lastname": "Elizabeth",
+      "email": "elizabeth3@gmail.com",
+      "password": "jenny123",
+      "confirmPassword": "jenny123"
+    },
+    {
+      "id": "6",
+      "name": "William",
+      "lastname": "Chaparro",
+      "email": "ChaparroLobo@gmail.com",
+      "password": "will123",
+      "confirmPassword": "will123"
+    },
+    {
+      "id": "7",
+      "name": "Daniela",
+      "lastname": "Colmenares",
+      "email": "Nala15@gmail.com",
+      "password": "daniela123",
+      "confirmPassword": "daniela123"
+    },
+    {
+      "id": "8",
+      "name": "Kevin",
+      "lastname": "Zanabria",
+      "email": "zanabria$@gmail.com",
+      "password": "kevin123",
+      "confirmPassword": "kevin123"
+    },
+    {
+      "id": "9",
+      "name": "Jesus",
+      "lastname": "Lozada",
+      "email": "luismiguel@gmail.com",
+      "password": "jesus123",
+      "confirmPassword": "jesus123"
+    }
+  ],
+  "users2": [
+    {
+      "id": "1",
+      "name": "Cesar",
+      "lastname": "Rosales",
+      "email": "cesar@gmail.com",
+      "password": "password123"
     }
   ]
 }
