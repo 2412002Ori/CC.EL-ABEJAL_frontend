@@ -1,5 +1,4 @@
-import { useState } from 'react' 
-
+import React, { useState, useEffect } from 'react'; 
 import {
   CButton,
   CCard,
@@ -11,8 +10,8 @@ import {
   CInputGroupText,
   CRow,
   CTable,
-  CTableHead,
   CTableRow,
+  CTableHead,
   CTableHeaderCell,
   CTableBody,
   CTableDataCell,
@@ -20,16 +19,75 @@ import {
   CModalBody,
   CModalFooter,
   CModalHeader,
+<<<<<<< HEAD
   CModalTitle,
   CFormInput,
+=======
+  CModalTitle
+>>>>>>> 46a63424d56b4b79691ce0cd8a1e9695dcfe3a34
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { useNavigate } from 'react-router-dom'
 import { cilLockLocked, cilUser, cilTrash, cilAddressBook, cilSearch } from '@coreui/icons'
 import AlertMessage from './../login/Alerta'
 
-export const ModalScrollingLongContent2Example = () => {
+export const EliminarUsuario = ({ id, onDelete }) => {
   const [visible, setVisible] = useState(false)
+  return (
+    <>      
+    <CButton color="danger" variant="ghost" className="ms-2" onClick={() => setVisible(!visible)}>
+    <CIcon icon={cilTrash} className="me-2" />Eliminar
+    </CButton>
+
+    <CModal backdrop="static" visible={visible} onClose={() => setVisible(false)} aria-labelledby="StaticBackdropExampleLabel">
+      <CModalHeader>
+        <CModalTitle id="StaticBackdropExampleLabel">Eliminar Usuario</CModalTitle>
+      </CModalHeader>
+      <CModalBody>
+        <p>¿Estás seguro de que deseas eliminar este usuario?</p>
+      </CModalBody>
+      <CModalFooter>
+      <CButton color="danger" variant="ghost" className="ms-2" onClick={() => onDelete(id)}><CIcon icon={cilTrash} className="me-2" />Eliminar</CButton>
+      </CModalFooter>
+    </CModal>
+  </>
+  )
+}
+
+export const ModalRegisterUser = () => {
+  const [error, setError] = useState(null);
+  const [visible, setVisible] = useState(false)
+  const [formData, setFormData] = useState({
+    name: '',
+    lastname: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const addUser = () => {
+    if (formData.password !== formData.confirmPassword) {
+        setError('Las contraseñas no coinciden');
+      return;
+  }
+
+    fetch('http://localhost:5000/users', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setVisible(false); 
+      })
+      .catch((error) => console.error('Error:', error));
+  };
+  
   return (
     <>
       <CButton color="primary" onClick={() => setVisible(!visible)}>
@@ -50,48 +108,76 @@ export const ModalScrollingLongContent2Example = () => {
           <CModalBody>
           <CRow className="justify-content-center">
             <CCol>
+              {error && <AlertMessage message={error} type="danger" />}
               <CForm>
                 <h2>Crea tu nueva cuenta</h2>
               <CInputGroup className="mb-3">
                 <CInputGroupText>
                   <CIcon icon={cilUser} />
                 </CInputGroupText>
-                  <CFormInput placeholder="Name" autoComplete="name" />
+                  <CFormInput 
+                  placeholder="Name" 
+                  autoComplete="name" 
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  />
               </CInputGroup>
 
               <CInputGroup className="mb-3">
                 <CInputGroupText>
                   <CIcon icon={cilUser} />
                 </CInputGroupText>
-                  <CFormInput placeholder="Lastname" autoComplete="lastname" />
+                  <CFormInput 
+                  placeholder="Lastname" 
+                  autoComplete="lastname"
+                  name="lastname"
+                  value={formData.lastname}
+                  onChange={handleInputChange}
+                  />
               </CInputGroup>
 
               <CInputGroup className="mb-3">
                 <CInputGroupText>@</CInputGroupText>
-                <CFormInput placeholder="Email" autoComplete="email" />
+                <CFormInput 
+                placeholder="email" 
+                autoComplete="email" 
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                />
               </CInputGroup>
+
                 <CInputGroup className="mb-3">
                   <CInputGroupText>
                     <CIcon icon={cilLockLocked} />
-              </CInputGroupText>
+                  </CInputGroupText>
                 <CFormInput
                   type="password"
-                  placeholder="Password"
+                  placeholder="password"
                   autoComplete="new-password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleInputChange}
                 />
                 </CInputGroup>
+
                 <CInputGroup className="mb-4">
                   <CInputGroupText>
                     <CIcon icon={cilLockLocked} />
                   </CInputGroupText>
                   <CFormInput
                     type="password"
-                    placeholder="Repeat password"
+                    placeholder="repeat password"
                     autoComplete="new-password"
+                    name="confirmPassword"
+                    value={formData.confirmPassword}
+                    onChange={handleInputChange}
                   />
                 </CInputGroup>
+
                 <div className="d-grid">
-                  <CButton color="success">Create Account</CButton>
+                  <CButton color="success" onClick={addUser}>Create Account</CButton>
                 </div>
               </CForm>
             </CCol>
@@ -102,17 +188,8 @@ export const ModalScrollingLongContent2Example = () => {
           <CButton color="secondary" onClick={() => setVisible(false)}>
             Close
           </CButton>
-          <CButton color="primary">Save changes</CButton>
         </CModalFooter>
       </CModal>
-    </>
-  )
-}
-
-export const EliminarUsuario = () => {
-  return (
-    <>
-    <CButton color="danger" variant="ghost" className="ms-2" ><CIcon icon={cilTrash} className="me-2" />Eliminar</CButton>
     </>
   )
 }
@@ -128,26 +205,33 @@ export const PermisosUsuario = () => {
 
 const Registeruser = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [users] = useState([
-    { id: 1, name: 'Juan', lastname: 'Perez', email: 'juan.perez@gmail.com' },
-    { id: 2, name: 'Gabriela', lastname: 'Rosales', email: 'gabyve05@gmail.com' },
-    { id: 3, name: 'Cesar', lastname: 'Rosales', email: 'cesardaniel@gmail.com' },
-    { id: 4, name: 'Oriana', lastname: 'Duran', email: 'ori.duran0304@gmail.com' },
-    { id: 5, name: 'Jenny', lastname: 'Elizabeth', email: 'elizabeth3@gmail.com' },
-    { id: 6, name: 'William', lastname: 'Chaparro', email: 'ChaparroLobo@gmail.com' },
-    { id: 7, name: 'Daniela', lastname: 'Colmenares', email: 'Nala15@gmail.com' },
-    { id: 8, name: 'Kevin', lastname: 'Zanabria', email: 'zanabria$@gmail.com' },
-    { id: 9, name: 'Jesus', lastname: 'Lozada', email: 'luismiguel@gmail.com' },
-  ]);
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:5000/users')
+      .then((response) => response.json())
+      .then((data) => setUsers(data))
+      .catch((error) => console.error('Error al obtener usuarios:', error));
+  }, []);
 
   const filteredUsers = users.filter(user => {
     const searchText = searchTerm.toLowerCase();
     return (
-    user.name.toLowerCase().includes(searchText) || 
-    user.lastname.toLowerCase().includes(searchText) || 
-    user.email.toLowerCase().includes(searchText)
-  )}
-)
+      user.name.toLowerCase().includes(searchText) || 
+      user.lastname.toLowerCase().includes(searchText) || 
+      user.email.toLowerCase().includes(searchText)
+    )}
+  );
+
+  const deleteUser = (id) => {
+    fetch(`http://localhost:5000/users/${id}`, {
+      method: 'DELETE',
+    })
+      .then(() => {
+        setUsers(users.filter((user) => user.id !== id)); 
+      })
+      .catch((error) => console.error('Error eliminando usuarios:', error));
+  };
 
   return (
   <CCard className="mb-3">
@@ -163,7 +247,7 @@ const Registeruser = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </CInputGroup>
-        <ModalScrollingLongContent2Example />
+        <ModalRegisterUser />
       </CHeader>
 
     <CCardBody>
@@ -184,7 +268,7 @@ const Registeruser = () => {
             <CTableDataCell>{user.lastname}</CTableDataCell>
             <CTableDataCell>{user.email}</CTableDataCell>
             <CTableDataCell><PermisosUsuario/></CTableDataCell>
-            <CTableDataCell><EliminarUsuario/></CTableDataCell>
+            <CTableDataCell><EliminarUsuario id={user.id} onDelete={deleteUser} /></CTableDataCell>
           </CTableRow>
           ))}
         </CTableBody>
