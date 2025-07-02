@@ -20,7 +20,8 @@ import {
   CModalFooter,
   CModalHeader,
   CModalTitle,
-  CFormInput
+  CFormInput,
+  CAlert
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { useNavigate } from 'react-router-dom'
@@ -186,6 +187,189 @@ export const PermisosUsuario = () => {
   )
 }
 
+const RegisterUserForm = ({ onClose }) => {
+  const [formData, setFormData] = useState({
+    name: '',
+    lastname: '',
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  });
+
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const isFormValid =
+    formData.name.trim() !== '' &&
+    formData.lastname.trim() !== '' &&
+    formData.username.trim() !== '' &&
+    formData.email.trim() !== '' &&
+    formData.password.trim() !== '' &&
+    formData.confirmPassword.trim() !== '' &&
+    formData.password === formData.confirmPassword;
+
+  const addUser = (e) => {
+    e.preventDefault();
+    if (!isFormValid) return;
+
+    fetch('http://localhost:5000/users', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setFormData({
+          name: '',
+          lastname: '',
+          username: '',
+          email: '',
+          password: '',
+          confirmPassword: ''
+        });
+        setShowSuccess(true);
+        setTimeout(() => setShowSuccess(false), 3000);
+      })
+      .catch((error) => console.error('Error:', error));
+  };
+
+  return (
+    <>
+      <CForm onSubmit={addUser}>
+        <h1>Registro</h1>
+        <p className="text-body-secondary">Crea tu nueva cuenta</p>
+
+        {showSuccess && (
+          <CAlert color="success" className="mb-3">
+            ¡El usuario ha sido registrado exitosamente!
+          </CAlert>
+        )}
+
+        <CInputGroup className="mb-3">
+          <CInputGroupText>
+            <CIcon icon={cilUser} />
+          </CInputGroupText>
+          <CFormInput
+            placeholder="Name"
+            autoComplete="name"
+            name="name"
+            value={formData.name}
+            onChange={handleInputChange}
+            required
+          />
+        </CInputGroup>
+
+        <CInputGroup className="mb-3">
+          <CInputGroupText>
+            <CIcon icon={cilUser} />
+          </CInputGroupText>
+          <CFormInput
+            placeholder="Lastname"
+            autoComplete="lastname"
+            name="lastname"
+            value={formData.lastname}
+            onChange={handleInputChange}
+            required
+          />
+        </CInputGroup>
+
+        <CInputGroup className="mb-3">
+          <CInputGroupText>
+            <CIcon icon={cilUser} />
+          </CInputGroupText>
+          <CFormInput
+            placeholder="Username"
+            autoComplete="username"
+            name="username"
+            value={formData.username}
+            onChange={handleInputChange}
+            required
+          />
+        </CInputGroup>
+
+        <CInputGroup className="mb-3">
+          <CInputGroupText>@</CInputGroupText>
+          <CFormInput
+            placeholder="email"
+            autoComplete="email"
+            name="email"
+            value={formData.email}
+            onChange={handleInputChange}
+            required
+          />
+        </CInputGroup>
+
+        <CInputGroup className="mb-3">
+          <CInputGroupText>
+            <CIcon icon={cilLockLocked} />
+          </CInputGroupText>
+          <CFormInput
+            type="password"
+            placeholder="password"
+            autoComplete="new-password"
+            name="password"
+            value={formData.password}
+            onChange={handleInputChange}
+          />
+        </CInputGroup>
+
+        <CInputGroup className="mb-4">
+          <CInputGroupText>
+            <CIcon icon={cilLockLocked} />
+          </CInputGroupText>
+          <CFormInput
+            type="password"
+            placeholder="repeat password"
+            autoComplete="new-password"
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={handleInputChange}
+          />
+        </CInputGroup>
+
+        <div className="d-flex gap-2">
+          <CButton color="success" className="px-4" type="submit" disabled={!isFormValid}>
+            Agregar
+          </CButton>
+          <CButton color="secondary" className="px-4" type="button" onClick={onClose}>
+            Cerrar
+          </CButton>
+        </div>
+      </CForm>
+
+      {showSuccess && (
+        <CAlert color="success" className="mb-3" dismissible onClose={() => setShowSuccess(false)}>
+          ¡El usuario ha sido registrado exitosamente!
+        </CAlert>
+      )}
+    </>
+  )
+}
+
+const RegisterUserModal = () => {
+  const [showModal, setShowModal] = useState(false);
+  return (
+    <>
+      <CButton color="success" className="ms-3" onClick={() => setShowModal(true)}>
+        Registrar Usuario
+      </CButton>
+      <CModal visible={showModal} onClose={() => setShowModal(false)}>
+        <CModalHeader>
+          <CModalTitle>Registro de Usuario</CModalTitle>
+        </CModalHeader>
+        <CModalBody>
+          <RegisterUserForm onClose={() => setShowModal(false)} />
+        </CModalBody>
+      </CModal>
+    </>
+  );
+};
+
 const Registeruser = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [users, setUsers] = useState([]);
@@ -225,17 +409,20 @@ const Registeruser = () => {
   return (
     <CCard className="mb-3">
       <CHeader>
-        <h2>Usuarios</h2>
-        <CInputGroup style={{ width: '600px' }}>
-          <CInputGroupText>
-            <CIcon icon={cilSearch} /> 
-          </CInputGroupText>
-          <CFormInput
-            placeholder="Buscar usuarios..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </CInputGroup>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <h2>Usuarios</h2>
+          <CInputGroup style={{ width: '600px' }}>
+            <CInputGroupText>
+              <CIcon icon={cilSearch} /> 
+            </CInputGroupText>
+            <CFormInput
+              placeholder="Buscar usuarios..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </CInputGroup>
+          <RegisterUserModal />
+        </div>
       </CHeader>
 
       <CCardBody>
