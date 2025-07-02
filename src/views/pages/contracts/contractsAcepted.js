@@ -13,6 +13,7 @@ import {
   CCol,
   CRow,
 } from '@coreui/react'
+import { contractsAPI } from '../../../services/api'
 
 function ContractsAceptedList() {
   const headers = [
@@ -27,22 +28,59 @@ function ContractsAceptedList() {
     'Hora Salida',
     'Días de Trabajo',
     'Usuario',
+    'Estado',
   ]
 
   const [contracts, setContracts] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+
+  // Función para determinar el estado del contrato
+  const getContractStatus = (endDate) => {
+    if (!endDate) return 'No especificado'
+    
+    const today = new Date()
+    const endDateObj = new Date(endDate)
+    
+    // Resetear las horas para comparar solo fechas
+    today.setHours(0, 0, 0, 0)
+    endDateObj.setHours(0, 0, 0, 0)
+    
+    if (endDateObj > today) {
+      return 'Activo'
+    } else {
+      return 'Vencido'
+    }
+  }
+
+  // Función para obtener el color del estado
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'Activo':
+        return 'success'
+      case 'Vencido':
+        return 'danger'
+      default:
+        return 'secondary'
+    }
+  }
 
   useEffect(() => {
     const fetchContractData = async () => {
+      setLoading(true)
+      setError(null)
       try {
-        const response = await fetch('http://localhost:3001/contracts')
-        if (response.ok) {
-          const data = await response.json()
-          setContracts(data)
-        } else {
-          console.error('Error al obtener los contratos:', response.statusText)
+        const data = await contractsAPI.getAll()
+        console.log('Contratos recibidos:', data)
+        if (data.length > 0) {
+          console.log('Primer contrato:', data[0])
         }
+        setContracts(data)
       } catch (error) {
-        console.error('Error en la solicitud:', error)
+        console.error('Error al obtener los contratos:', error)
+        setError('Error al cargar los contratos')
+      } finally {
+        setLoading(false)
       }
     }
 
@@ -51,11 +89,26 @@ function ContractsAceptedList() {
 
   return (
     <div className="informe-mensual">
+      {/* Indicadores de estado */}
+      {error && (
+        <div className="alert alert-danger" role="alert">
+          {error}
+        </div>
+      )}
+      
+      {loading && (
+        <div className="text-center my-3">
+          <div className="spinner-border" role="status">
+            <span className="visually-hidden">Cargando...</span>
+          </div>
+        </div>
+      )}
+
       <CCard bordered hover style={{ border: '2px solid #ffa600b0' }}>
         <CCardHeader>
           <CRow>
             <CCol>
-              <h3>CONTRATOS ACTIVOS</h3>
+              <h3>CONTRATOS</h3>
             </CCol>
           </CRow>
         </CCardHeader>
@@ -73,19 +126,44 @@ function ContractsAceptedList() {
             <CTableBody>
               {contracts.map((contract, index) => (
                 <CTableRow key={index}>
-                  <CTableDataCell className="text-center">{contract.contract_number}</CTableDataCell>
-                  <CTableDataCell className="text-center">{contract.tenant_id}</CTableDataCell>
-                  <CTableDataCell className="text-center">{contract.location_id}</CTableDataCell>
-                  <CTableDataCell className="text-center">{contract.rent_amount}</CTableDataCell>
-                  <CTableDataCell className="text-center">{contract.init_date}</CTableDataCell>
-                  <CTableDataCell className="text-center">{contract.end_date}</CTableDataCell>
-                  <CTableDataCell className="text-center">{contract.business_name}</CTableDataCell>
-                  <CTableDataCell className="text-center">{contract.entry_time}</CTableDataCell>
-                  <CTableDataCell className="text-center">{contract.exit_time}</CTableDataCell>
                   <CTableDataCell className="text-center">
-                    {contract.diasTrabajo.join(', ')}
+                    <strong>{contract.contract_number || 'No especificado'}</strong>
                   </CTableDataCell>
-                  <CTableDataCell className="text-center">{contract.user_registered}</CTableDataCell>
+                  <CTableDataCell className="text-center">
+                    <strong>{contract.id_number || 'No especificado'}</strong>
+                  </CTableDataCell>
+                  <CTableDataCell className="text-center">
+                    {contract.location_id || 'No especificado'}
+                  </CTableDataCell>
+                  <CTableDataCell className="text-center">
+                    {contract.rent_amount ? `$${parseFloat(contract.rent_amount).toLocaleString()}` : 'No especificado'}
+                  </CTableDataCell>
+                  <CTableDataCell className="text-center">
+                    {contract.init_date ? new Date(contract.init_date).toLocaleDateString() : 'No especificado'}
+                  </CTableDataCell>
+                  <CTableDataCell className="text-center">
+                    {contract.end_date ? new Date(contract.end_date).toLocaleDateString() : 'No especificado'}
+                  </CTableDataCell>
+                  <CTableDataCell className="text-center">
+                    {contract.business_name || 'No especificado'}
+                  </CTableDataCell>
+                  <CTableDataCell className="text-center">
+                    {contract.entry_time ? new Date(contract.entry_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : 'No especificado'}
+                  </CTableDataCell>
+                  <CTableDataCell className="text-center">
+                    {contract.exit_time ? new Date(contract.exit_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : 'No especificado'}
+                  </CTableDataCell>
+                  <CTableDataCell className="text-center">
+                    {contract.daysWork ? (Array.isArray(contract.daysWork) ? contract.daysWork.join(', ') : contract.daysWork) : 'No especificado'}
+                  </CTableDataCell>
+                  <CTableDataCell className="text-center">
+                    {contract.registered_user ? `Usuario ${contract.registered_user}` : 'No especificado'}
+                  </CTableDataCell>
+                  <CTableDataCell className="text-center">
+                    <span className={`badge bg-${getStatusColor(getContractStatus(contract.end_date))}`}>
+                      {getContractStatus(contract.end_date)}
+                    </span>
+                  </CTableDataCell>
                 </CTableRow>
               ))}
             </CTableBody>

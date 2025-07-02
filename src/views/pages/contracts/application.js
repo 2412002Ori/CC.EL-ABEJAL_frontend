@@ -24,7 +24,13 @@ const Application = ({ data = {}, onSave, isEdit = false }) => {
 
   useEffect(() => {
     if (isEdit && data) {
-      setFormData(prev => ({ ...prev, ...data }))
+      // Formatear la fecha para el input de tipo date
+      const formattedData = { ...data }
+      if (data.request_date) {
+        const date = new Date(data.request_date)
+        formattedData.request_date = date.toISOString().split('T')[0]
+      }
+      setFormData(prev => ({ ...prev, ...formattedData }))
     }
   }, [isEdit, data])
 
