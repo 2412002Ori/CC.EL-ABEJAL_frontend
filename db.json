@@ -537,24 +537,6 @@
       "status": "active",
       "name": "Juan",
       "lastname": "Pérez"
-    },
-    {
-      "id": "5970",
-      "name": "1",
-      "lastname": "2",
-      "username": "3",
-      "email": "4",
-      "password": "5",
-      "confirmPassword": "5"
-    },
-    {
-      "id": "3153",
-      "name": "1",
-      "lastname": "2",
-      "username": "3",
-      "email": "4",
-      "password": "5",
-      "confirmPassword": "5"
     }
   ],
   "tenants": [

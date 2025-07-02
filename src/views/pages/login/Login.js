@@ -74,26 +74,33 @@ const Login = () => {
   const navigate = useNavigate(); 
 
   const handleLogin = (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
+  e.preventDefault();
+  setLoading(true);
+  setError('');
 
-    fetch('http://localhost:5000/users?username=' + username + '&password=' + password)
-      .then(res => res.json())
-      .then(users => {
-        if (users.length > 0) {
-          localStorage.setItem('isAuthenticated', 'true');
-          localStorage.setItem('user', JSON.stringify({ username: users[0].username }));
-          navigate('/dashboard');
-        } else {
-          setError('Contraseña Incorrecta');
-        }
+  fetch('http://localhost:3003/api/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password })
+  })
+    .then(async res => {
+      const data = await res.json();
+      console.log(data);
+      if (!res.ok) {
+        setError(data.mensaje || 'Error de autenticación');
         setLoading(false);
-      })
-      .catch(() => {
-        setError('Error de conexión');
-        setLoading(false);
-      });
+        return;
+      }
+      localStorage.setItem('isAuthenticated', 'true');
+      localStorage.setItem('user', JSON.stringify(data.usuario));
+      localStorage.setItem('token', data.token);
+      navigate('/dashboard');
+      setLoading(false);
+    })
+    .catch(() => {
+      setError('Error de conexión');
+      setLoading(false);
+    });
   };
 
   return (

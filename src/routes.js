@@ -67,6 +67,7 @@ const CondoBarChart = React.lazy(() => import('./views/pages/statistics/statisti
 const Registeruser = React.lazy(() => import('./views/pages/register/Register'))
 const PermisosUsuario = React.lazy(() => import('./views/pages/register/Permissions'))
 const PerfilUsuario = React.lazy(() => import('./views/pages/profile/Profile'))
+const NoAutorizado = React.lazy(() => import('./views/pages/no-autorizado/no-autorizado'))
 
 
 
@@ -136,6 +137,7 @@ const routes = [
   {path: '/pages/register/Register', name: 'Register', element: Registeruser },
   {path: '/pages/register/Permissions', name: 'Permisos', element: PermisosUsuario },
   {path: '/pages/profile/Profile', name: 'Profile', element: PerfilUsuario },
+  {path: '/pages/no-autorizado', name: 'NoAutorizado', element: NoAutorizado },
 ]
 
 export default routes

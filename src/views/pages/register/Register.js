@@ -373,13 +373,29 @@ const RegisterUserModal = () => {
 const Registeruser = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [users, setUsers] = useState([]);
+  const navigate = useNavigate(); 
 
   useEffect(() => {
-    fetch('http://localhost:5000/users')
-      .then((response) => response.json())
+    const token = localStorage.getItem('token');
+    if (!token || token === 'undefined' || token === 'null' || token.trim() === '') {
+    navigate('/no-autorizado');
+    return;
+  }
+    fetch('http://localhost:3003/api/users', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then((response) => {
+      if (response.status === 401) {
+        navigate('/no-autorizado');
+        throw new Error('No autorizado para este módulo.');
+      }
+      return response.json();
+    })
       .then((data) => setUsers(data))
       .catch((error) => console.error('Error al obtener usuarios:', error));
-  }, []);
+  }, [navigate]);
 
   const filteredUsers = users.filter(user => {
     const searchText = searchTerm.toLowerCase();
