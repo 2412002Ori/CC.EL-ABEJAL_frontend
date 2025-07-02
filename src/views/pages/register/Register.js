@@ -19,12 +19,8 @@ import {
   CModalBody,
   CModalFooter,
   CModalHeader,
-<<<<<<< HEAD
   CModalTitle,
-  CFormInput,
-=======
-  CModalTitle
->>>>>>> 46a63424d56b4b79691ce0cd8a1e9695dcfe3a34
+  CFormInput
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { useNavigate } from 'react-router-dom'
