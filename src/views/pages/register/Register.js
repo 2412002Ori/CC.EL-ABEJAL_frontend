@@ -210,14 +210,14 @@ const Registeruser = () => {
       .catch((error) => console.error('Error al obtener usuarios:', error));
   }, []);
 
-  const filteredUsers = users.filter(user => {
+    const filteredUsers = users.filter(user => {
     const searchText = searchTerm.toLowerCase();
     return (
       user.name.toLowerCase().includes(searchText) || 
       user.lastname.toLowerCase().includes(searchText) || 
       user.email.toLowerCase().includes(searchText)
-    )}
-  );
+    );
+  });
 
   const deleteUser = (id) => {
     fetch(`http://localhost:5000/users/${id}`, {

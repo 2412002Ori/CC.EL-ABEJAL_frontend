@@ -426,7 +426,9 @@
       "role_id": 1,
       "created_at": "2023-01-01T00:00:00Z",
       "updated_at": "2023-01-01T00:00:00Z",
-      "status": "active"
+      "status": "active",
+      "name": "Juan",
+      "lastname": "Pérez"
     },
     {
       "id": "2",
@@ -436,7 +438,9 @@
       "role_id": 2,
       "created_at": "2023-01-01T00:00:00Z",
       "updated_at": "2023-01-01T00:00:00Z",
-      "status": "active"
+      "status": "active",
+      "name": "Maria",
+      "lastname": "Eujenia"
     },
     {
       "id": "3",
@@ -446,7 +450,9 @@
       "role_id": 3,
       "created_at": "2023-01-01T00:00:00Z",
       "updated_at": "2023-01-01T00:00:00Z",
-      "status": "active"
+      "status": "active",
+      "name": "Cesar",
+      "lastname": "Daniel"
     },
     {
       "id": "4",
@@ -456,7 +462,9 @@
       "role_id": 3,
       "created_at": "2023-01-01T00:00:00Z",
       "updated_at": "2023-01-01T00:00:00Z",
-      "status": "active"
+      "status": "active",
+      "name": "Felipe",
+      "lastname": "Rosales"
     },
     {
       "id": "5",
@@ -466,7 +474,9 @@
       "role_id": 3,
       "created_at": "2023-01-01T00:00:00Z",
       "updated_at": "2023-01-01T00:00:00Z",
-      "status": "active"
+      "status": "active",
+      "name": "Alberto",
+      "lastname": "Rangel"
     },
     {
       "id": "6",
@@ -476,7 +486,9 @@
       "role_id": 3,
       "created_at": "2023-01-01T00:00:00Z",
       "updated_at": "2023-01-01T00:00:00Z",
-      "status": "active"
+      "status": "active",
+      "name": "Juan",
+      "lastname": "Pérez"
     },
     {
       "id": "7",
@@ -486,7 +498,9 @@
       "role_id": 3,
       "created_at": "2023-01-01T00:00:00Z",
       "updated_at": "2023-01-01T00:00:00Z",
-      "status": "pending"
+      "status": "pending",
+      "name": "Juan",
+      "lastname": "Pérez"
     },
     {
       "id": "8",
@@ -496,7 +510,9 @@
       "role_id": 3,
       "created_at": "2023-01-01T00:00:00Z",
       "updated_at": "2023-01-01T00:00:00Z",
-      "status": "inactive"
+      "status": "inactive",
+      "name": "Juan",
+      "lastname": "Pérez"
     },
     {
       "id": "9",
@@ -506,7 +522,9 @@
       "role_id": 3,
       "created_at": "2023-01-01T00:00:00Z",
       "updated_at": "2023-01-01T00:00:00Z",
-      "status": "active"
+      "status": "active",
+      "name": "Juan",
+      "lastname": "Pérez"
     },
     {
       "id": "10",
@@ -516,7 +534,9 @@
       "role_id": 3,
       "created_at": "2023-01-01T00:00:00Z",
       "updated_at": "2023-01-01T00:00:00Z",
-      "status": "active"
+      "status": "active",
+      "name": "Juan",
+      "lastname": "Pérez"
     }
   ],
   "tenants": [
