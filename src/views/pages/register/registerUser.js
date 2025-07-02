@@ -22,9 +22,8 @@ import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import centroArtesanal from '../../../assets/images/centroArtesanal.jpg'
 
-const RegisterUserForm = () => {
+const RegisterUserForm = ({ onClose }) => {
   const [formData, setFormData] = useState({
     name: '',
     lastname: '',
@@ -34,7 +33,7 @@ const RegisterUserForm = () => {
     confirmPassword: ''
   });
 
-  const [showModal, setShowModal] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -67,7 +66,7 @@ const RegisterUserForm = () => {
           password: '',
           confirmPassword: ''
         });
-        setShowModal(true); // Mostrar modal de éxito
+        setShowSuccess(true);
       })
       .catch((error) => console.error('Error:', error));
   };
@@ -163,10 +162,13 @@ const RegisterUserForm = () => {
           <CButton color="success" className="px-4" type="submit" disabled={!isFormValid}>
             Agregar
           </CButton>
+          <CButton color="secondary" className="px-4" type="button" onClick={onClose}>
+            Cerrar
+          </CButton>
         </div>
       </CForm>
 
-      <CModal visible={showModal} onClose={() => setShowModal(false)}>
+      <CModal visible={showSuccess} onClose={() => setShowSuccess(false)}>
         <CModalBody>
           ¡El usuario ha sido registrado exitosamente!
         </CModalBody>
@@ -175,32 +177,38 @@ const RegisterUserForm = () => {
   )
 }
 
-const RegisterUserContainer = () => (
-  <div className="bg-body-tertiary min-vh-100 d-flex flex-row align-items-center"
-    style={{
-      backgroundImage: `url(${centroArtesanal})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat'
-    }}>
-    <CContainer>
-      <CRow className="justify-content-end">
-        <CCol md={6}>
-          <CCardGroup>
-            <CCard className="p-4" style={{
-              border: '1px solid',
-              borderRadius: '1rem',
-              boxShadow: '1rem 1rem 1rem rgba(0, 0, 0, 0.75)'
-            }}>
-              <CCardBody>
-                <RegisterUserForm />
-              </CCardBody>
-            </CCard>
-          </CCardGroup>
-        </CCol>
-      </CRow>
-    </CContainer>
-  </div>
-);
+const RegisterUserContainer = () => {
+  const [showModal, setShowModal] = useState(false);
 
-export default RegisterUserContainer;
+  return (
+    <div className="bg-body-tertiary min-vh-100 d-flex flex-row align-items-center">
+      <CContainer>
+        <CRow className="justify-content-end">
+          <CCol md={6}>
+            <CCardGroup>
+              <CCard className="p-4" style={{
+                border: '1px solid',
+                borderRadius: '1rem',
+                boxShadow: '1rem 1rem 1rem rgba(0, 0, 0, 0.75)'
+              }}>
+                <CCardBody className="d-flex flex-column align-items-center">
+                  <CButton color="success" className="mb-4" onClick={() => setShowModal(true)}>
+                    Registrar Usuario
+                  </CButton>
+                  <CModal visible={showModal} onClose={() => setShowModal(false)}>
+                    <CModalHeader>
+                      <CModalTitle>Registro de Usuario</CModalTitle>
+                    </CModalHeader>
+                    <CModalBody>
+                      <RegisterUserForm onClose={() => setShowModal(false)} />
+                    </CModalBody>
+                  </CModal>
+                </CCardBody>
+              </CCard>
+            </CCardGroup>
+          </CCol>
+        </CRow>
+      </CContainer>
+    </div>
+  )
+}
