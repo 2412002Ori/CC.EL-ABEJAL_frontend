@@ -25,26 +25,25 @@ import Application from './application'
 import helpFetch from '../../../hooks/helpfetch'
 
 function Applicationlist() {
-  const [modalVisible, setModalVisible] = useState(false) 
-  const [modal1Visible, setModal1Visible] = useState(false) 
+  const [modalVisible, setModalVisible] = useState(false)
+  const [modal1Visible, setModal1Visible] = useState(false)
   const [searchCedula, setSearchCedula] = useState('')
-  const [rows, setRows] = useState([]) 
+  const [rows, setRows] = useState([])
   const API = helpFetch()
-  const [selectedRow, setSelectedRow] = useState(null) 
+  const [selectedRow, setSelectedRow] = useState(null)
 
   const headers = [
-    'Número de Solicitud',
-    'Cédula del Inquilino',
-    'Nombre del Inquilino',
-    'Fecha',
-    'Actividad',
-    'Tipo',
-    '', 
-  ] 
+    'id_number',
+    'full_name',
+    'request_date',
+    'activity',
+    'email',
+    'phone',
+  ]
 
   useEffect(() => {
     console.log('Cargando datos desde JSON Server...')
-    fetch('http://localhost:3001/contract_requests')
+    fetch('http://localhost:3003/api/request/contracts')
       .then((response) => {
         console.log('Respuesta del servidor:', response)
         if (!response.ok) {
@@ -53,8 +52,8 @@ function Applicationlist() {
         return response.json()
       })
       .then((data) => {
-        console.log('Datos cargados:', data)
-        setRows(data)
+        console.log('Datos cargados:', data.rows)
+        setRows(data.rows)
       })
       .catch((error) => console.error('Error al cargar los datos:', error))
   }, [])
@@ -65,8 +64,8 @@ function Applicationlist() {
 
   const handleEdit = (row) => {
     console.log('Editar:', row)
-    setSelectedRow(row) 
-    setModal1Visible(true) 
+    setSelectedRow(row)
+    setModal1Visible(true)
   }
 
   const handleSave = (updatedRow) => {
@@ -123,15 +122,15 @@ function Applicationlist() {
       .catch((error) => console.error('Error al crear la solicitud:', error))
   }
 
-  const handleDelete = (id) => {
-    fetch(`http://localhost:3001/contract_requests/${id}`, { 
+  const handleDelete = (id_number) => {
+    fetch(`http://localhost:3003/api/request/contracts/${id_number}`, {
       method: 'DELETE',
     })
       .then((response) => {
         if (!response.ok) {
           throw new Error('Error al eliminar la solicitud')
         }
-        setRows((prevRows) => prevRows.filter((row) => row.id !== id))
+        setRows((prevRows) => prevRows.filter((row) => row.id_number !== id_number))
       })
       .catch((error) => console.error('Error al eliminar la solicitud:', error))
   }
@@ -139,28 +138,45 @@ function Applicationlist() {
   return (
     <div className="informe-mensual">
       {/* Modal para crear */}
-      <CModal visible={modalVisible} onClose={() => setModalVisible(false)} size="lg">
+      <CModal
+        alignment="center"
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        size="lg"
+      >
         <CModalBody>
           <Application
-            onSave={handleCreate} 
-            isEdit={false} 
+            onSave={handleCreate}
+            isEdit={false}
           />
         </CModalBody>
       </CModal>
 
       {/* Modal para editar */}
-      <CModal visible={modal1Visible} onClose={() => setModal1Visible(false)} size="lg">
+      <CModal
+        visible={modal1Visible}
+        onClose={() => setModal1Visible(false)}
+        size="lg"
+      >
         <CModalBody>
           <Application
-            data={selectedRow} 
-            onSave={handleSave} 
-            isEdit={true} 
+            data={selectedRow}
+            onSave={handleSave}
+            isEdit={true}
           />
         </CModalBody>
       </CModal>
 
       <CRow className="mb-3 align-items-center">
-        <CCol md="auto">
+        <CCol md={4}  >
+          <CFormInput
+            type="text"
+            placeholder="Buscar por cédula"
+            value={searchCedula}
+            onChange={(e) => setSearchCedula(e.target.value)}
+          />
+        </CCol>
+         <CCol md="auto" style={{ marginLeft: 'auto' }}>
           <CButton
             className="rounded-circle"
             color="primary"
@@ -169,14 +185,6 @@ function Applicationlist() {
           >
             <CIcon icon={cilUserPlus} size="lg" />
           </CButton>
-        </CCol>
-        <CCol md={4}>
-          <CFormInput
-            type="text"
-            placeholder="Buscar por cédula"
-            value={searchCedula}
-            onChange={(e) => setSearchCedula(e.target.value)}
-          />
         </CCol>
       </CRow>
 
@@ -203,27 +211,25 @@ function Applicationlist() {
             <CTableBody>
               {filteredRows.map((row, index) => (
                 <CTableRow key={index}>
-                  <CTableDataCell className="text-center">{row.id}</CTableDataCell>
                   <CTableDataCell className="text-center">{row.id_number}</CTableDataCell>
                   <CTableDataCell className="text-center">{row.full_name}</CTableDataCell>
                   <CTableDataCell className="text-center">{row.request_date}</CTableDataCell>
                   <CTableDataCell className="text-center">{row.activity}</CTableDataCell>
-                  <CTableDataCell className="text-center">{row.type}</CTableDataCell>
+                  <CTableDataCell className="text-center">{row.email}</CTableDataCell>
+                  <CTableDataCell className="text-center">{row.phone}</CTableDataCell>
                   <CTableDataCell className="text-center">
                     <CButton
                       color="warning"
-                      size="sm"
-                      className="me-2"
                       onClick={() => handleEdit(row)}
+                      className="me-2"
                     >
-                      <CIcon icon={cilPencil} /> 
+                      <CIcon icon={cilPencil} />
                     </CButton>
                     <CButton
                       color="danger"
-                      size="sm"
-                      onClick={() => handleDelete(row.id)}
+                      onClick={() => handleDelete(row.id_number)}
                     >
-                      <CIcon icon={cilTrash} /> 
+                      <CIcon icon={cilTrash} />
                     </CButton>
                   </CTableDataCell>
                 </CTableRow>

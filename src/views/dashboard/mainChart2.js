@@ -1,9 +1,8 @@
 import React, { useEffect, useRef } from 'react'
 import { getStyle } from '@coreui/utils'
 import { CChart } from '@coreui/react-chartjs'
-import { CCard, CCardBody } from '@coreui/react' // Importa CCardBody
 
-export const MainChart_loc_mes = () => {
+export const Chartingreso = () => {
   const chartRef = useRef(null)
 
   useEffect(() => {
@@ -12,7 +11,9 @@ export const MainChart_loc_mes = () => {
       if (chartInstance) {
         const { options } = chartInstance
 
-        
+        if (options.plugins?.legend?.labels) {
+          options.plugins.legend.labels.color = getStyle('--cui-body-color')
+        }
 
         if (options.scales?.x) {
           if (options.scales.x.grid) {
@@ -39,34 +40,30 @@ export const MainChart_loc_mes = () => {
     document.documentElement.addEventListener('ColorSchemeChange', handleColorSchemeChange)
 
     return () => {
-      
-        document.documentElement.removeEventListener('ColorSchemeChange', handleColorSchemeChange)
-      
+      document.documentElement.removeEventListener('ColorSchemeChange', handleColorSchemeChange)
     }
   }, [])
 
   const data = {
-    labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre' , 'Octubre ' , 'Noviembre' , 'Diciembre'], 
+    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September'],
     datasets: [
       {
-        label: 'Pagos de condominio  ',
-        //backgroundColor: '#f87979', // Elimina esta línea
-        backgroundColor: [ // Agrega este array de colores
-          'rgba(54, 162, 235, 0.8)',   // Enero
-          'rgba(54, 162, 235, 0.8)',  // Febrero
-          'rgba(54, 162, 235, 0.8)',  // Marzo
-          'rgba(54, 162, 235, 0.8)',  // Abril
-          'rgba(54, 162, 235, 0.8)', // Mayo
-          'rgba(54, 162, 235, 0.8)',  // Junio
-          'rgba(54, 162, 235, 0.8)',   // Julio
-          'rgba(54, 162, 235, 0.8)',  // Agosto
-          'rgba(54, 162, 235, 0.8)',  // Septiembre
-          'rgba(54, 162, 235, 0.8)',  // Octubre
-          'rgba(54, 162, 235, 0.8)', // Noviembre
-          'rgba(54, 162, 235, 0.8)'   // Diciembre
-        ],
-        borderColor: '#f87979',
+        label: 'My First dataset',
+        backgroundColor: 'rgba(220, 220, 220, 0.2)',
+        borderColor: 'rgba(220, 220, 220, 1)',
+        pointBackgroundColor: 'rgba(220, 220, 220, 1)',
+        pointBorderColor: '#fff',
         data: [40, 20, 12, 39, 10, 40, 39, 80, 40],
+        fill: true,
+      },
+      {
+        label: 'My Second dataset',
+        backgroundColor: 'rgba(151, 187, 205, 0.2)',
+        borderColor: 'rgba(151, 187, 205, 1)',
+        pointBackgroundColor: 'rgba(151, 187, 205, 1)',
+        pointBorderColor: '#fff',
+        data: [50, 12, 28, 29, 7, 25, 12, 70, 60],
+        fill: true,
       },
     ],
   }
@@ -101,13 +98,6 @@ export const MainChart_loc_mes = () => {
     },
   }
 
-  return (
-    <CCard>
-      <CCardBody>
-        <CChart type="bar" data={data} options={options} ref={chartRef} />
-      </CCardBody>
-    </CCard>
-  )
+  return <CChart type="line" data={data} options={options} ref={chartRef} />
 }
-
-export default MainChart_loc_mes
+export default Chartingreso

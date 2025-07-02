@@ -6,6 +6,8 @@ import {
 } from '@coreui/react'
 
 import WidgetStatsDExample from '../widgets/WidgetsDropdown'
+import MainChart_loc_mes from './MainChart'
+import Chartingreso from './mainChart2'
 
 const Dashboard = () => {
    
@@ -33,7 +35,6 @@ const Dashboard = () => {
          </CRow>
 
        </CCol>
-
         <CCol >
           <CRow>
 
@@ -45,8 +46,15 @@ const Dashboard = () => {
               </CCol>
             </CRow>
           </CCol>
-        </CRow>
-
+      </CRow>
+      <CRow className='mt-3 ' >
+        <CCol xs={12} md={6}>
+          <MainChart_loc_mes />
+        </CCol>
+        <CCol xs={12} md={6}>
+          <Chartingreso />
+        </CCol>
+      </CRow>
     </>
   )
 }
