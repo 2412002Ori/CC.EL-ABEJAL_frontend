@@ -19,6 +19,7 @@ import CIcon from '@coreui/icons-react'
 import { cilPlus } from '@coreui/icons'
 
 import Relocation from './relocation'
+import { relocationAPI } from '../../../services/api'
 
 const RelocationList = () => {
   const [modalVisible, setModalVisible] = useState(false)
@@ -28,20 +29,14 @@ const RelocationList = () => {
   useEffect(() => {
     const fetchTransfers = async () => {
       try {
-        const response = await fetch('http://localhost:3001/transfers')
-        if (response.ok) {
-          const data = await response.json()
-          setTransfers(data) // Guardar los traslados en el estado
-        } else {
-          console.error('Error al obtener los traslados:', response.statusText)
-        }
+        const data = await relocationAPI.getAll();
+        setTransfers(data);
       } catch (error) {
-        console.error('Error en la solicitud:', error)
+        console.error('Error al obtener los traslados:', error);
       }
     }
-
-    fetchTransfers()
-  }, [])
+    fetchTransfers();
+  }, []);
 
   return (
     <>

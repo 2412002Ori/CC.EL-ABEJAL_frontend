@@ -9,6 +9,7 @@ import {
   CForm,
   CButton,
 } from '@coreui/react'
+import { relocationAPI } from '../../../services/api'
 
 const Relocation = () => {
   const [relocationData, setRelocationData] = useState({
@@ -36,18 +37,7 @@ const Relocation = () => {
     console.log('Relocation Data:', relocationData)
 
     try {
-      const response = await fetch('http://localhost:3001/transfers', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(relocationData),
-      })
-
-      if (!response.ok) {
-        throw new Error('Error al registrar el traslado')
-      }
-
+      await relocationAPI.create(relocationData)
       alert('Traslado registrado con éxito')
       setRelocationData({
         tenant_id: '',

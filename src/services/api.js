@@ -97,10 +97,57 @@ export const locationsAPI = {
   getAll: () => apiRequest('/locations'),
 };
 
+export const tenantsAPI = {
+  // Obtener todos los inquilinos
+  getAll: () => apiRequest('/tenants'),
+
+  // Obtener inquilino por ID
+  getById: (id) => apiRequest(`/tenants/${id}`),
+
+  // Crear nuevo inquilino
+  create: (data) => apiRequest('/tenants', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  }),
+
+  // Actualizar inquilino
+  update: (id, data) => apiRequest(`/tenants/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(data),
+  }),
+
+  // Eliminar inquilino
+  delete: (id) => apiRequest(`/tenants/${id}`, {
+    method: 'DELETE',
+  }),
+};
+
+export const relocationAPI = {
+  // Obtener todos los traslados
+  getAll: () => apiRequest('/Relocation'),
+
+  // Obtener traslado por ID
+  getById: (id) => apiRequest(`/Relocation/${id}`),
+
+  // Crear nuevo traslado
+  create: (data) => apiRequest('/Relocation', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  }),
+
+  // Actualizar traslado
+  update: (id, data) => apiRequest(`/Relocation/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(data),
+  }),
+};
+
 export default {
   requestContracts: requestContractsAPI,
   contracts: contractsAPI,
   locations: locationsAPI,
   auth: authAPI,
+  tenants: tenantsAPI,
+  relocation: relocationAPI,
 }; 
 

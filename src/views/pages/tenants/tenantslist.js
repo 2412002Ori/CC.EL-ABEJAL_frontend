@@ -19,6 +19,8 @@ import {
 import CIcon from '@coreui/icons-react'
 import { cilUserPlus, cilTrash, cilPencil } from '@coreui/icons'
 import Register from './register'
+import { tenantsAPI } from '../../../services/api'
+import ConfirmDeleteModal from '../../../components/ConfirmDeleteModal'
 
 function TenantsList() {
   const [modalVisible, setModalVisible] = useState(false) // Modal para crear
@@ -26,6 +28,8 @@ function TenantsList() {
   const [searchCedula, setSearchCedula] = useState('')
   const [rows, setRows] = useState([]) // Lista de inquilinos
   const [selectedRow, setSelectedRow] = useState(null) // Fila seleccionada para editar
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false)
+  const [rowToDelete, setRowToDelete] = useState(null)
 
   const headers = [
     'Cédula',
@@ -41,20 +45,14 @@ function TenantsList() {
     // Obtener la lista de inquilinos al cargar el componente
     const fetchTenants = async () => {
       try {
-        const response = await fetch('http://localhost:3001/tenants')
-        if (response.ok) {
-          const data = await response.json()
-          setRows(data)
-        } else {
-          console.error('Error al obtener los inquilinos:', response.statusText)
-        }
+        const data = await tenantsAPI.getAll();
+        setRows(data);
       } catch (error) {
-        console.error('Error en la solicitud:', error)
+        console.error('Error al obtener los inquilinos:', error);
       }
     }
-
-    fetchTenants()
-  }, [])
+    fetchTenants();
+  }, []);
 
   const filteredRows = rows.filter((row) =>
     row.id_number?.toString().toLowerCase().includes(searchCedula.toLowerCase())
@@ -66,44 +64,39 @@ function TenantsList() {
   }
 
   const handleSave = (updatedRow) => {
-    fetch(`http://localhost:3001/tenants/${updatedRow.id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(updatedRow),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          return response.text().then((text) => {
-            throw new Error(`Error al actualizar la solicitud: ${text}`)
-          })
-        }
-        return response.json()
-      })
+    tenantsAPI.update(updatedRow.id_number, updatedRow)
       .then(() => {
         setRows((prevRows) =>
-          prevRows.map((row) => (row.id === updatedRow.id ? updatedRow : row))
+          prevRows.map((row) => (row.id_number === updatedRow.id_number ? updatedRow : row))
         )
         setModal1Visible(false) // Cerrar el modal de edición
       })
       .catch((error) => console.error('Error al actualizar la solicitud:', error))
   }
 
-    const handleDelete = (id) => {
-    console.log(`Intentando eliminar el inquilino con ID: ${id}`); // Debugging
-    fetch(`http://localhost:3001/tenants/${id}`, {
-      method: 'DELETE',
-    })
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error(`Error al eliminar la solicitud: ${response.statusText}`);
-            }
-            console.log(`Inquilino con ID ${id} eliminado correctamente`); // Debugging
-            setRows((prevRows) => prevRows.filter((row) => row.id !== id));
-          })
-          .catch((error) => console.error('Error al eliminar la solicitud:', error));
-      };
+  const handleDeleteClick = (row) => {
+    setRowToDelete(row)
+    setDeleteModalVisible(true)
+  }
+
+  const handleConfirmDelete = () => {
+    if (rowToDelete) {
+      tenantsAPI.delete(rowToDelete.id_number)
+        .then(() => {
+          setRows((prevRows) => prevRows.filter((row) => row.id_number !== rowToDelete.id_number));
+        })
+        .catch((error) => console.error('Error al eliminar la solicitud:', error))
+        .finally(() => {
+          setDeleteModalVisible(false)
+          setRowToDelete(null)
+        })
+    }
+  }
+
+  const handleCancelDelete = () => {
+    setDeleteModalVisible(false)
+    setRowToDelete(null)
+  }
 
   return (
     <div className="informe-mensual">
@@ -130,6 +123,14 @@ function TenantsList() {
           />
         </CModalBody>
       </CModal>
+
+      <ConfirmDeleteModal
+        visible={deleteModalVisible}
+        onCancel={handleCancelDelete}
+        onConfirm={handleConfirmDelete}
+        message="¿Está seguro de que desea eliminar este inquilino?"
+        userName={rowToDelete?.full_name}
+      />
 
       <CRow className="mb-3 align-items-center">
         <CCol md="auto">
@@ -192,7 +193,7 @@ function TenantsList() {
                       <CButton color="warning" size="sm" onClick={() => handleEdit(row)}>
                         <CIcon icon={cilPencil} />
                       </CButton>
-                      <CButton color="danger" size="sm" onClick={() => handleDelete(row.id)}>
+                      <CButton color="danger" size="sm" onClick={() => handleDeleteClick(row)}>
                         <CIcon icon={cilTrash} />
                       </CButton>
                     </div>
