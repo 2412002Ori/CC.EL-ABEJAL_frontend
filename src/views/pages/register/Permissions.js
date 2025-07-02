@@ -19,292 +19,148 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilFingerprint } from '@coreui/icons'
+import { useNavigate } from 'react-router-dom'
 
-export const OffCanvasRightPermisos1 = () => {
-    const [visible, setVisible] = useState(false)
+
+const PermissionRow = ({ name, groupName, value, onChange }) => (
+    <CTableRow>
+        <CTableDataCell>{name}</CTableDataCell>
+        <CTableDataCell className="text-center">
+            <CFormCheck
+                type="radio"
+                name={groupName}
+                id={`${groupName}-yes`}
+                label=""
+                checked={value === true}
+                onChange={() => onChange(true)}
+            />
+        </CTableDataCell>
+        <CTableDataCell className="text-center">
+            <CFormCheck
+                type="radio"
+                name={groupName}
+                id={`${groupName}-no`}
+                label=""
+                checked={value === false}
+                onChange={() => onChange(false)}
+            />
+        </CTableDataCell>
+    </CTableRow>
+);
+
+const OffCanvasPermisos = ({ title, rows }) => {
+    const [visible, setVisible] = useState(false);
+    
+    const [permissions, setPermissions] = useState(
+        rows.reduce((acc, row) => ({ ...acc, [row]: false }), {})
+    );
+
+    const handlePermissionChange = (row, value) => {
+        setPermissions(prev => ({ ...prev, [row]: value }));
+    };
+
     return (
         <>
-            <CButton color="warning" variant="ghost" onClick={() => setVisible(true)}><CIcon icon={cilFingerprint} className="me-2"/>
+            <CButton color="warning" variant="ghost" onClick={() => setVisible(true)}>
+                <CIcon icon={cilFingerprint} className="me-2"/>
                 Permisos
             </CButton>
-
             <COffcanvas backdrop={true} placement="end" visible={visible} onHide={() => setVisible(false)}>
                 <COffcanvasHeader>
-                    <COffcanvasTitle>Contratos</COffcanvasTitle>
+                    <COffcanvasTitle>{title}</COffcanvasTitle>
                     <CCloseButton className="text-reset" onClick={() => setVisible(false)} />
                 </COffcanvasHeader>
-            <COffcanvasBody>
-                <CTable>
-                    <CTableHead>
-                        <CTableRow>
-                            <CTableHeaderCell>Sudcomponentes</CTableHeaderCell>  
-                        </CTableRow>
-                    </CTableHead>
-
-                    <CTableBody>
-                        <CTableRow>
-                            <CTableDataCell>Solicitud</CTableDataCell> 
-                            <CTableDataCell><Checkbox/></CTableDataCell>
-                        </CTableRow>
-                        <CTableRow>
-                            <CTableDataCell>Ingreso</CTableDataCell> 
-                            <CTableDataCell><Checkbox/></CTableDataCell>
-                        </CTableRow>
-                        <CTableRow>
-                            <CTableDataCell>Lista Contratos</CTableDataCell> 
-                            <CTableDataCell><Checkbox/></CTableDataCell>
-                        </CTableRow>
-                    </CTableBody>
-                </CTable>
-            </COffcanvasBody>
+                <COffcanvasBody>
+                    <CTable>
+                        <CTableHead>
+                            <CTableRow>
+                                <CTableHeaderCell>Nombre</CTableHeaderCell>
+                                <CTableHeaderCell className="text-center">Si tiene permiso</CTableHeaderCell>
+                                <CTableHeaderCell className="text-center">No tiene permiso</CTableHeaderCell>
+                            </CTableRow>
+                        </CTableHead>
+                        <CTableBody>
+                            {rows.map((row, idx) => (
+                                <PermissionRow
+                                    key={row}
+                                    name={row}
+                                    groupName={`${title}-${idx}`}
+                                    value={permissions[row]}
+                                    onChange={val => handlePermissionChange(row, val)}
+                                />
+                            ))}
+                        </CTableBody>
+                    </CTable>
+                </COffcanvasBody>
             </COffcanvas>
         </>
-    )
-}
+    );
+};
 
-export const OffCanvasRightPermisos2 = () => {
-    const [visible, setVisible] = useState(false)
-    return (
-        <>
-            <CButton color="warning" variant="ghost" onClick={() => setVisible(true)}><CIcon icon={cilFingerprint} className="me-2"/>
-                Permisos
-            </CButton>
-
-            <COffcanvas backdrop={true} placement="end" visible={visible} onHide={() => setVisible(false)}>
-                <COffcanvasHeader>
-                    <COffcanvasTitle>Inquilinos</COffcanvasTitle>
-                    <CCloseButton className="text-reset" onClick={() => setVisible(false)} />
-                </COffcanvasHeader>
-            <COffcanvasBody>
-                <CTable>
-                    <CTableHead>
-                        <CTableRow>
-                            <CTableHeaderCell>Sudcomponentes</CTableHeaderCell>  
-                        </CTableRow>
-                    </CTableHead>
-
-                    <CTableBody>
-                        <CTableRow>
-                            <CTableDataCell>Registro</CTableDataCell> 
-                            <CTableDataCell><Checkbox/></CTableDataCell>
-                        </CTableRow>
-                        <CTableRow>
-                            <CTableDataCell>Rehubicaciones</CTableDataCell> 
-                            <CTableDataCell><Checkbox/></CTableDataCell>
-                        </CTableRow>                  
-                    </CTableBody>
-                </CTable>
-            </COffcanvasBody>
-            </COffcanvas>
-        </>
-    )
-}
-
-export const OffCanvasRightPermisos3 = () => {
-    const [visible, setVisible] = useState(false)
-    return (
-        <>
-            <CButton color="warning" variant="ghost" onClick={() => setVisible(true)}><CIcon icon={cilFingerprint} className="me-2"/>
-                Permisos
-            </CButton>
-
-            <COffcanvas backdrop={true} placement="end" visible={visible} onHide={() => setVisible(false)}>
-                <COffcanvasHeader>
-                    <COffcanvasTitle>Pagos</COffcanvasTitle>
-                    <CCloseButton className="text-reset" onClick={() => setVisible(false)} />
-                </COffcanvasHeader>
-            <COffcanvasBody>
-                <CTable>
-                    <CTableHead>
-                        <CTableRow>
-                            <CTableHeaderCell>Sudcomponentes</CTableHeaderCell>  
-                        </CTableRow>
-                    </CTableHead>
-
-                    <CTableBody>
-                        <CTableRow>
-                            <CTableDataCell>Registro de Pagos</CTableDataCell> 
-                            <CTableDataCell><Checkbox/></CTableDataCell>
-                        </CTableRow>
-                        <CTableRow>
-                            <CTableDataCell>Listados</CTableDataCell> 
-                            <CTableDataCell><Checkbox/></CTableDataCell>
-                        </CTableRow>                  
-                    </CTableBody>
-                </CTable>
-            </COffcanvasBody>
-            </COffcanvas>
-        </>
-    )
-}
-
-export const OffCanvasRightPermisos4 = () => {
-    const [visible, setVisible] = useState(false)
-    return (
-        <>
-            <CButton color="warning" variant="ghost" onClick={() => setVisible(true)}><CIcon icon={cilFingerprint} className="me-2"/>
-                Permisos
-            </CButton>
-
-            <COffcanvas backdrop={true} placement="end" visible={visible} onHide={() => setVisible(false)}>
-                <COffcanvasHeader>
-                    <COffcanvasTitle>Inventario</COffcanvasTitle>
-                    <CCloseButton className="text-reset" onClick={() => setVisible(false)} />
-                </COffcanvasHeader>
-            <COffcanvasBody>
-                <CTable>
-                    <CTableHead>
-                        <CTableRow>
-                            <CTableHeaderCell>Sudcomponentes</CTableHeaderCell>  
-                        </CTableRow>
-                    </CTableHead>
-
-                    <CTableBody>
-                        <CTableRow>
-                            <CTableDataCell>Registro y Listado</CTableDataCell> 
-                            <CTableDataCell><Checkbox/></CTableDataCell>
-                        </CTableRow>
-                        <CTableRow>
-                            <CTableDataCell>Pedidos</CTableDataCell> 
-                            <CTableDataCell><Checkbox/></CTableDataCell>
-                        </CTableRow>                  
-                    </CTableBody>
-                </CTable>
-            </COffcanvasBody>
-            </COffcanvas>
-        </>
-    )
-}
-
-export const OffCanvasRightPermisos5 = () => {
-    const [visible, setVisible] = useState(false)
-    return (
-        <>
-            <CButton color="warning" variant="ghost" onClick={() => setVisible(true)}><CIcon icon={cilFingerprint} className="me-2"/>
-                Permisos
-            </CButton>
-
-            <COffcanvas backdrop={true} placement="end" visible={visible} onHide={() => setVisible(false)}>
-                <COffcanvasHeader>
-                    <COffcanvasTitle>Estadisticas</COffcanvasTitle>
-                    <CCloseButton className="text-reset" onClick={() => setVisible(false)} />
-                </COffcanvasHeader>
-            <COffcanvasBody>
-                <CTable>
-                    <CTableHead>
-                        <CTableRow>
-                            <CTableHeaderCell>Sudcomponentes</CTableHeaderCell>  
-                        </CTableRow>
-                    </CTableHead>
-
-                    <CTableBody>
-                        <CTableRow>
-                            <CTableDataCell>Pagos x Local</CTableDataCell> 
-                            <CTableDataCell><Checkbox/></CTableDataCell>
-                        </CTableRow>
-                        <CTableRow>
-                            <CTableDataCell>Ingresos</CTableDataCell> 
-                            <CTableDataCell><Checkbox/></CTableDataCell>
-                        </CTableRow>                  
-                    </CTableBody>
-                </CTable>
-            </COffcanvasBody>
-            </COffcanvas>
-        </>
-    )
-}
-
-export const OffCanvasRightPermisos6 = () => {
-    const [visible, setVisible] = useState(false)
-    return (
-        <>
-            <CButton color="warning" variant="ghost" onClick={() => setVisible(true)}><CIcon icon={cilFingerprint} className="me-2"/>
-                Permisos
-            </CButton>
-
-            <COffcanvas backdrop={true} placement="end" visible={visible} onHide={() => setVisible(false)}>
-                <COffcanvasHeader>
-                    <COffcanvasTitle>Usuarios</COffcanvasTitle>
-                    <CCloseButton className="text-reset" onClick={() => setVisible(false)} />
-                </COffcanvasHeader>
-            <COffcanvasBody>
-                <CTable>
-                    <CTableHead>
-                        <CTableRow>
-                            <CTableHeaderCell>Sudcomponentes</CTableHeaderCell>  
-                        </CTableRow>
-                    </CTableHead>
-
-                    <CTableBody>
-                        <CTableRow>
-                            <CTableDataCell>Registro</CTableDataCell> 
-                            <CTableDataCell><Checkbox/></CTableDataCell>
-                        </CTableRow>
-                    </CTableBody>
-                </CTable>
-            </COffcanvasBody>
-            </COffcanvas>
-        </>
-    )
-}
-
-export const Checkbox = () => {
-    return (
-        <>
-            <CFormCheck inline id="inlineCheckbox1" label="Si tiene permisos" />   
-            <CFormCheck inline id="inlineCheckbox2" label="No tiene permisos" defaultChecked /> {/*default */}
-        </>
-    )
-}
+export const OffCanvasRightPermisos1 = () =>
+    <OffCanvasPermisos title="Contratos" rows={["Solicitud", "Ingreso", "Lista Contratos"]} />;
+export const OffCanvasRightPermisos2 = () =>
+    <OffCanvasPermisos title="Inquilinos" rows={["Registro", "Rehubicaciones"]} />;
+export const OffCanvasRightPermisos3 = () =>
+    <OffCanvasPermisos title="Pagos" rows={["Registro de Pagos", "Listados"]} />;
+export const OffCanvasRightPermisos4 = () =>
+    <OffCanvasPermisos title="Inventario" rows={["Registro y Listado", "Pedidos"]} />;
+export const OffCanvasRightPermisos5 = () =>
+    <OffCanvasPermisos title="Estadisticas" rows={["Pagos x Local", "Ingresos"]} />;
+export const OffCanvasRightPermisos6 = () =>
+    <OffCanvasPermisos title="Usuarios" rows={["Registro"]} />;
 
 const Registeruser = () => {
-return (
-    <CCard>
-        <CHeader>
-            <h2>Permisos de Usuario</h2>
-        </CHeader> 
+    const navigate = useNavigate();
 
-        <CCardBody>
-            <CTable>
-                <CTableHead>
-                    <CTableRow>
-                        <CTableHeaderCell>Componentes</CTableHeaderCell>
-                        <CTableHeaderCell>Acciones</CTableHeaderCell>   
-                    </CTableRow>
-                </CTableHead>
-
-                <CTableBody>
-                    <CTableRow>
-                        <CTableDataCell>Contratos</CTableDataCell> 
-                        <CTableDataCell><OffCanvasRightPermisos1/></CTableDataCell>
-                    </CTableRow>
-                    <CTableRow>
-                        <CTableDataCell>Inquilinos</CTableDataCell>
-                        <CTableDataCell><OffCanvasRightPermisos2/></CTableDataCell>
-                    </CTableRow>
-                    <CTableRow>
-                        <CTableDataCell>Pagos</CTableDataCell>
-                        <CTableDataCell><OffCanvasRightPermisos3/></CTableDataCell>
-                    </CTableRow>
-                    <CTableRow>
-                        <CTableDataCell>Inventario</CTableDataCell>
-                        <CTableDataCell><OffCanvasRightPermisos4/></CTableDataCell>
-                    </CTableRow>
-                    <CTableRow>
-                        <CTableDataCell>Estadisticas</CTableDataCell>
-                        <CTableDataCell><OffCanvasRightPermisos5/></CTableDataCell>
-                    </CTableRow>
-                    <CTableRow>
-                        <CTableDataCell>Usuarios</CTableDataCell>
-                        <CTableDataCell><OffCanvasRightPermisos6/></CTableDataCell>
-                    </CTableRow>
-                </CTableBody>
-
-            </CTable>
-        </CCardBody>
-    </CCard>
-)
+    return (
+        <CCard className="mb-3">
+            <CHeader>
+                <h2>Permisos de Usuario</h2>
+            </CHeader> 
+            <CCardBody>
+                <CTable>
+                    <CTableHead>
+                        <CTableRow>
+                            <CTableHeaderCell>Componentes</CTableHeaderCell>
+                            <CTableHeaderCell>Acciones</CTableHeaderCell>   
+                        </CTableRow>
+                    </CTableHead>
+                    <CTableBody>
+                        <CTableRow>
+                            <CTableDataCell>Contratos</CTableDataCell> 
+                            <CTableDataCell><OffCanvasRightPermisos1/></CTableDataCell>
+                        </CTableRow>
+                        <CTableRow>
+                            <CTableDataCell>Inquilinos</CTableDataCell>
+                            <CTableDataCell><OffCanvasRightPermisos2/></CTableDataCell>
+                        </CTableRow>
+                        <CTableRow>
+                            <CTableDataCell>Pagos</CTableDataCell>
+                            <CTableDataCell><OffCanvasRightPermisos3/></CTableDataCell>
+                        </CTableRow>
+                        <CTableRow>
+                            <CTableDataCell>Inventario</CTableDataCell>
+                            <CTableDataCell><OffCanvasRightPermisos4/></CTableDataCell>
+                        </CTableRow>
+                        <CTableRow>
+                            <CTableDataCell>Estadisticas</CTableDataCell>
+                            <CTableDataCell><OffCanvasRightPermisos5/></CTableDataCell>
+                        </CTableRow>
+                        <CTableRow>
+                            <CTableDataCell>Usuarios</CTableDataCell>
+                            <CTableDataCell><OffCanvasRightPermisos6/></CTableDataCell>
+                        </CTableRow>
+                    </CTableBody>
+                </CTable>
+                <div className="mt-4">
+                    <CButton color="primary" onClick={() => navigate('/pages/register/Register')}>
+                        Atrás
+                    </CButton>
+                </div>
+            </CCardBody>
+        </CCard>
+    )
 }
 
 export default Registeruser
-

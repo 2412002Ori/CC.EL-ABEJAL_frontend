@@ -281,7 +281,8 @@ return (
 }
 
 const Registeruser = () => {
-    
+    const navigate = useNavigate();
+
     return (
     <CContainer style={{
         display: 'flex',
@@ -328,6 +329,13 @@ const Registeruser = () => {
                         <CRow>
                             <CCol>
                                 <Modal/>
+                            </CCol>
+                        </CRow>
+                        <CRow className="mt-4">
+                            <CCol className="d-flex justify-content-end">
+                            <CButton color="primary" onClick={() => navigate('/dashboard')}>
+                                Atrás
+                            </CButton>
                             </CCol>
                         </CRow>
                     </CCardBody>

@@ -158,10 +158,15 @@ const Login = () => {
                     
                     <CRow>
                       <CCol xs={6}>
-                        <CButton color="success" className="px-4" type="submit" disabled={loading}>
-                          {loading ? <SpinnerGrowExample /> : null}
-                          {loading ? 'Loading...' : 'Login'}
-                        </CButton>
+                        <div className="d-flex gap-2">
+                          <CButton color="success" className="px-4" type="submit" disabled={loading}>
+                            {loading ? <SpinnerGrowExample /> : null}
+                            {loading ? 'Loading...' : 'Login'}
+                          </CButton>
+                          <CButton color="success" className="px-4" type="button" onClick={() => navigate('/pages/register/registerUser')}>
+                            Registro
+                          </CButton>
+                        </div>
                       </CCol>
 
                       <CCol xs={6} className="text-right" >
