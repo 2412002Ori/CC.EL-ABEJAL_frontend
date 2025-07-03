@@ -21,6 +21,7 @@ import {
   CModalHeader,
   CModalTitle,
   CFormInput,
+  CFormSelect,
   CAlert
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
@@ -62,7 +63,7 @@ export const ActualizarUsuario = ({ user, onUpdate }) => {
     lastname: user.lastname || '',
     email: user.email || '',
     status: user.status || '',
-    role_id: user.role_id || '',
+    role_id: user.role_id ? Number(user.role_id) : '',
     password: ''
   });
 
@@ -72,7 +73,7 @@ export const ActualizarUsuario = ({ user, onUpdate }) => {
       name: user.name || '',
       lastname: user.lastname || '',
       email: user.email || '',
-      status: user.status || ''
+      status: user.status || '',
     });
   }, [user]);
 
@@ -84,13 +85,22 @@ export const ActualizarUsuario = ({ user, onUpdate }) => {
 const handleUpdate = async (id) => {
   const token = localStorage.getItem('token');
 
+  const roleId = Number(formData.role_id);
+
+  if (isNaN(roleId) || roleId < 1 || roleId > 3) {
+    setErrors({
+      role_id: 'El rol debe ser 1, 2 o 3'
+    });
+    return;
+  }
+
   const payload = {
     username: formData.username,
     name: formData.name,
     lastname: formData.lastname,
     email: formData.email,
     status: formData.status,
-    role_id: Number(formData.role_id) || user.role_id
+    role_id: roleId
   };
 
   if (formData.password.trim()) {
@@ -270,15 +280,12 @@ const handleUpdate = async (id) => {
             )}
             <CInputGroup className="mb-3">
               <CInputGroupText>Rol</CInputGroupText>
-              <CFormInput
-                type="number"
-                name="role_id"
-                value={formData.role_id}
-                onChange={handleInputChange}
-                min={1}
-                max={3}
-                required
-              />
+              <CFormSelect name="role_id" value={formData.role_id} onChange={handleInputChange}>
+                <option value="">Selecciona un rol</option>
+                <option value="1">Administrador</option>
+                <option value="2">Finanzas</option>
+                <option value="3">Inquilino</option>
+              </CFormSelect>
             </CInputGroup>
             {errors.role_id && (
               <small className="text-danger">{errors.role_id}</small>
