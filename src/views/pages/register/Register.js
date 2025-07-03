@@ -117,7 +117,7 @@ const handleUpdate = async (id) => {
   console.log('Datos enviados:', payload);
 
   try {
-    const response = await fetch(`http://localhost:3003/api/users/${id}`, {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/users/${id}`, {
       method: 'PUT',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -366,7 +366,7 @@ const RegisterUserForm = ({ onClose }) => {
       role_id: Number(formData.role_id)
     };
 
-    fetch('http://localhost:3003/api/users', {
+    fetch(`${import.meta.env.VITE_API_URL}/api/users`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -602,7 +602,7 @@ const Registeruser = () => {
     navigate('/pages/no-autorizado/no-autorizado');
     return;
   }
-    fetch('http://localhost:3003/api/users', {
+    fetch(`${import.meta.env.VITE_API_URL}/api/users`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -631,7 +631,7 @@ const Registeruser = () => {
 
   const deleteUser = (id) => {
     const token = localStorage.getItem('token');
-    fetch(`http://localhost:3003/api/users/${id}`, {
+    fetch(`${import.meta.env.VITE_API_URL}/api/users/${id}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${token}`

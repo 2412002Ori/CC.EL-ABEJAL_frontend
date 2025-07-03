@@ -14,7 +14,7 @@ export const MainChart_loc_mes = () => {
       try {
         const token = localStorage.getItem('token');
         const year = new Date().getFullYear();
-        const res = await fetch(`http://localhost:3003/api/stadistics/monthly?year=${year}`, {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/stadistics/monthly?year=${year}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const result = await res.json();
@@ -54,7 +54,7 @@ export const MainChart_loc_mes = () => {
     }
     document.documentElement.addEventListener('ColorSchemeChange', handleColorSchemeChange)
     return () => {
-      document.documentElement.removeEventListener('ColorSchemeChange', handleColorSchemeChange)
+        document.documentElement.removeEventListener('ColorSchemeChange', handleColorSchemeChange)
     }
   }, [])
 

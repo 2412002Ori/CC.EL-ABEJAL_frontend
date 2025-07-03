@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:3001' // Ajusta según tu backend
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 const helpFetch = () => {
   const token = localStorage.getItem('access_token')

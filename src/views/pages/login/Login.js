@@ -78,7 +78,7 @@ const Login = () => {
   setLoading(true);
   setError('');
 
-  fetch('http://localhost:3003/api/login', {
+  fetch(`${import.meta.env.VITE_API_URL}/api/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ username, password })

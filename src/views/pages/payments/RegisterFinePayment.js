@@ -51,7 +51,7 @@ const RegisterFinePayment = () => {
       updated_at: new Date().toISOString(),
     }
     try {
-      const response = await fetch('http://localhost:3003/api/fines', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/fines`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

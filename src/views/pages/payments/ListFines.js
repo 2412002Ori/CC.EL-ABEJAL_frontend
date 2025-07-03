@@ -19,7 +19,7 @@ const ListPayment = () => {
   useEffect(() => {
     const fetchFines = async () => {
       try {
-        const response = await fetch('http://localhost:3003/api/fines')
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/fines`)
         const data = await response.json()
         setFines(Array.isArray(data) ? data : data.rows || [])
       } catch (error) {

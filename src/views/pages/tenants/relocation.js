@@ -54,7 +54,7 @@ const Relocation = () => {
   useEffect(() => {
     const fetchLocations = async () => {
       try {
-        const response = await fetch('http://localhost:3001/locations')
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/locations`)
         if (response.ok) {
           const data = await response.json()
           setLocations(data) // Guardar los locales en el estado

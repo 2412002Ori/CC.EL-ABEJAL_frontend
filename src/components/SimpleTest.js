@@ -12,7 +12,7 @@ const SimpleTest = () => {
     console.log('🧪 Iniciando prueba simple de API...')
     
     try {
-      const response = await fetch('http://localhost:3003/api/request/contracts')
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/request/contracts`)
       console.log('📡 Response status:', response.status)
       
       if (!response.ok) {

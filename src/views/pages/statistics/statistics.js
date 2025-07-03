@@ -15,7 +15,7 @@ function Formato1() {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem('token');
-        const res = await fetch(`http://localhost:3003/api/stadistics?year=${year}`, {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/stadistics?year=${year}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -52,7 +52,7 @@ function Formato1() {
   const handleDownloadExcel = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:3003/api/stadistics/excel?year=${year}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/stadistics/excel?year=${year}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
