@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Lfines from './ListFines';
-import LPayments from './ListPayment';
+import ListPayment from './listpayment';
 import RegisterFinePayment from './RegisterFinePayment';
 import RegisterPayment from './registerPayment';
 import { CTab,CTabs, CTabContent, CTabList, CTabPanel, CButton, CModal, CModalBody, CModalHeader, CModalFooter } from '@coreui/react';
@@ -24,7 +24,7 @@ function Paymentsmenu() {
             <CButton color="primary" className="mb-3 mt-3" style={{marginTop: '2rem'}} onClick={() => setShowPaymentModal(true)}>
               <CIcon icon={cilPlus} className="me-2" /> Agregar Pago de Condominio
             </CButton>
-            <LPayments />
+            <ListPayment />
             <CModal visible={showPaymentModal} onClose={() => setShowPaymentModal(false)} size="xl" alignment="center">
               <CModalHeader closeButton onClose={() => setShowPaymentModal(false)}>
                 <h5 className="modal-title">Registrar Pago de Condominio</h5>
