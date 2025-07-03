@@ -94,11 +94,13 @@ const RegisterPayment = () => {
     contract_number: paymentData.contractNumber,
   }
 
+  const token = localStorage.getItem('token');
   try {
     const response = await fetch('http://localhost:3003/api/payments', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify(payload),
     })
@@ -128,7 +130,7 @@ const RegisterPayment = () => {
 }
 
   return (
-    <CCard bordered hover style={{ border: '2px solid #ffa600b0', padding: '2.5rem' }}>
+    <CCard bordered hover style={{ border: '2px solid #fff', padding: '2.5rem' }}>
       <CCardHeader>
         <h3 className="text-center">Registrar Pago</h3>
       </CCardHeader>

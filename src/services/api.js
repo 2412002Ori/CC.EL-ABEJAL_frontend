@@ -11,8 +11,7 @@ const apiRequest = async (endpoint, options = {}) => {
   
   const defaultHeaders = {
     'Content-Type': 'application/json',
-    // Comentado temporalmente para desarrollo sin autenticación
-    // ...(token && { 'Authorization': `Bearer ${token}` }),
+    ...(token && { 'Authorization': `Bearer ${token}` }),
   };
 
   const config = {

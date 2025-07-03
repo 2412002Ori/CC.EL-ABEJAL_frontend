@@ -127,7 +127,7 @@ function TenantsList() {
       </CRow>
 
       {/* Tabla de inquilinos */}
-      <CCard bordered hover style={{ border: '2px solid #ffa600b0' }}>
+      <CCard bordered hover style={{ border: '2px solid #fff' }}>
         <CCardHeader>
           <CRow>
             <CCol>

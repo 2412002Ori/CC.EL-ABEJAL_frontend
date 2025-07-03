@@ -104,7 +104,7 @@ function ContractsAceptedList() {
         </div>
       )}
 
-      <CCard style={{ border: '2px solid #ffa600b0' }}>
+      <CCard style={{ border: '2px solid #fff' }}>
         <CCardHeader>
           <CRow>
             <CCol>

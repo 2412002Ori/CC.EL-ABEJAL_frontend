@@ -1,20 +1,40 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { getStyle } from '@coreui/utils'
 import { CChart } from '@coreui/react-chartjs'
 
 export const Chartingreso = () => {
   const chartRef = useRef(null)
+  const [monthlyData, setMonthlyData] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true)
+      try {
+        const token = localStorage.getItem('token');
+        const year = new Date().getFullYear();
+        const res = await fetch(`http://localhost:3003/api/stadistics/monthly?year=${year}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const result = await res.json();
+        setMonthlyData(result.rows || [])
+      } catch (e) {
+        setMonthlyData([])
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchData()
+  }, [])
 
   useEffect(() => {
     const handleColorSchemeChange = () => {
       const chartInstance = chartRef.current
       if (chartInstance) {
         const { options } = chartInstance
-
         if (options.plugins?.legend?.labels) {
           options.plugins.legend.labels.color = getStyle('--cui-body-color')
         }
-
         if (options.scales?.x) {
           if (options.scales.x.grid) {
             options.scales.x.grid.color = getStyle('--cui-border-color-translucent')
@@ -23,7 +43,6 @@ export const Chartingreso = () => {
             options.scales.x.ticks.color = getStyle('--cui-body-color')
           }
         }
-
         if (options.scales?.y) {
           if (options.scales.y.grid) {
             options.scales.y.grid.color = getStyle('--cui-border-color-translucent')
@@ -32,37 +51,41 @@ export const Chartingreso = () => {
             options.scales.y.ticks.color = getStyle('--cui-body-color')
           }
         }
-
         chartInstance.update()
       }
     }
-
     document.documentElement.addEventListener('ColorSchemeChange', handleColorSchemeChange)
-
     return () => {
       document.documentElement.removeEventListener('ColorSchemeChange', handleColorSchemeChange)
     }
   }, [])
 
+  const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
   const data = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September'],
+    labels: meses,
     datasets: [
       {
-        label: 'My First dataset',
-        backgroundColor: 'rgba(220, 220, 220, 0.2)',
-        borderColor: 'rgba(220, 220, 220, 1)',
-        pointBackgroundColor: 'rgba(220, 220, 220, 1)',
+        label: 'Monto total de pagos',
+        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        pointBackgroundColor: 'rgba(54, 162, 235, 1)',
         pointBorderColor: '#fff',
-        data: [40, 20, 12, 39, 10, 40, 39, 80, 40],
+        data: meses.map(mes => {
+          const found = monthlyData.find(item => item.page_month === mes)
+          return found ? Number(found._sum.amount) : 0
+        }),
         fill: true,
       },
       {
-        label: 'My Second dataset',
-        backgroundColor: 'rgba(151, 187, 205, 0.2)',
-        borderColor: 'rgba(151, 187, 205, 1)',
-        pointBackgroundColor: 'rgba(151, 187, 205, 1)',
+        label: 'Cantidad de pagos',
+        backgroundColor: 'rgba(255, 206, 86, 0.2)',
+        borderColor: 'rgba(255, 206, 86, 1)',
+        pointBackgroundColor: 'rgba(255, 206, 86, 1)',
         pointBorderColor: '#fff',
-        data: [50, 12, 28, 29, 7, 25, 12, 70, 60],
+        data: meses.map(mes => {
+          const found = monthlyData.find(item => item.page_month === mes)
+          return found ? Number(found._count.payment_id) : 0
+        }),
         fill: true,
       },
     ],
@@ -98,6 +121,6 @@ export const Chartingreso = () => {
     },
   }
 
-  return <CChart type="line" data={data} options={options} ref={chartRef} />
+  return loading ? 'Cargando...' : <CChart type="line" data={data} options={options} ref={chartRef} />
 }
 export default Chartingreso

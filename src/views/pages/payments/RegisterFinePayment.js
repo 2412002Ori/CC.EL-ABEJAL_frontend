@@ -71,7 +71,7 @@ const RegisterFinePayment = () => {
   }
 
   return (
-    <CCard bordered hover style={{ border: '2px solid #ffa600b0' }}>
+    <CCard bordered hover style={{ border: '2px solid #fff' }}>
       <CCardHeader>
         <h3 className="text-center">Registrar Pago de Multa</h3>
       </CCardHeader>

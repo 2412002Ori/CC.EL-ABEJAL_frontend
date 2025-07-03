@@ -54,7 +54,7 @@ const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 // Pages
 const Applicationlist = React.lazy(() => import('./views/pages/contracts/applicationList'))   
 const ContractsAcepted = React.lazy(() => import('./views/pages/contracts/contractsAcepted'))  
-const Cincome =  React.lazy(() => import('./views/pages/contracts/incomeContracts'))
+const IncomeContracts = React.lazy(() => import('./views/pages/contracts/incomecontracts'))
 const RegisterPayment =  React.lazy(() => import('./views/pages/payments/registerPayment'))
 const ListPayment =  React.lazy(() => import('./views/pages/payments/listpayment'))
 const Paymentsmenu =  React.lazy(() => import('./views/pages/payments/PaymentsMenu'))
@@ -124,7 +124,7 @@ const routes = [
   {path: '/pages/contracts/acepted', name: 'contractsAcepted', element: ContractsAcepted },
   {path: '/pages/RegisterPayment', name: ' RegisterPayment', element: RegisterPayment },
   {path: '/pages/ListPayment', name: ' ListPayment ', element: ListPayment },
-  {path: '/pages/contracts/income', name: 'incomeContracts', element: Cincome },
+  {path: '/pages/contracts/income', name: 'incomeContracts', element: IncomeContracts },
   {path: '/pages/payments/menu', name: 'PaymentsMenu', element: Paymentsmenu },
   {path: '/pages/tenants/register', name: 'RegisterTenant', element: RegisterTenant },
   {path: '/pages/tenants/list', name: 'ListTenants', element: ListTenants },

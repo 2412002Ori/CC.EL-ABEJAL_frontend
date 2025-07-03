@@ -38,7 +38,7 @@ const RegistrerTenant = ({ data, onSave, isEdit }) => {
   };
 
   return (
-    <CCard bordered hover style={{ border: '2px solid #ffa600b0' }}>
+    <CCard bordered hover style={{ border: '2px solid #fff' }}>
       <CCardHeader>
         <h3 className="text-center">Registro de Inquilino</h3>
       </CCardHeader>

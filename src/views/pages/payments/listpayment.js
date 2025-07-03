@@ -27,7 +27,12 @@ const ListPayment = () => {
     useEffect(() => {
     const fetchPayments = async () => {
       try {
-        const response = await fetch('http://localhost:3003/api/payments')
+        const token = localStorage.getItem('token');
+        const response = await fetch('http://localhost:3003/api/payments', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
         const data = await response.json()
         console.log('Datos obtenidos:', data) // Verifica los datos aquí
         setPayments(Array.isArray(data) ? data : data.rows || [])
@@ -60,7 +65,7 @@ const ListPayment = () => {
   }
 
   return (
-    <CCard bordered hover style={{ border: '2px solid #ffa600b0' }}>
+    <CCard bordered hover style={{ border: '2px solid #fff' }}>
       <CCardHeader>
         <h3 className="text-center">Listado de Pagos Registrados</h3>
       </CCardHeader>

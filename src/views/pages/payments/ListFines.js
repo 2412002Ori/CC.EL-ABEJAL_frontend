@@ -50,7 +50,7 @@ const ListPayment = () => {
 
   return (
     <>
-    <CCard bordered hover style={{ border: '2px solid #ffa600b0' }} >
+    <CCard bordered hover style={{ border: '2px solid #fff' }} >
       <CCardHeader>
         <h3 className="text-center" > Listado de pago de multas</h3>
       </CCardHeader>

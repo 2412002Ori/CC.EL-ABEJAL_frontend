@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CCard, CCardBody, CCardHeader, CTable, CTableHead, CTableBody, CButton } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
-import { cilDescription } from '@coreui/icons';
+import { cilDescription, cilSpreadsheet } from '@coreui/icons';
 
 function Formato1() {
   const [year, setYear] = useState(2023);
@@ -14,7 +14,12 @@ function Formato1() {
     console.log('AÑO ENVIADO AL BACKEND:', year);
     const fetchData = async () => {
       try {
-        const res = await fetch(`http://localhost:3003/api/stadistics?year=${year}`);
+        const token = localStorage.getItem('token');
+        const res = await fetch(`http://localhost:3003/api/stadistics?year=${year}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
         const result = await res.json();
         // El backend devuelve { rows: [...] }
         if (result && result.rows) {
@@ -42,6 +47,28 @@ function Formato1() {
 
   const handleDownloadPDF = () => {
     alert("Descargar PDF no está implementado aún.");
+  };
+
+  const handleDownloadExcel = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`http://localhost:3003/api/stadistics/excel?year=${year}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (!response.ok) throw new Error('Error al descargar Excel');
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `estadisticas_${year}.xlsx`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    } catch (error) {
+      alert('No se pudo descargar el Excel');
+    }
   };
 
   const filteredData = data.filter((row) =>
@@ -123,6 +150,20 @@ function Formato1() {
               onClick={handleDownloadPDF}
             >
               <CIcon icon={cilDescription} size="xl" />
+            </CButton>
+            <CButton
+              color="success"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "5px",
+                padding: "10px 15px",
+                fontSize: "14px",
+                borderRadius: "5px",
+              }}
+              onClick={handleDownloadExcel}
+            >
+              <CIcon icon={cilSpreadsheet} size="xl" />
             </CButton>
           </div>
         </CCardHeader>
