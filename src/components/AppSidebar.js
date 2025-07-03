@@ -53,10 +53,10 @@ const AppSidebar = () => {
       }}
     >
       <CSidebarHeader>
-        <CImage
-          align="center"
-          src="src\assets\Diseño sin título-Photoroom.png"
-          height={unfoldable ? 50 : 200} 
+        <img
+          src="/logo.png"
+          alt="Logo"
+          style={{ display: 'block', margin: '0 auto', maxHeight: unfoldable ? 50 : 200 }}
         />
         
         <CCloseButton
