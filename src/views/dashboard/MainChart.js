@@ -1,19 +1,38 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { getStyle } from '@coreui/utils'
 import { CChart } from '@coreui/react-chartjs'
-import { CCard, CCardBody } from '@coreui/react' // Importa CCardBody
+import { CCard, CCardBody } from '@coreui/react'
 
 export const MainChart_loc_mes = () => {
   const chartRef = useRef(null)
+  const [monthlyData, setMonthlyData] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true)
+      try {
+        const token = localStorage.getItem('token');
+        const year = new Date().getFullYear();
+        const res = await fetch(`http://localhost:3003/api/stadistics/monthly?year=${year}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const result = await res.json();
+        setMonthlyData(result.rows || [])
+      } catch (e) {
+        setMonthlyData([])
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchData()
+  }, [])
 
   useEffect(() => {
     const handleColorSchemeChange = () => {
       const chartInstance = chartRef.current
       if (chartInstance) {
         const { options } = chartInstance
-
-        
-
         if (options.scales?.x) {
           if (options.scales.x.grid) {
             options.scales.x.grid.color = getStyle('--cui-border-color-translucent')
@@ -22,7 +41,6 @@ export const MainChart_loc_mes = () => {
             options.scales.x.ticks.color = getStyle('--cui-body-color')
           }
         }
-
         if (options.scales?.y) {
           if (options.scales.y.grid) {
             options.scales.y.grid.color = getStyle('--cui-border-color-translucent')
@@ -31,42 +49,27 @@ export const MainChart_loc_mes = () => {
             options.scales.y.ticks.color = getStyle('--cui-body-color')
           }
         }
-
         chartInstance.update()
       }
     }
-
     document.documentElement.addEventListener('ColorSchemeChange', handleColorSchemeChange)
-
     return () => {
-      
-        document.documentElement.removeEventListener('ColorSchemeChange', handleColorSchemeChange)
-      
+      document.documentElement.removeEventListener('ColorSchemeChange', handleColorSchemeChange)
     }
   }, [])
 
+  const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
   const data = {
-    labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre' , 'Octubre ' , 'Noviembre' , 'Diciembre'], 
+    labels: meses,
     datasets: [
       {
-        label: 'Pagos de condominio  ',
-        //backgroundColor: '#f87979', // Elimina esta línea
-        backgroundColor: [ // Agrega este array de colores
-          'rgba(54, 162, 235, 0.8)',   // Enero
-          'rgba(54, 162, 235, 0.8)',  // Febrero
-          'rgba(54, 162, 235, 0.8)',  // Marzo
-          'rgba(54, 162, 235, 0.8)',  // Abril
-          'rgba(54, 162, 235, 0.8)', // Mayo
-          'rgba(54, 162, 235, 0.8)',  // Junio
-          'rgba(54, 162, 235, 0.8)',   // Julio
-          'rgba(54, 162, 235, 0.8)',  // Agosto
-          'rgba(54, 162, 235, 0.8)',  // Septiembre
-          'rgba(54, 162, 235, 0.8)',  // Octubre
-          'rgba(54, 162, 235, 0.8)', // Noviembre
-          'rgba(54, 162, 235, 0.8)'   // Diciembre
-        ],
+        label: 'Pagos de condominio',
+        backgroundColor: 'rgba(54, 162, 235, 0.8)',
         borderColor: '#f87979',
-        data: [40, 20, 12, 39, 10, 40, 39, 80, 40],
+        data: meses.map(mes => {
+          const found = monthlyData.find(item => item.page_month === mes)
+          return found ? Number(found._sum.amount) : 0
+        })
       },
     ],
   }
@@ -104,7 +107,7 @@ export const MainChart_loc_mes = () => {
   return (
     <CCard>
       <CCardBody>
-        <CChart type="bar" data={data} options={options} ref={chartRef} />
+        {loading ? 'Cargando...' : <CChart type="bar" data={data} options={options} ref={chartRef} />}
       </CCardBody>
     </CCard>
   )

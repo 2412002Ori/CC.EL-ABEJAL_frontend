@@ -78,27 +78,21 @@ const RelocationList = () => {
           <CTable responsive bordered hover>
             <CTableHead>
               <CTableRow>
-                <CTableHeaderCell className="text-center">ID</CTableHeaderCell>
                 <CTableHeaderCell className="text-center">Cédula</CTableHeaderCell>
                 <CTableHeaderCell className="text-center">Contrato Anterior</CTableHeaderCell>
                 <CTableHeaderCell className="text-center">Contrato Nuevo</CTableHeaderCell>
                 <CTableHeaderCell className="text-center">Razón</CTableHeaderCell>
                 <CTableHeaderCell className="text-center">Fecha de Traslado</CTableHeaderCell>
-                <CTableHeaderCell className="text-center">Local Anterior</CTableHeaderCell>
-                <CTableHeaderCell className="text-center">Nuevo Local</CTableHeaderCell>
               </CTableRow>
             </CTableHead>
             <CTableBody>
               {transfers.map((transfer) => (
                 <CTableRow key={transfer.id}>
-                  <CTableDataCell className="text-center">{transfer.id}</CTableDataCell>
-                  <CTableDataCell className="text-center">{transfer.tenant_id}</CTableDataCell>
-                  <CTableDataCell className="text-center">{transfer.old_contract_id}</CTableDataCell>
-                  <CTableDataCell className="text-center">{transfer.new_contract_id}</CTableDataCell>
-                  <CTableDataCell className="text-center">{transfer.reason}</CTableDataCell>
-                  <CTableDataCell className="text-center">{transfer.transfer_date}</CTableDataCell>
-                  <CTableDataCell className="text-center">{transfer.number_local_old}</CTableDataCell>
-                  <CTableDataCell className="text-center">{transfer.number_local_new}</CTableDataCell>
+                  <CTableDataCell className="text-center">{transfer.tenant_id || transfer.id_number || 'No especificado'}</CTableDataCell>
+                  <CTableDataCell className="text-center">{transfer.old_contract_id || transfer.old_contract || 'No especificado'}</CTableDataCell>
+                  <CTableDataCell className="text-center">{transfer.new_contract_id || transfer.new_contract || 'No especificado'}</CTableDataCell>
+                  <CTableDataCell className="text-center">{transfer.reason || 'No especificado'}</CTableDataCell>
+                  <CTableDataCell className="text-center">{transfer.transfer_date ? new Date(transfer.transfer_date).toLocaleDateString() : 'No especificado'}</CTableDataCell>
                 </CTableRow>
               ))}
             </CTableBody>

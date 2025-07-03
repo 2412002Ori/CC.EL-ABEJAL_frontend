@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CCard, CCardBody, CCardHeader, CTable, CTableHead, CTableBody, CButton } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
-import { cilDescription } from '@coreui/icons';
+import { cilDescription, cilSpreadsheet } from '@coreui/icons';
 
 function Formato1() {
   const [year, setYear] = useState(2023);
@@ -9,51 +9,33 @@ function Formato1() {
   const [data, setData] = useState([]);
   const meses = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
 
-  // Fetch data from APIs
+  // Fetch data from backend statistics endpoint
   useEffect(() => {
+    console.log('AÑO ENVIADO AL BACKEND:', year);
     const fetchData = async () => {
       try {
-        const [locationsRes, tenantsRes, contractsRes] = await Promise.all([
-          fetch('http://localhost:3001/locations'),
-          fetch('http://localhost:3001/tenants'),
-          fetch('http://localhost:3001/contracts'),
-        ]);
-
-        const [locations, tenants, contracts] = await Promise.all([
-          locationsRes.json(),
-          tenantsRes.json(),
-          contractsRes.json(),
-        ]);
-
-          const combinedData = locations.map((location) => {
-          
-          const contract = contracts.find((c) => c.location_id === location.id);
-        
-          const tenant = tenants.find((t) => t.id.toString() === contract?.tenant_id.toString());
-        
-          return {
-            local: location.id || "Sin nombre", 
-            inquilino: tenant ? tenant.name : "Sin asignar", 
-            pagos: generatePagos(), 
-          };
+        const token = localStorage.getItem('token');
+        const res = await fetch(`http://localhost:3003/api/stadistics?year=${year}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
         });
-
-        setData(combinedData);
+        const result = await res.json();
+        // El backend devuelve { rows: [...] }
+        if (result && result.rows) {
+          setData(result.rows);
+        } else if (Array.isArray(result)) {
+          setData(result); // fallback por si cambia la estructura
+        } else {
+          setData([]);
+        }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error fetching statistics:', error);
+        setData([]);
       }
     };
-
     fetchData();
-  }, []);
-
-  function generatePagos() {
-    const estados = ["Pagado", "No Pagado", ""];
-    return meses.reduce((acc, mes) => {
-      acc[mes] = estados[Math.floor(Math.random() * estados.length)];
-      return acc;
-    }, {});
-  }
+  }, [year]);
 
   const handleYearChange = (e) => {
     setYear(e.target.value);
@@ -67,8 +49,30 @@ function Formato1() {
     alert("Descargar PDF no está implementado aún.");
   };
 
+  const handleDownloadExcel = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`http://localhost:3003/api/stadistics/excel?year=${year}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (!response.ok) throw new Error('Error al descargar Excel');
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `estadisticas_${year}.xlsx`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    } catch (error) {
+      alert('No se pudo descargar el Excel');
+    }
+  };
+
   const filteredData = data.filter((row) =>
-    row.local?.toLowerCase().includes(search.toLowerCase()) // Valida que row.local no sea undefined
+    (row["N° Local"] || "").toString().toLowerCase().includes(search.toLowerCase())
   );
 
   return (
@@ -147,6 +151,20 @@ function Formato1() {
             >
               <CIcon icon={cilDescription} size="xl" />
             </CButton>
+            <CButton
+              color="success"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "5px",
+                padding: "10px 15px",
+                fontSize: "14px",
+                borderRadius: "5px",
+              }}
+              onClick={handleDownloadExcel}
+            >
+              <CIcon icon={cilSpreadsheet} size="xl" />
+            </CButton>
           </div>
         </CCardHeader>
         <CCardBody>
@@ -160,7 +178,7 @@ function Formato1() {
               <CTableHead>
                 <tr>
                   <th className="text-center" style={{ fontWeight: "bold", padding: "10px" }}>N° Local</th>
-                  <th className="text-center" style={{ fontWeight: "bold", padding: "10px" }}>Nombre propietario</th>
+                  <th className="text-center" style={{ fontWeight: "bold", padding: "10px" }}>Nombre del local</th>
                   {meses.map((mes, index) => (
                     <th key={index} className="text-center" style={{ fontWeight: "bold", padding: "10px" }}>
                       {mes}
@@ -177,16 +195,14 @@ function Formato1() {
                     }}
                   >
                     <td className="text-center" style={{ fontSize: "14px" }}>
-                      {row.local}
+                      {row["N° Local"]}
                     </td>
                     <td className="text-center" style={{ fontSize: "14px" }}>
-                      {row.inquilino}
+                      {row["Nombre del local"]}
                     </td>
                     {meses.map((mes, i) => (
                       <td key={i} className="text-center" style={{ fontSize: "14px" }}>
-                        {row.pagos[mes] === "Pagado" && "✔"}
-                        {row.pagos[mes] === "No Pagado" && "✘"}
-                        {row.pagos[mes] === "" && ""}
+                        {row[mes]}
                       </td>
                     ))}
                   </tr>

@@ -13,6 +13,7 @@ import {
   cilPuzzle,
   cilSpeedometer,
   cilStar,
+  cilUser,
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
@@ -136,6 +137,7 @@ const _nav = [
       }, 
     ],
   },
+  
 ]
 
 export default _nav

@@ -1,4 +1,5 @@
 import React from 'react'
+import DashboardFinance from './DashboardFinance'
 
 import {
   CCol,
@@ -10,6 +11,10 @@ import MainChart_loc_mes from './MainChart'
 import Chartingreso from './mainChart2'
 
 const Dashboard = () => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  if (user && user.role === 2) {
+    return <DashboardFinance />;
+  }
    
   return (
     <>

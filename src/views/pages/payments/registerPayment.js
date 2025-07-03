@@ -10,9 +10,11 @@ import {
   CRow,
   CCol,
 } from '@coreui/react'
+import { contractsAPI } from '../../../services/api'
 
 const RegisterPayment = () => {
   const [contracts, setContracts] = useState({})
+  const [contractList, setContractList] = useState([])
   const [paymentData, setPaymentData] = useState({
     contractNumber: '',
     tenantName: '',
@@ -20,8 +22,10 @@ const RegisterPayment = () => {
     localNumber: '',
     amountDue: '',
     amount: '',
-    date: '',
-    paymentMethod: '',
+    payment_date: '',
+    page_month: '',
+    year_payment: '',
+    description: '',
     paymentType: '',
   })
 
@@ -29,27 +33,22 @@ const RegisterPayment = () => {
   useEffect(() => {
     const fetchContracts = async () => {
       try {
-        const response = await fetch('http://localhost:3001/contracts')
-        if (response.ok) {
-          const data = await response.json()
-          const formattedContracts = data.reduce((acc, contract) => {
-            acc[contract.contract_number] = {
-              tenantName: contract.tenantName || '',
-              tenantId: contract.tenant_id || '',
-              localNumber: contract.location_id || '',
-              amountDue: parseFloat(contract.rent_amount) || 0,
-            }
-            return acc
-          }, {})
-          setContracts(formattedContracts)
-        } else {
-          console.error('Error fetching contracts:', response.statusText)
-        }
+        const data = await contractsAPI.getAll();
+        const formattedContracts = data.reduce((acc, contract) => {
+          acc[contract.contract_number] = {
+            tenantName: contract.tenants?.full_name || contract.tenantName || '',
+            tenantId: contract.id_number || contract.tenant_id || '',
+            localNumber: contract.location_id || '',
+            amountDue: parseFloat(contract.rent_amount) || 0,
+          }
+          return acc
+        }, {})
+        setContracts(formattedContracts)
+        setContractList(data.map(c => c.contract_number))
       } catch (error) {
         console.error('Error fetching contracts:', error)
       }
     }
-
     fetchContracts()
   }, [])
 
@@ -65,6 +64,13 @@ const RegisterPayment = () => {
         tenantId: contract.tenantId,
         localNumber: contract.localNumber,
         amountDue: contract.amountDue,
+        amount: prevState.paymentType === 'multa' ? (contract.amountDue * 0.005).toFixed(2) : prevState.amount
+      }))
+    } else if (name === 'paymentType') {
+      setPaymentData((prevState) => ({
+        ...prevState,
+        paymentType: value,
+        amount: value === 'multa' ? (prevState.amountDue * 0.005).toFixed(2) : ''
       }))
     } else {
       setPaymentData((prevState) => ({
@@ -78,21 +84,23 @@ const RegisterPayment = () => {
   e.preventDefault()
 
   const payload = {
-    contract_number: paymentData.contractNumber, // Cambiado de contract_id a contract_number
-    amount: parseFloat(paymentData.amount),
-    rent_amount: parseFloat(paymentData.amountDue),
-    "type page ": paymentData.paymentType,
-    payment_method: paymentData.paymentMethod,
-    payment_date: paymentData.date,
+    amount: paymentData.amount.toString(),
+    payment_date: paymentData.payment_date ? new Date(paymentData.payment_date).toISOString() : '',
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
+    page_month: paymentData.page_month,
+    year_payment: paymentData.year_payment,
+    description: paymentData.description,
+    contract_number: paymentData.contractNumber,
   }
 
+  const token = localStorage.getItem('token');
   try {
-    const response = await fetch('http://localhost:3001/payments', {
+    const response = await fetch('http://localhost:3003/api/payments', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify(payload),
     })
@@ -106,8 +114,10 @@ const RegisterPayment = () => {
         localNumber: '',
         amountDue: '',
         amount: '',
-        date: '',
-        paymentMethod: '',
+        payment_date: '',
+        page_month: '',
+        year_payment: '',
+        description: '',
         paymentType: '',
       })
     } else {
@@ -120,22 +130,22 @@ const RegisterPayment = () => {
 }
 
   return (
-    <CCard bordered hover style={{ border: '2px solid #ffa600b0' }}>
+    <CCard bordered hover style={{ border: '2px solid #fff', padding: '2.5rem' }}>
       <CCardHeader>
         <h3 className="text-center">Registrar Pago</h3>
       </CCardHeader>
       <CCardBody>
         <CForm onSubmit={handleSubmit}>
-          <CRow>
+          <CRow className="mb-4">
             {/* Tarjeta para los datos del inquilino */}
             <CCol md={6}>
-              <CCard className="mb-4">
+              <CCard className="mb-4" style={{ minHeight: '320px', padding: '1.5rem' }}>
                 <CCardHeader>
                   <h5 className="text-center">Datos del Inquilino</h5>
                 </CCardHeader>
                 <CCardBody>
-                  <CRow className="mb-3">
-                    <CCol md={4}>
+                  <CRow className="mb-4">
+                    <CCol md={4} className="mb-3">
                       <CFormInput
                         type="text"
                         name="contractNumber"
@@ -143,8 +153,14 @@ const RegisterPayment = () => {
                         onChange={handleChange}
                         placeholder="Número de Contrato"
                         label="Número de Contrato"
+                        list="contractNumbers"
                         required
                       />
+                      <datalist id="contractNumbers">
+                        {contractList.map((num) => (
+                          <option key={num} value={num} />
+                        ))}
+                      </datalist>
                     </CCol>
                     <CCol md={4}>
                       <CFormInput
@@ -191,31 +207,26 @@ const RegisterPayment = () => {
                       </CFormSelect>
                     </CCol>
                   </CRow>
-                  
-                  
-                  
                 </CCardBody>
               </CCard>
             </CCol>
-
-            {/* Tarjeta para los datos del pago */}
             <CCol md={6}>
-              <CCard className="mb-4">
+              <CCard className="mb-4" style={{ minHeight: '320px', padding: '1.5rem' }}>
                 <CCardHeader>
                   <h5 className="text-center">Datos del Pago</h5>
                 </CCardHeader>
                 <CCardBody>
-                  <CRow className="mb-3">
-                    
-                    <CCol md={6}>
+                  <CRow className="mb-4">
+                    <CCol md={12} className="mb-3">
                       <CFormInput
                         type="number"
                         name="amount"
                         value={paymentData.amount}
-                        onChange={handleChange}
                         placeholder="Monto a Pagar"
                         label="Monto a Pagar"
+                        onChange={handleChange}
                         required
+                        disabled={paymentData.paymentType === 'multa'}
                       />
                     </CCol>
                   </CRow>
@@ -223,9 +234,10 @@ const RegisterPayment = () => {
                     <CCol md={12}>
                       <CFormInput
                         type="date"
-                        name="date"
-                        value={paymentData.date}
+                        name="payment_date"
+                        value={paymentData.payment_date}
                         onChange={handleChange}
+                        placeholder="Fecha de Pago"
                         label="Fecha de Pago"
                         required
                       />
@@ -234,26 +246,59 @@ const RegisterPayment = () => {
                   <CRow className="mb-3">
                     <CCol md={12}>
                       <CFormSelect
-                        name="paymentMethod"
-                        value={paymentData.paymentMethod}
+                        name="page_month"
+                        value={paymentData.page_month}
                         onChange={handleChange}
-                        label="Método de Pago"
+                        label="Mes de Pago"
                         required
                       >
-                        <option value="">Seleccione un método</option>
-                        <option value="Efectivo">Efectivo</option>
-                        <option value="Transferencia">Transferencia</option>
-                        <option value="Tarjeta">Tarjeta</option>
+                        <option value="">Seleccione el mes</option>
+                        <option value="Enero">Enero</option>
+                        <option value="Febrero">Febrero</option>
+                        <option value="Marzo">Marzo</option>
+                        <option value="Abril">Abril</option>
+                        <option value="Mayo">Mayo</option>
+                        <option value="Junio">Junio</option>
+                        <option value="Julio">Julio</option>
+                        <option value="Agosto">Agosto</option>
+                        <option value="Septiembre">Septiembre</option>
+                        <option value="Octubre">Octubre</option>
+                        <option value="Noviembre">Noviembre</option>
+                        <option value="Diciembre">Diciembre</option>
                       </CFormSelect>
+                    </CCol>
+                  </CRow>
+                  <CRow className="mb-3">
+                    <CCol md={12}>
+                      <CFormInput
+                        type="text"
+                        name="year_payment"
+                        value={paymentData.year_payment}
+                        onChange={handleChange}
+                        placeholder="Año de Pago (ej: 2024)"
+                        label="Año de Pago"
+                        required
+                      />
+                    </CCol>
+                  </CRow>
+                  <CRow className="mb-3">
+                    <CCol md={12}>
+                      <CFormInput
+                        type="text"
+                        name="description"
+                        value={paymentData.description}
+                        onChange={handleChange}
+                        placeholder="Descripción"
+                        label="Descripción"
+                        required
+                      />
                     </CCol>
                   </CRow>
                 </CCardBody>
               </CCard>
             </CCol>
           </CRow>
-
-          {/* Botón para registrar el pago */}
-          <CRow className="d-flex justify-content-center">
+          <CRow className="d-flex justify-content-center mt-4">
             <CCol xs="auto">
               <CButton type="submit" color="primary">
                 Registrar Pago

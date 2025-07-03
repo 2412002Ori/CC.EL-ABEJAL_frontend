@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   CCard,
   CCardBody,
@@ -15,25 +15,29 @@ import {
 } from '@coreui/react'
 
 const ListPayment = () => {
- 
-  const payments = [
-    { id: 1, tenantName: 'Juan Pérez', localNumber: 'A-101', amount: 500, date: '2023-04-01', method: 'Efectivo' },
-    { id: 2, tenantName: 'María López', localNumber: 'B-202', amount: 700, date: '2023-04-02', method: 'Transferencia' },
-    { id: 3, tenantName: 'Carlos García', localNumber: 'C-303', amount: 600, date: '2023-04-03', method: 'Tarjeta' },
-    { id: 4, tenantName: 'Ana Torres', localNumber: 'D-404', amount: 800, date: '2023-04-04', method: 'Efectivo' },
-    { id: 5, tenantName: 'Luis Fernández', localNumber: 'E-505', amount: 550, date: '2023-04-05', method: 'Transferencia' },
-  ]
+  const [fines, setFines] = useState([])
+  useEffect(() => {
+    const fetchFines = async () => {
+      try {
+        const response = await fetch('http://localhost:3003/api/fines')
+        const data = await response.json()
+        setFines(Array.isArray(data) ? data : data.rows || [])
+      } catch (error) {
+        console.error('Error fetching fines:', error)
+      }
+    }
+    fetchFines()
+  }, [])
 
   const [searchTerm, setSearchTerm] = useState({
     tenantName: '',
     localNumber: '',
   })
 
-
-  const filteredPayments = payments.filter(
-    (payment) =>
-      payment.tenantName.toLowerCase().includes(searchTerm.tenantName.toLowerCase()) &&
-      payment.localNumber.toLowerCase().includes(searchTerm.localNumber.toLowerCase())
+  const filteredFines = fines.filter(
+    (fine) =>
+      (fine.tenantName?.toLowerCase() || '').includes(searchTerm.tenantName.toLowerCase()) &&
+      (fine.localNumber?.toLowerCase() || '').includes(searchTerm.localNumber.toLowerCase())
   )
 
   const handleSearch = (e) => {
@@ -46,7 +50,7 @@ const ListPayment = () => {
 
   return (
     <>
-    <CCard bordered hover style={{ border: '2px solid #ffa600b0' }} >
+    <CCard bordered hover style={{ border: '2px solid #fff' }} >
       <CCardHeader>
         <h3 className="text-center" > Listado de pago de multas</h3>
       </CCardHeader>
@@ -87,19 +91,19 @@ const ListPayment = () => {
             </CTableRow>
           </CTableHead>
           <CTableBody>
-            {filteredPayments.map((payment) => (
-              <CTableRow key={payment.id}>
-                <CTableDataCell className="text-center">{payment.id}</CTableDataCell>
-                <CTableDataCell className="text-center">{payment.tenantName}</CTableDataCell>
-                <CTableDataCell className="text-center">{payment.localNumber}</CTableDataCell>
-                <CTableDataCell className="text-center">{`$${payment.amount}`}</CTableDataCell>
-                <CTableDataCell className="text-center">{payment.date}</CTableDataCell>
-                <CTableDataCell className="text-center">{payment.method}</CTableDataCell>
+            {filteredFines.map((fine) => (
+              <CTableRow key={fine.fine_id || fine.id}>
+                <CTableDataCell className="text-center">{fine.fine_id || fine.id}</CTableDataCell>
+                <CTableDataCell className="text-center">{fine.tenantName || fine.tenant_name || ''}</CTableDataCell>
+                <CTableDataCell className="text-center">{fine.localNumber || fine.local_number || ''}</CTableDataCell>
+                <CTableDataCell className="text-center">{`$${fine.amount}`}</CTableDataCell>
+                <CTableDataCell className="text-center">{fine.payment_date ? new Date(fine.payment_date).toLocaleDateString() : fine.date || ''}</CTableDataCell>
+                <CTableDataCell className="text-center">{fine.method || fine.payment_method || ''}</CTableDataCell>
               </CTableRow>
             ))}
           </CTableBody>
         </CTable>
-        {filteredPayments.length === 0 && (
+        {filteredFines.length === 0 && (
           <p className="text-center mt-3">No se encontraron resultados para la búsqueda.</p>
         )}
       </CCardBody>
