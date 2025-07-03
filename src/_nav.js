@@ -89,7 +89,16 @@ const _nav = [
         name: ' LISTADOS',
         to: '/pages/Payments/menu',
       },
-      
+      {
+        component: CNavItem,
+        name: 'LISTADO MULTAS',
+        to: '/pages/payments/listfines',
+      },
+      {
+        component: CNavItem,
+        name: 'REGISTRAR MULTA',
+        to: '/pages/payments/registerfinepayment',
+      },
     ],
   },
   /*{

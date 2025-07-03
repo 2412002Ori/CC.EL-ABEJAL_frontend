@@ -69,7 +69,10 @@ const PermisosUsuario = React.lazy(() => import('./views/pages/register/Permissi
 const PerfilUsuario = React.lazy(() => import('./views/pages/profile/Profile'))
 const NoAutorizado = React.lazy(() => import('./views/pages/no-autorizado/no-autorizado'))
 
+const Relocation = React.lazy(() => import('./views/pages/tenants/relocation'))
 
+const ListFines = React.lazy(() => import('./views/pages/payments/ListFines'))
+const RegisterFinePayment = React.lazy(() => import('./views/pages/payments/RegisterFinePayment'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -138,6 +141,9 @@ const routes = [
   {path: '/pages/register/Permissions', name: 'Permisos', element: PermisosUsuario },
   {path: '/pages/profile/Profile', name: 'Profile', element: PerfilUsuario },
   {path: '/pages/no-autorizado', name: 'NoAutorizado', element: NoAutorizado },
+  {path: '/pages/tenants/relocation', name: 'Relocation', element: Relocation },
+  { path: '/pages/payments/listfines', name: 'ListFines', element: ListFines },
+  { path: '/pages/payments/registerfinepayment', name: 'RegisterFinePayment', element: RegisterFinePayment },
 ]
 
 export default routes
