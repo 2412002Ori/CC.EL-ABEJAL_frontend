@@ -104,7 +104,7 @@ function ContractsAceptedList() {
         </div>
       )}
 
-      <CCard bordered hover style={{ border: '2px solid #ffa600b0' }}>
+      <CCard style={{ border: '2px solid #ffa600b0' }}>
         <CCardHeader>
           <CRow>
             <CCol>
@@ -154,7 +154,13 @@ function ContractsAceptedList() {
                     {contract.exit_time ? new Date(contract.exit_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : 'No especificado'}
                   </CTableDataCell>
                   <CTableDataCell className="text-center">
-                    {contract.daysWork ? (Array.isArray(contract.daysWork) ? contract.daysWork.join(', ') : contract.daysWork) : 'No especificado'}
+                    {contract.daysWork ? (
+                      Array.isArray(contract.daysWork) 
+                        ? contract.daysWork.join(', ') 
+                        : typeof contract.daysWork === 'object' 
+                          ? Object.keys(contract.daysWork).filter(day => contract.daysWork[day]).join(', ')
+                          : String(contract.daysWork)
+                    ) : 'No especificado'}
                   </CTableDataCell>
                   <CTableDataCell className="text-center">
                     {contract.registered_user ? `Usuario ${contract.registered_user}` : 'No especificado'}

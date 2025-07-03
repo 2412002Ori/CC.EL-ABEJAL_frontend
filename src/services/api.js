@@ -115,11 +115,6 @@ export const tenantsAPI = {
     method: 'PUT',
     body: JSON.stringify(data),
   }),
-
-  // Eliminar inquilino
-  delete: (id) => apiRequest(`/tenants/${id}`, {
-    method: 'DELETE',
-  }),
 };
 
 export const relocationAPI = {

@@ -17,10 +17,9 @@ import {
   CFormInput,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilUserPlus, cilTrash, cilPencil } from '@coreui/icons'
+import { cilUserPlus, cilPencil } from '@coreui/icons'
 import Register from './register'
 import { tenantsAPI } from '../../../services/api'
-import ConfirmDeleteModal from '../../../components/ConfirmDeleteModal'
 
 function TenantsList() {
   const [modalVisible, setModalVisible] = useState(false) // Modal para crear
@@ -28,8 +27,6 @@ function TenantsList() {
   const [searchCedula, setSearchCedula] = useState('')
   const [rows, setRows] = useState([]) // Lista de inquilinos
   const [selectedRow, setSelectedRow] = useState(null) // Fila seleccionada para editar
-  const [deleteModalVisible, setDeleteModalVisible] = useState(false)
-  const [rowToDelete, setRowToDelete] = useState(null)
 
   const headers = [
     'Cédula',
@@ -74,30 +71,6 @@ function TenantsList() {
       .catch((error) => console.error('Error al actualizar la solicitud:', error))
   }
 
-  const handleDeleteClick = (row) => {
-    setRowToDelete(row)
-    setDeleteModalVisible(true)
-  }
-
-  const handleConfirmDelete = () => {
-    if (rowToDelete) {
-      tenantsAPI.delete(rowToDelete.id_number)
-        .then(() => {
-          setRows((prevRows) => prevRows.filter((row) => row.id_number !== rowToDelete.id_number));
-        })
-        .catch((error) => console.error('Error al eliminar la solicitud:', error))
-        .finally(() => {
-          setDeleteModalVisible(false)
-          setRowToDelete(null)
-        })
-    }
-  }
-
-  const handleCancelDelete = () => {
-    setDeleteModalVisible(false)
-    setRowToDelete(null)
-  }
-
   return (
     <div className="informe-mensual">
       {/* Modal para crear */}
@@ -124,13 +97,7 @@ function TenantsList() {
         </CModalBody>
       </CModal>
 
-      <ConfirmDeleteModal
-        visible={deleteModalVisible}
-        onCancel={handleCancelDelete}
-        onConfirm={handleConfirmDelete}
-        message="¿Está seguro de que desea eliminar este inquilino?"
-        userName={rowToDelete?.full_name}
-      />
+
 
       <CRow className="mb-3 align-items-center">
         <CCol md="auto">
@@ -192,9 +159,6 @@ function TenantsList() {
                     <div style={{ display: 'flex', justifyContent: 'center', gap: '0.5rem' }}>
                       <CButton color="warning" size="sm" onClick={() => handleEdit(row)}>
                         <CIcon icon={cilPencil} />
-                      </CButton>
-                      <CButton color="danger" size="sm" onClick={() => handleDeleteClick(row)}>
-                        <CIcon icon={cilTrash} />
                       </CButton>
                     </div>
                   </CTableDataCell>
