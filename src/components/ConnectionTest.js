@@ -65,7 +65,7 @@ const ConnectionTest = () => {
         <div className="mt-3">
           <h6>Información de configuración:</h6>
           <ul>
-            <li><strong>Backend URL:</strong> http://localhost:3003/api</li>
+            <li><strong>Backend URL:</strong> {import.meta.env.VITE_API_URL}/api</li>
             <li><strong>Endpoint probado:</strong> /request/contracts</li>
             <li><strong>Método:</strong> GET</li>
           </ul>
