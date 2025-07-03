@@ -27,10 +27,10 @@ const ListPayment = () => {
     useEffect(() => {
     const fetchPayments = async () => {
       try {
-        const response = await fetch('http://localhost:3001/payments')
+        const response = await fetch('http://localhost:3003/api/payments')
         const data = await response.json()
         console.log('Datos obtenidos:', data) // Verifica los datos aquí
-        setPayments(data)
+        setPayments(Array.isArray(data) ? data : data.rows || [])
       } catch (error) {
         console.error('Error fetching payments:', error)
       }
@@ -83,23 +83,21 @@ const ListPayment = () => {
              
               <CTableHeaderCell className="text-center">Número de Contrato</CTableHeaderCell>
               <CTableHeaderCell className="text-center">Monto</CTableHeaderCell>
-              <CTableHeaderCell className="text-center">Monto Renta</CTableHeaderCell>
-              <CTableHeaderCell className="text-center">Tipo de Pago</CTableHeaderCell>
-              <CTableHeaderCell className="text-center">Método de Pago</CTableHeaderCell>
+              <CTableHeaderCell className="text-center">Descripcion</CTableHeaderCell>
+              <CTableHeaderCell className="text-center">Mes de Pago</CTableHeaderCell>
               <CTableHeaderCell className="text-center">Fecha de Pago</CTableHeaderCell>
               <CTableHeaderCell className="text-center">Factura</CTableHeaderCell>
             </CTableRow>
           </CTableHead>
           <CTableBody>
             {filteredPayments.map((payment) => (
-              <CTableRow key={payment.id}>
+              <CTableRow key={payment.payment_id}>
                
                 <CTableDataCell className="text-center">{payment.contract_number}</CTableDataCell>
                 <CTableDataCell className="text-center">{`$${payment.amount}`}</CTableDataCell>
-                <CTableDataCell className="text-center">{`$${payment.rent_amount}`}</CTableDataCell>
-                <CTableDataCell className="text-center">{payment["type_page "]}</CTableDataCell>
-                <CTableDataCell className="text-center">{payment.payment_method}</CTableDataCell>
-                <CTableDataCell className="text-center">{payment.payment_date}</CTableDataCell>
+                <CTableDataCell className="text-center">{payment.description}</CTableDataCell>
+                <CTableDataCell className="text-center">{payment.page_month}</CTableDataCell>
+                <CTableDataCell className="text-center">{payment.payment_date ? new Date(payment.payment_date).toLocaleDateString() : ''}</CTableDataCell>
                 <CTableDataCell className="text-center">
                   <CButton
                     color="info"
