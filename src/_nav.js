@@ -66,8 +66,8 @@ const _nav = [
 
       {
         component: CNavItem,
-        name: 'REHUBICACIONES',
-        to: '/pages/tenants/relocation',
+        name: 'LISTA REHUBICACIONES',
+        to: '/pages/tenants/relocationList',
       },
 
       
