@@ -31,7 +31,7 @@ export const EliminarUsuario = ({ id, onDelete }) => {
   const [visible, setVisible] = useState(false)
   return (
     <>      
-    <CButton color="danger" variant="ghost" className="ms-2" onClick={() => setVisible(!visible)}>
+    <CButton color="danger" variant="ghost" className="ms-2" onClick={() => setVisible(!visible) }>
       <CIcon icon={cilTrash} className="me-2" />Eliminar
     </CButton>
 
@@ -53,13 +53,17 @@ export const EliminarUsuario = ({ id, onDelete }) => {
 }
 
 export const ActualizarUsuario = ({ user, onUpdate }) => {
+  const [errors, setErrors] = useState({});
   const [visible, setVisible] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const [formData, setFormData] = useState({
     username: user.username || '',
     name: user.name || '',
     lastname: user.lastname || '',
     email: user.email || '',
-    status: user.status || ''
+    status: user.status || '',
+    role_id: user.role_id || '',
+    password: ''
   });
 
   useEffect(() => {
@@ -77,19 +81,85 @@ export const ActualizarUsuario = ({ user, onUpdate }) => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleUpdate = () => {
-    fetch(`http://localhost:5000/users/${user.id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...user, ...formData }),
-    })
-      .then((response) => response.json())
-      .then((updatedUser) => {
-        onUpdate(updatedUser);
-        setVisible(false);
-      })
-      .catch((error) => console.error('Error actualizando usuario:', error));
+const handleUpdate = async (id) => {
+  const token = localStorage.getItem('token');
+
+  const payload = {
+    username: formData.username,
+    name: formData.name,
+    lastname: formData.lastname,
+    email: formData.email,
+    status: formData.status,
+    role_id: Number(formData.role_id) || user.role_id
   };
+
+  if (formData.password.trim()) {
+  payload.password = formData.password;
+}
+
+  if (!formData.username || !formData.email || !formData.status || isNaN(Number(formData.role_id))) {
+    setErrors({
+      general: 'Por favor completa todos los campos correctamente.'
+    });
+    return;
+  }
+
+  console.log('Datos enviados:', payload);
+
+  try {
+    const response = await fetch(`http://localhost:3003/api/users/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+  let errorData;
+  try {
+    errorData = await response.json();
+  } catch {
+    errorData = {};
+  }
+  console.error('Error del backend:', errorData);
+
+  const fieldErrors = {};
+
+  if (Array.isArray(errorData.errors)) {
+    errorData.errors.forEach(err => {
+      fieldErrors[err.path[0]] = err.message;
+    });
+
+  } else if (errorData.message) {
+    if (errorData.message.includes("Contraseña")) {
+      fieldErrors.password = errorData.message;
+    } else {
+      fieldErrors.general = errorData.message;
+    }
+
+  } else {
+    fieldErrors.general = 'Hubo un problema al actualizar el usuario.';
+  }
+
+  setErrors(fieldErrors);
+  return;
+}
+
+    const updatedUser = await response.json();
+    onUpdate(updatedUser); 
+    setVisible(false);
+    setErrors({}); 
+
+    setShowSuccess(true);
+    setTimeout(() => {
+    setShowSuccess(false);
+  }, 3000);
+  } catch (error) {
+    console.error('Error al actualizar el usuario:', error);
+  }
+};
 
   return (
     <>
@@ -107,6 +177,13 @@ export const ActualizarUsuario = ({ user, onUpdate }) => {
           <CModalTitle id="ActualizarUsuarioModal">Actualizar Usuario</CModalTitle>
         </CModalHeader>
         <CModalBody>
+
+        {showSuccess && (
+          <CAlert color="success" className="mb-3">
+            Usuario actualizado correctamente
+          </CAlert>
+        )}
+
           <CForm>
             <CInputGroup className="mb-3">
               <CInputGroupText>
@@ -119,6 +196,9 @@ export const ActualizarUsuario = ({ user, onUpdate }) => {
                 onChange={handleInputChange}
               />
             </CInputGroup>
+            {errors.username && (
+              <small className="text-danger">{errors.username}</small>
+            )}
             <CInputGroup className="mb-3">
               <CInputGroupText>
                 <CIcon icon={cilUser} />
@@ -130,6 +210,9 @@ export const ActualizarUsuario = ({ user, onUpdate }) => {
                 onChange={handleInputChange}
               />
             </CInputGroup>
+            {errors.name && (
+              <small className="text-danger">{errors.name}</small>
+            )}
             <CInputGroup className="mb-3">
               <CInputGroupText>
                 <CIcon icon={cilUser} />
@@ -141,6 +224,9 @@ export const ActualizarUsuario = ({ user, onUpdate }) => {
                 onChange={handleInputChange}
               />
             </CInputGroup>
+            {errors.lastname && (
+              <small className="text-danger">{errors.lastname}</small>
+            )}
             <CInputGroup className="mb-3">
               <CInputGroupText>@</CInputGroupText>
               <CFormInput
@@ -150,6 +236,9 @@ export const ActualizarUsuario = ({ user, onUpdate }) => {
                 onChange={handleInputChange}
               />
             </CInputGroup>
+            {errors.email && (
+              <small className="text-danger">{errors.email}</small>
+            )}
             <CInputGroup className="mb-3">
               <CInputGroupText>
                 <CIcon icon={cilUser} />
@@ -161,13 +250,47 @@ export const ActualizarUsuario = ({ user, onUpdate }) => {
                 onChange={handleInputChange}
               />
             </CInputGroup>
+            {errors.status && (
+              <small className="text-danger">{errors.status}</small>
+            )}
+            <CInputGroup className="mb-3">
+              <CInputGroupText>
+                <CIcon icon={cilLockLocked} />
+              </CInputGroupText>
+              <CFormInput
+                type="password"
+                placeholder="Contraseña"
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+              />
+            </CInputGroup>
+            {errors.password && (
+              <small className="text-danger">{errors.password}</small>
+            )}
+            <CInputGroup className="mb-3">
+              <CInputGroupText>Rol</CInputGroupText>
+              <CFormInput
+                type="number"
+                name="role_id"
+                value={formData.role_id}
+                onChange={handleInputChange}
+                min={1}
+                max={3}
+                required
+              />
+            </CInputGroup>
+            {errors.role_id && (
+              <small className="text-danger">{errors.role_id}</small>
+            )}
+
           </CForm>
         </CModalBody>
         <CModalFooter>
           <CButton color="secondary" onClick={() => setVisible(false)}>
             Cancelar
           </CButton>
-          <CButton color="primary" onClick={handleUpdate}>
+          <CButton color="primary" onClick={() => handleUpdate(user.user_id)}>
             Guardar cambios
           </CButton>
         </CModalFooter>
@@ -194,10 +317,14 @@ const RegisterUserForm = ({ onClose }) => {
     username: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    role_id: '',
+    status: 'active'
   });
 
   const [showSuccess, setShowSuccess] = useState(false);
+  const [error, setError] = useState('');
+  const [zodErrors, setZodErrors] = useState([]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -211,35 +338,99 @@ const RegisterUserForm = ({ onClose }) => {
     formData.email.trim() !== '' &&
     formData.password.trim() !== '' &&
     formData.confirmPassword.trim() !== '' &&
-    formData.password === formData.confirmPassword;
+    formData.password === formData.confirmPassword &&
+    formData.role_id &&
+    formData.status;
 
   const addUser = (e) => {
     e.preventDefault();
-    if (!isFormValid) return;
+    setError('');
+    setZodErrors([]);
+    setShowSuccess(false);
 
-    fetch('http://localhost:5000/users', {
+    if (!isFormValid) {
+      setError('Por favor, completa todos los campos correctamente.');
+      return;
+    }
+
+    const token = localStorage.getItem('token');
+    const payload = {
+      ...formData,
+      role_id: Number(formData.role_id)
+    };
+
+    fetch('http://localhost:3003/api/users', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(payload),
     })
-      .then((response) => response.json())
-      .then((data) => {
+      .then(async (response) => {
+      let data;
+      try {
+        data = await response.json();
+      } catch {
+        data = {};
+      }
+      if (!response.ok) {
+        setShowSuccess(false);
+
+        if (data.errors && Array.isArray(data.errors)) {
+          setZodErrors(data.errors.map(err => err.message));
+        } else if (typeof data === 'object' && Object.values(data).some(v => Array.isArray(v))) {
+          const allErrors = Object.values(data)
+            .filter(v => Array.isArray(v))
+            .flat()
+            .map(err => (typeof err === 'string' ? err : err.message));
+          setZodErrors(allErrors);
+        } else if (data.mensaje || data.error) {
+          setError(data.mensaje || data.error);
+        } else if (typeof data === 'string') {
+          setError(data);
+        } else {
+          setError('Error al registrar usuario');
+        }
+        return;
+      }
         setFormData({
           name: '',
           lastname: '',
           username: '',
           email: '',
           password: '',
-          confirmPassword: ''
+          confirmPassword: '',
+          role_id: '',
+          status: 'active'
         });
+        setError('');
+        setZodErrors([]);
         setShowSuccess(true);
         setTimeout(() => setShowSuccess(false), 3000);
       })
-      .catch((error) => console.error('Error:', error));
+      .catch(() => {
+        setError('Error de conexión');
+        setShowSuccess(false);
+        setZodErrors([]);
+      });
   };
 
   return (
     <>
+      {error && (
+        <CAlert color="danger" className="mb-3" dismissible onClose={() => setError('')}>
+          {error}
+        </CAlert>
+      )}
+      {zodErrors.length > 0 && (
+        <CAlert color="danger" className="mb-3" dismissible onClose={() => setZodErrors([])}>
+          <ul style={{ marginBottom: 0 }}>
+            {zodErrors.map((err, idx) => <li key={idx}>{err}</li>)}
+          </ul>
+        </CAlert>
+      )}
+
       <CForm onSubmit={addUser}>
         <h1>Registro</h1>
         <p className="text-body-secondary">Crea tu nueva cuenta</p>
@@ -315,6 +506,7 @@ const RegisterUserForm = ({ onClose }) => {
             name="password"
             value={formData.password}
             onChange={handleInputChange}
+            required
           />
         </CInputGroup>
 
@@ -329,6 +521,28 @@ const RegisterUserForm = ({ onClose }) => {
             name="confirmPassword"
             value={formData.confirmPassword}
             onChange={handleInputChange}
+            required
+          />
+        </CInputGroup>
+        <CInputGroup className="mb-3">
+          <CInputGroupText>Rol</CInputGroupText>
+          <CFormInput
+            type="number"
+            name="role_id"
+            value={formData.role_id}
+            onChange={handleInputChange}
+            min={1}
+            max={3}
+            required
+          />
+        </CInputGroup>
+        <CInputGroup className="mb-3">
+          <CInputGroupText>Status</CInputGroupText>
+          <CFormInput
+            name="status"
+            value={formData.status}
+            onChange={handleInputChange}
+            required
           />
         </CInputGroup>
 
@@ -377,8 +591,8 @@ const Registeruser = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (!token || token === 'undefined' || token === 'null' || token.trim() === '') {
-    navigate('/no-autorizado');
+    if (!token) {
+    navigate('/pages/no-autorizado/no-autorizado');
     return;
   }
     fetch('http://localhost:3003/api/users', {
@@ -409,17 +623,21 @@ const Registeruser = () => {
   });
 
   const deleteUser = (id) => {
-    fetch(`http://localhost:5000/users/${id}`, {
+    const token = localStorage.getItem('token');
+    fetch(`http://localhost:3003/api/users/${id}`, {
       method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
     })
       .then(() => {
-        setUsers(users.filter((user) => user.id !== id)); 
+        setUsers(users.filter((user) => user.user_id !== id)); 
       })
       .catch((error) => console.error('Error eliminando usuarios:', error));
   };
 
   const updateUserInList = (updatedUser) => {
-    setUsers(users.map(user => user.id === updatedUser.id ? updatedUser : user));
+    setUsers(users.map(user => user.user_id === updatedUser.user_id ? updatedUser : user));
   };
 
   return (
@@ -456,7 +674,7 @@ const Registeruser = () => {
 
           <CTableBody>
             {filteredUsers.map(user => (
-              <CTableRow key={user.id}>
+              <CTableRow key={user.user_id}>
                 <CTableDataCell>{user.username}</CTableDataCell>
                 <CTableDataCell>{user.name}</CTableDataCell>
                 <CTableDataCell>{user.lastname}</CTableDataCell>
@@ -465,7 +683,7 @@ const Registeruser = () => {
                 <CTableDataCell>
                   <PermisosUsuario/>
                   <ActualizarUsuario user={user} onUpdate={updateUserInList} />
-                  <EliminarUsuario id={user.id} onDelete={deleteUser} />
+                  <EliminarUsuario id={user.user_id} onDelete={deleteUser} />
                 </CTableDataCell>
               </CTableRow>
             ))}

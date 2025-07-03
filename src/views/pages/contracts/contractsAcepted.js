@@ -13,6 +13,7 @@ import {
   CCol,
   CRow,
 } from '@coreui/react'
+import html2pdf from 'html2pdf.js';
 import { contractsAPI } from '../../../services/api'
 
 function ContractsAceptedList() {
@@ -87,6 +88,20 @@ function ContractsAceptedList() {
     fetchContractData()
   }, [])
 
+
+  const toPDF = () => {
+  const element = document.getElementById('contratos-table');
+  const opt = {
+    margin:       1,
+    filename:     'contratos.pdf',
+    image:        { type: 'jpeg', quality: 0.98 },
+    html2canvas:  { scale: 2 },
+    jsPDF:        { unit: 'in', format: 'letter', orientation: 'landscape' }
+  };
+
+  html2pdf().set(opt).from(element).save();
+};
+
   return (
     <div className="informe-mensual">
       {/* Indicadores de estado */}
@@ -113,7 +128,7 @@ function ContractsAceptedList() {
           </CRow>
         </CCardHeader>
         <CCardBody>
-          <CTable responsive bordered hover>
+          <CTable responsive bordered hover id="contratos-table">
             <CTableHead>
               <CTableRow>
                 {headers.map((header, index) => (
@@ -168,7 +183,7 @@ function ContractsAceptedList() {
               ))}
             </CTableBody>
           </CTable>
-          <CButton color="primary" onClick={() => toPDF()}>
+          <CButton color="primary" onClick={toPDF}>
             Descargar PDF
           </CButton>
         </CCardBody>
